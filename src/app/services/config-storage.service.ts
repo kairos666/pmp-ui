@@ -33,10 +33,10 @@ export class ConfigStorageService {
     this.LSConfig = this.selectedConfig;
   }
 
-  public restorePimpConfig(): PimpConfig {
-    this.selectedConfig = this.LSConfig;
-    return this.selectedConfig;
-  }
+  // public restorePimpConfig(): PimpConfig {
+  //   this.selectedConfig = this.LSConfig;
+  //   return this.selectedConfig;
+  // }
 
   // public getPimpConfigList(): boolean {
   //   return false;
@@ -125,7 +125,7 @@ class BrowserSyncOptions {
   }
 }
 
-class PimpRule {
+export class PimpRule {
   constructor (
     urlPattern: string,
     modifs: string[]
