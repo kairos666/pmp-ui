@@ -1,42 +1,26 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from './local-storage.service';
-import { UUID } from 'angular2-uuid';
+import { PimpConfig, PimpRule } from '../schema/config';
 
 const configStorageKey              = 'pmp-ui-pimp-configs';
 
 @Injectable()
 export class ConfigStorageService {
-  private selectedConfig: PimpConfig = undefined;
-
   constructor(private localStorage: LocalStorageService) {
     this.init();
   }
 
   private init(): void {
     // apply LS config if it exists otherwise build a default one
-    this.selectedConfig = this.LSConfig;
-    if (this.selectedConfig === null) {
-      // need default config setting
-      this.selectedConfig = this.generateDefaultConfig();
-      this.LSConfig = this.selectedConfig;
+    if (this.LSConfig === null) {
+      // set default config in local storage
+      this.LSConfig = this.generateDefaultConfig();
     }
   };
 
-  public savePimpConfig(
-    name: string,
-    targetURL: string,
-    keepCookies: boolean,
-    port: number,
-    rules: PimpRule | PimpRule[]
-  ): void {
-    this.selectedConfig = new PimpConfig(name, targetURL, keepCookies, port, rules);
-    this.LSConfig = this.selectedConfig;
+  public savePimpConfig (config: PimpConfig): void {
+    this.LSConfig = config;
   }
-
-  // public restorePimpConfig(): PimpConfig {
-  //   this.selectedConfig = this.LSConfig;
-  //   return this.selectedConfig;
-  // }
 
   // public getPimpConfigList(): boolean {
   //   return false;
@@ -46,9 +30,8 @@ export class ConfigStorageService {
   //   return false;
   // }
 
-  public get pimpConfig(): PimpConfig {
-    if (this.selectedConfig) { return this.selectedConfig; };
-    return false;
+  public restorePimpConfig(): PimpConfig {
+    return this.LSConfig;
   }
 
   // getter & setter for local storage
@@ -83,56 +66,5 @@ export class ConfigStorageService {
     );
 
     return new PimpConfig(defaultName, defaultTargetURL, defaultKeepCookies, defaultPort, [defaultPimpRuleA, defaultPimpRuleB]);
-  }
-}
-
-/* CONFIG CLASSES */
-class PimpConfig {
-  constructor (
-    name: string,
-    targetURL: string,
-    keepCookies: boolean,
-    port: number,
-    rules: PimpRule | PimpRule[]
-  ) {
-    return {
-      name: name,
-      id: UUID.UUID(),
-      bsOptions: new BrowserSyncOptions(targetURL, keepCookies, port),
-      pimpCmds: (Array.isArray(rules)) ? rules : [rules]
-    };
-  }
-};
-
-class BrowserSyncOptions {
-  constructor (
-    targetURL: string,
-    keepCookies: boolean,
-    port: number
-  ) {
-    return {
-      proxy: {
-        target: targetURL,
-        cookies: {
-          stripeDomain: ((keepCookies) ? false : true)
-        }
-      },
-      port: port,
-      serveStatic: ['./dist'],
-      middleware: [],
-      rewriteRules: []
-    };
-  }
-}
-
-export class PimpRule {
-  constructor (
-    urlPattern: string,
-    modifs: string[]
-  ) {
-    return {
-      url: urlPattern,
-      modifs: modifs
-    };
   }
 }
