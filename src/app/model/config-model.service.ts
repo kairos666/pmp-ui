@@ -4,13 +4,6 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { ConfigStorageService } from '../services/config-storage.service';
 import { PmpEngineConnectorService } from '../services/pmp-engine-connector.service';
 
-const socketInputCommand = {
-  startCmd: function (config) { return { type: 'input', subType: 'start-command', payload: config }; },
-  stopCmd: function () { return { type: 'input', subType: 'stop-command' }; },
-  restartCmd: function (config) { return { type: 'input', subType: 'restart-command', payload:config }; },
-  getConfigCmd: function () { return { type: 'input', subType: 'config-command' }; }
-};
-
 @Injectable()
 export class ConfigModelService {
   private pmpEngineSmartState: Observable<any>  = undefined;
@@ -27,17 +20,21 @@ export class ConfigModelService {
       this.pmpEngineConnector.pmpEngineDataStatusStream,
       (isConnected, engineStatus) => { return { socketConnection: isConnected, engineStatus: engineStatus }; }
     );
-    this.initHandler ();
+
+    this.initHandler();
+    this.pmpEngineConnector.pmpEngineDataConfigStream.subscribe(config => {
+      this.currentConfig.next(config);
+    });
   }
 
   private initHandler (): void {
     // act only when connection is established and engineStatus known (not pending)
     let initsubscription = this.pmpEngineSmartState
       .first(smartState => { return (smartState.socketConnection && smartState.engineStatus !== 'pending'); })
-      .subscribe(smartState => { 
+      .subscribe(smartState => {
         switch (smartState.engineStatus) {
           case 'started':
-            console.log('TODO when engine is already started');
+            this.pmpEngineConnector.getPmpEngineConfig();
           break;
 
           case 'stopped':
@@ -48,7 +45,7 @@ export class ConfigModelService {
 
         // unsubscribe init behavior
         initsubscription.unsubscribe();
-       });
+      });
   }
 
   public get config ():any {

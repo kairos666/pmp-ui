@@ -17,7 +17,7 @@ import { ConfigModelService } from './model/config-model.service';
 export class AppComponent {
   private title = 'app works!';
 
-  constructor () {
+  constructor (private configModel:ConfigModelService) {
     // instanciate app-wide dependencies for singleton injections
   }
 }

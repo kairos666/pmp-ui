@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject, Observable } from 'rxjs';
+import { defaultConfig } from './default-config';
 
 const mockSocketEvt = {
     outputs: {
@@ -7,15 +8,11 @@ const mockSocketEvt = {
         log: function (log) { return { type: 'output', subType: 'log', payload: log }; },
         error: function (error) { return { type: 'output', subType: 'error', payload: error }; },
         config: function (config) { return { type: 'output', subType: 'config', payload: config }; }
-    },
-    utils: {
-        disconnect: 'disconnect',
-        connect: 'connection'
     }
 };
 
 @Injectable()
-export class MockSocketConnectorService {
+export class MockSocketConnectorServiceA {
   private outputStream: Subject<any> = new Subject();
   private connectedStream: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
@@ -70,19 +67,19 @@ export class MockSocketConnectorService {
   public emit (data: any): void {
     switch (data.subType) {
         case 'start-command':
-
+            console.log('not implemented');
         break;
 
         case 'restart-command':
-
+            console.log('not implemented');
         break;
 
         case 'stop-command':
-
+            console.log('not implemented');
         break;
 
         case 'config-command':
-
+            this.outputStream.next(mockSocketEvt.outputs.config(defaultConfig));
         break;
     }
   }
@@ -96,6 +93,6 @@ export class MockSocketConnectorService {
   }
 
   public get socketOutputStream (): Observable<any> {
-    return this.outputStream.asObservable();
+    return this.outputStream.asObservable().filter(() => { return this.isConnected; });
   }
 }
