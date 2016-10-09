@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject, Observable } from 'rxjs';
-import { defaultConfig } from './default-config';
+import { defaultConfigGenerator } from '../../src/app/schema/config';
 
 const mockSocketEvt = {
     outputs: {
@@ -13,6 +13,7 @@ const mockSocketEvt = {
 
 @Injectable()
 export class MockSocketConnectorServiceB {
+  private currentConfig = defaultConfigGenerator();
   private outputStream: Subject<any> = new Subject();
   private engineStatStream: BehaviorSubject<string> = new BehaviorSubject(undefined);
   private connectedStream: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -50,6 +51,9 @@ export class MockSocketConnectorServiceB {
     switch (data.subType) {
         case 'start-command':
             if (this.engineStatStream.value === 'stopped') {
+                // store config
+                this.currentConfig = data.payload;
+
                 let stateSequence = ['pending', 'started'];
                 let cmdSubscription = Observable.interval(50)
                           .take(stateSequence.length)
@@ -64,6 +68,9 @@ export class MockSocketConnectorServiceB {
 
         case 'restart-command':
             if (this.engineStatStream.value === 'started') {
+                // store config
+                if (data.payload) { this.currentConfig = data.payload; };
+
                 let stateSequence = ['pending', 'stopped', 'pending', 'started'];
                 let cmdSubscription = Observable.interval(50)
                           .take(stateSequence.length)
@@ -91,7 +98,7 @@ export class MockSocketConnectorServiceB {
         break;
 
         case 'config-command':
-            this.outputStream.next(mockSocketEvt.outputs.config(defaultConfig));
+            this.outputStream.next(mockSocketEvt.outputs.config(this.currentConfig));
         break;
     }
   }

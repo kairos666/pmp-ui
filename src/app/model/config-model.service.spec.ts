@@ -5,9 +5,8 @@ import { ConfigModelService } from './config-model.service';
 import { ConfigStorageService } from '../services/config-storage.service';
 import { PmpEngineConnectorService } from '../services/pmp-engine-connector.service';
 import { LocalStorageService } from '../services/local-storage.service';
-import { defaultConfig } from '../../../e2e/mocks/default-config';
 import { deepEqual } from '../../../e2e/helpers/utils';
-import { PimpConfig, PimpRule } from '../schema/config';
+import { PimpConfig, PimpRule, ConfigActions, defaultConfigGenerator } from '../schema/config';
 
 // mock couple
 import { SocketConnectorService } from '../services/socket-connector.service';
@@ -38,16 +37,16 @@ describe('Service: ConfigModel INIT', () => {
     // first item --> init result
     service.configStream.first().subscribe(config => {
       let actualConfig = config;
-      let baselineConfig = defaultConfig;
-      // strip away uuid
-      delete actualConfig['id'];
+      let baselineConfig = defaultConfigGenerator();
+      // make sure ID match (UUID is regenrated each time)
+      baselineConfig.id = actualConfig.id;
       expect(deepEqual(actualConfig, baselineConfig)).toBeTruthy();
       done();
     });
   }, 6000);
 });
 
-describe('Service: ConfigModel COMMANDS', () => {
+describe('Service: ConfigModel OUTPUTS', () => {
   beforeAll(() => {
     localStorage.clear();
   });
@@ -66,23 +65,165 @@ describe('Service: ConfigModel COMMANDS', () => {
 
   });
 
-  it('should provide a PimpConfig shortly after CONFIG-COMMAND', done => { 
+  it('should provide a PimpConfig from engine shortly after CONFIG-COMMAND is triggered', done => { 
+    let testConfig = new PimpConfig('mock', 'mock.com', false, 2666, new PimpRule('mock pattern', ['mock modifs']));
+    let baselineConfig = defaultConfigGenerator();
     let storage: ConfigStorageService = TestBed.get(ConfigStorageService);
     let connector: PmpEngineConnectorService = TestBed.get(PmpEngineConnectorService);
     let service: ConfigModelService = new ConfigModelService(storage, connector);
-    // second item --> cmd call result (init first one is done before)
-    service.configStream.first().subscribe(config => {
-      let actualConfig = config;
-      let baselineConfig = defaultConfig;
-      // strip away uuid
-      delete actualConfig['id'];
-      // !!! mock service always returns defaultConfig
-      expect(deepEqual(actualConfig, baselineConfig)).toBeTruthy();
-      done();
-    });
 
-    // fire COMMAND
-    setTimeout(() => { connector.startPmpEngine(new PimpConfig('mock', 'mock.com', false, 2666, new PimpRule('mock pattern', ['mock modifs']))); }, 600);
-    setTimeout(() => { connector.getPmpEngineConfig(); }, 1200);
+    // setup (start engine with custom config)
+    setTimeout(() => { 
+      // make sure that current app config is default
+      let expectedConfig = service.config;
+      // make sure ID match (UUID is regenrated each time)
+      baselineConfig.id = expectedConfig.id;
+      expect(deepEqual(expectedConfig, baselineConfig)).toBeTruthy('config is not default at this point');
+      // start with default config
+      expect(service.start()).toBeTruthy('couldn\'t start engine');
+      // update config afterwards (because identical configs aren't outputed)
+      expect(service.updateConfig(testConfig)).toBeTruthy('couldn\'t update config'); 
+    }, 600);
+    
+    setTimeout(() => {
+      // make sure that current app config has changed for mock after starting
+      expect(deepEqual(service.config, baselineConfig)).toBeFalsy('config is not different from default at this point');
+
+      // detect config coming from engine
+      service.configStream.subscribe(config => {
+        expect(deepEqual(config, baselineConfig)).toBeTruthy('config retrieved from engine is different');
+        done();
+      });
+      // fire CONFIG COMMAND
+      connector.getPmpEngineConfig(); 
+    }, 1200);
   }, 6000);
+
+  it('all actions are disallowed at start', done => {
+    let expectedArray = [
+      new ConfigActions(false, false, false)
+    ];
+    let cursor = 0;
+    let service: ConfigModelService = TestBed.get(ConfigModelService);
+    // get first allowed actions after init (before any update could be made)
+    service.availableConfigActionsStream.first().subscribe(allowedActions => {
+      expect(deepEqual(allowedActions, expectedArray[cursor])).toBeTruthy();
+      cursor++;
+      if (cursor === expectedArray.length) { done(); };
+    });
+  }, 6000);
+  it('all actions are disallowed at start, then allow start (engine stopped)', done => {
+    let expectedArray = [
+      new ConfigActions(false, false, false),
+      new ConfigActions(true, false, false)
+    ];
+    let cursor = 0;
+    let service: ConfigModelService = TestBed.get(ConfigModelService);
+    // get 2 first allowed actions after init (take after init state)
+    service.availableConfigActionsStream.take(expectedArray.length).subscribe(allowedActions => {
+      expect(deepEqual(allowedActions, expectedArray[cursor])).toBeTruthy();
+      cursor++;
+      if (cursor === expectedArray.length) { done(); };
+    });
+  }, 6000);
+
+  it('all actions are disallowed at start, then allow start (engine stopped), then nothing (pending), then stop, restart (engine started)', done => {
+    let expectedArray = [
+      new ConfigActions(false, false, false),
+      new ConfigActions(true, false, false),
+      new ConfigActions(false, false, false),
+      new ConfigActions(false, true, false)
+    ];
+    let cursor = 0;
+    let storage: ConfigStorageService = TestBed.get(ConfigStorageService);
+    let connector: PmpEngineConnectorService = TestBed.get(PmpEngineConnectorService);
+    let service: ConfigModelService = new ConfigModelService(storage, connector);
+    // get first allowed actions after init (before any update could be made)
+    service.availableConfigActionsStream.first().subscribe(allowedActions => {
+      expect(deepEqual(allowedActions, expectedArray[cursor])).toBeTruthy();
+      cursor++;
+      if (cursor === expectedArray.length) { done(); };
+    });
+    // capture actions available after each status changes
+    connector.pmpEngineDataStatusStream.subscribe(status => {
+      expect(deepEqual(service.availableConfigActions, expectedArray[cursor])).toBeTruthy();
+      cursor++;
+      if (cursor === expectedArray.length) { done(); };
+    });
+    setTimeout(() => { service.start(); }, 600);
+  }, 6000);
+
+  it('updating config results in allowing save/restore from localStorage', done => {
+    let testConfig = new PimpConfig('mock', 'mock.com', false, 2666, new PimpRule('mock pattern', ['mock modifs']));
+    let service: ConfigModelService = TestBed.get(ConfigModelService);
+    
+    // setup (start engine with default config)
+    setTimeout(() => { 
+      // start with default config
+      expect(service.start()).toBeTruthy('couldn\'t start engine');
+
+      // check if save/restore is still forbidden
+      let beforeAActions = service.availableConfigActions;
+      expect(beforeAActions.saveAllowed).toBeFalsy('should\'t be true BEFORE config update');
+      expect(beforeAActions.restoreAllowed).toBeFalsy('should\'t be true BEFORE config update');
+
+      //listen to changes (first change is for pending state, therefore only consider second update)
+      service.availableConfigActionsStream.skip(1).first().subscribe(allowedActions => {
+          expect(allowedActions.saveAllowed).toBeTruthy('should\'t be false AFTER config update');
+          expect(allowedActions.restoreAllowed).toBeTruthy('should\'t be false AFTER config update');
+        },
+        undefined,
+        done
+      );
+
+      // update config afterwards (because identical configs aren't outputed)
+      expect(service.updateConfig(testConfig)).toBeTruthy('couldn\'t update config'); 
+    }, 600);
+  }, 6000);
+
+  xit('updating config and save to localStorage', done => {
+    // setup test
+    let testConfig = new PimpConfig('mock', 'mock.com', false, 2666, new PimpRule('mock pattern', ['mock modifs']));
+    let service: ConfigModelService = TestBed.get(ConfigModelService);
+    
+    setTimeout(() => { 
+        // check that current app config is default
+        let previouslySavedConfig = service.config;
+        let baselineConfig = defaultConfigGenerator();
+        // make sure ID match (UUID is regenrated each time)
+        baselineConfig.id = previouslySavedConfig.id;
+        expect(deepEqual(previouslySavedConfig, baselineConfig)).toBeTruthy('is not default config');
+        // update config
+        service.updateConfig(testConfig);
+        // get updatedConfig
+        let newConfig = service.config;
+        // check if config is new one
+        expect(deepEqual(newConfig, testConfig)).toBeTruthy('updated config doesn\'t match expectations A');
+
+        // test end setup (skip first one)
+        service.availableConfigActionsStream.skip(1).subscribe(afterSaveAActions => {
+          // check that current app config is still updatedConfig
+          expect(deepEqual(newConfig, testConfig)).toBeTruthy('updated config doesn\'t match expectations B');
+          // check that save/restore isn't possible anymore
+          console.log(afterSaveAActions);
+          console.log('CRAP ---------------------------');
+          expect(afterSaveAActions.saveAllowed).toBeFalsy('shouldn\'t be true AFTER save action');
+          expect(afterSaveAActions.restoreAllowed).toBeFalsy('shouldn\'t be true AFTER save action');
+          done();
+        });
+
+        // fire SAVE COMMAND
+        console.log('FIRE SAVE')
+        expect(service.save()).toBeTruthy('couldn\'t save');
+      }, 600);
+  });
+  xit('updating config and restore from localStorage', done => {
+    //setup test
+    //get previouslySavedConfig (default)
+    //update config
+    //check that current app config is different than previouslySavedConfig (default)
+    //fire RESTORE COMMAND
+    //check that current app config is previouslySavedConfig (default)
+    //check that save/restore isn't possible anymore
+  });
 });

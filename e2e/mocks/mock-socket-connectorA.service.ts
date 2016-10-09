@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject, Observable } from 'rxjs';
-import { defaultConfig } from './default-config';
+import { defaultConfigGenerator } from '../../src/app/schema/config';
 
 const mockSocketEvt = {
     outputs: {
@@ -79,7 +79,7 @@ export class MockSocketConnectorServiceA {
         break;
 
         case 'config-command':
-            this.outputStream.next(mockSocketEvt.outputs.config(defaultConfig));
+            this.outputStream.next(mockSocketEvt.outputs.config(defaultConfigGenerator()));
         break;
     }
   }

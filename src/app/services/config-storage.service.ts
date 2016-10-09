@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from './local-storage.service';
-import { PimpConfig, PimpRule } from '../schema/config';
+import { PimpConfig, PimpRule, deconstructPimpConfig, defaultConfigGenerator } from '../schema/config';
 
 const configStorageKey              = 'pmp-ui-pimp-configs';
 
@@ -14,7 +14,7 @@ export class ConfigStorageService {
     // apply LS config if it exists otherwise build a default one
     if (this.LSConfig === null) {
       // set default config in local storage
-      this.LSConfig = this.generateDefaultConfig();
+      this.LSConfig = defaultConfigGenerator();
     }
   };
 
@@ -36,35 +36,12 @@ export class ConfigStorageService {
 
   // getter & setter for local storage
   private get LSConfig (): PimpConfig {
-    return this.localStorage.getObject(configStorageKey);
+    let pimpParams = this.localStorage.getObject(configStorageKey);
+    if (pimpParams === null) return null;
+    return new (<any>PimpConfig)(...pimpParams);
   };
   private set LSConfig (data: PimpConfig) {
-    this.localStorage.setObject(configStorageKey, data);
+    let pimpParams = deconstructPimpConfig(data);
+    this.localStorage.setObject(configStorageKey, pimpParams);
   };
-
-  private generateDefaultConfig(): PimpConfig {
-    let defaultName                 = 'default';
-    let defaultTargetURL            = 'http://www.syntaxsuccess.com/viewarticle/socket.io-with-rxjs-in-angular-2.0';
-    let defaultKeepCookies          = true;
-    let defaultPort                 = 3000;
-    let defaultPimpRuleA: PimpRule  = new PimpRule(
-      '*/viewarticle*',
-      [`
-          $('head').append('<link rel="stylesheet" type="text/css" href="/css/main.min.css">');
-          $('body').append('<script type="text/javascript" src="/js/main.min.js"></script>');
-          $('body').addClass('sample-modifier-rules');
-          $('.container').html('<p>replaced text</p>');
-      `]
-    );
-    let defaultPimpRuleB: PimpRule  = new PimpRule(
-      '*/sample-url2*',
-      [`
-          $('head').append('<link rel="stylesheet" type="text/css" href="/css/main.min.css">');
-          $('body').append('<script type="text/javascript" src="/js/main.min.js"></script>');
-          $('body').addClass('sample-modifier-rules2');
-      `]
-    );
-
-    return new PimpConfig(defaultName, defaultTargetURL, defaultKeepCookies, defaultPort, [defaultPimpRuleA, defaultPimpRuleB]);
-  }
 }
