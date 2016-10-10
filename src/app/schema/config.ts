@@ -63,7 +63,7 @@ export function deconstructPimpConfig(original:PimpConfig):any[] {
   let targetURL            = bsOptions.proxy.target;
   let keepCookies          = !(bsOptions.proxy.cookies.stripeDomain);
   let port                 = bsOptions.port;
-  let PimpRules            = pimpCmds
+  let PimpRules            = pimpCmds;
   let id                   = original.id;
 
   return [name, targetURL, keepCookies, port, PimpRules, id];
@@ -118,7 +118,7 @@ export class Notif {
   public subType:string;
   public payload:string|boolean;
 
-  constructor(type:string, subType:string, payload:string|boolean){
+  constructor (type:string, subType:string, payload:string|boolean) {
     this.type = type;
     this.subType = subType;
     this.payload = payload;

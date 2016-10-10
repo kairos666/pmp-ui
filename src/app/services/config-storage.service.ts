@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from './local-storage.service';
-import { PimpConfig, PimpRule, deconstructPimpConfig, defaultConfigGenerator } from '../schema/config';
+import { PimpConfig, deconstructPimpConfig, defaultConfigGenerator } from '../schema/config';
 
 const configStorageKey              = 'pmp-ui-pimp-configs';
 
@@ -37,7 +37,7 @@ export class ConfigStorageService {
   // getter & setter for local storage
   private get LSConfig (): PimpConfig {
     let pimpParams = this.localStorage.getObject(configStorageKey);
-    if (pimpParams === null) return null;
+    if (pimpParams === null) { return null; };
     return new (<any>PimpConfig)(...pimpParams);
   };
   private set LSConfig (data: PimpConfig) {

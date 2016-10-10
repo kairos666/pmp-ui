@@ -167,7 +167,7 @@ describe('Service: ConfigModel OUTPUTS', () => {
       expect(beforeAActions.saveAllowed).toBeFalsy('should\'t be true BEFORE config update');
       expect(beforeAActions.restoreAllowed).toBeFalsy('should\'t be true BEFORE config update');
 
-      //listen to changes (first change is for pending state, therefore only consider second update)
+      // listen to changes (first change is for pending state, therefore only consider second update)
       service.availableConfigActionsStream.skip(1).first().subscribe(allowedActions => {
           expect(allowedActions.saveAllowed).toBeTruthy('should\'t be false AFTER config update');
           expect(allowedActions.restoreAllowed).toBeTruthy('should\'t be false AFTER config update');

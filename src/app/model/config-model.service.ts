@@ -196,12 +196,12 @@ export class ConfigModelService {
       this.configStorage.savePimpConfig(this.config);
       this.configActionsUpdater(this.config);
 
-      //notify
+      // notify
       let notifEvt = new Notif('config', 'action', 'saved');
       this.notifierStream.next(notifEvt);
       return true;
     }
-    return false
+    return false;
   }
 
   public restore():boolean {
@@ -209,7 +209,7 @@ export class ConfigModelService {
       let restoredConfig = this.configStorage.restorePimpConfig();
       this.updateConfig(restoredConfig);
 
-      //notify
+      // notify
       let notifEvt = new Notif('config', 'action', 'restored');
       this.notifierStream.next(notifEvt);
       return true;

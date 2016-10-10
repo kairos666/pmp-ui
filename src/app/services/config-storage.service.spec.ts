@@ -54,10 +54,10 @@ describe('Service: ConfigStorage', () => {
     let originalPimpConfig = new PimpConfig('mock', 'mock.com', false, 2666, new PimpRule('mock pattern', ['mock modifs']));
     let beforeFeconstructedParameters = deconstructPimpConfig(originalPimpConfig);
 
-    //send to local storage
+    // send to local storage
     localStorage['LS-test'] = JSON.stringify(beforeFeconstructedParameters);
 
-    //retrieve from local storage
+    // retrieve from local storage
     let afterFeconstructedParameters = JSON.parse(localStorage['LS-test']);
 
     let clonedPimpConfig = new (<any>PimpConfig)(...afterFeconstructedParameters);
