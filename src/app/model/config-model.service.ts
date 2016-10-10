@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { PimpConfig, ConfigActions } from '../schema/config';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { PimpConfig, ConfigActions, Notif } from '../schema/config';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { ConfigStorageService } from '../services/config-storage.service';
 import { PmpEngineConnectorService } from '../services/pmp-engine-connector.service';
 import * as _ from 'lodash';
@@ -11,6 +11,7 @@ export class ConfigModelService {
   private pmpEngineSmartState: Observable<any>  = undefined;
   private currentConfig: BehaviorSubject<PimpConfig> = new BehaviorSubject(undefined);
   private currentAllowedConfigActions: BehaviorSubject<ConfigActions> = new BehaviorSubject(new ConfigActions(false, false, false));
+  private notifierStream: Subject<any> = new Subject();
 
   constructor(private configStorage: ConfigStorageService, private pmpEngineConnector: PmpEngineConnectorService) {
     /* at instanciation check engine connection and status
@@ -21,6 +22,9 @@ export class ConfigModelService {
 
     // handle actions allowed logic
     this.allowedActionsLogicSetting();
+
+    // handle notificationsStream
+    this.notificationsSetting();
     
     // handle init (connection state, engine state, config)
     this.generateConfigSub();
@@ -51,6 +55,22 @@ export class ConfigModelService {
         // unsubscribe init behavior
         initsubscription.unsubscribe();
       });
+  }
+
+  private notificationsSetting():void {
+    /* NOTIFICATIONS 
+    * engine connection: connected / disconnected --> disallow all ACTIONS
+    * engine status: started / pending / stopped --> indicate state
+    * config actions feedback: saved / restored --> indicate success (from corresponding methods)
+    */
+    this.pmpEngineConnector.isPmpEngineConnected.subscribe(isConnected => {
+      let notifEvt = new Notif('engine', 'connection', isConnected);
+      this.notifierStream.next(notifEvt);
+    });
+    this.pmpEngineConnector.pmpEngineDataStatusStream.subscribe(status => {
+      let notifEvt = new Notif('engine', 'status', status);
+      this.notifierStream.next(notifEvt);
+    });
   }
 
   private configActionsUpdater(newConf:PimpConfig):void {
@@ -175,17 +195,29 @@ export class ConfigModelService {
     if (this.availableConfigActions.saveAllowed) {
       this.configStorage.savePimpConfig(this.config);
       this.configActionsUpdater(this.config);
+
+      //notify
+      let notifEvt = new Notif('config', 'action', 'saved');
+      this.notifierStream.next(notifEvt);
       return true;
     }
     return false
   }
 
   public restore():boolean {
-    if (this.availableConfigActions.restartAllowed) {
+    if (this.availableConfigActions.restoreAllowed) {
       let restoredConfig = this.configStorage.restorePimpConfig();
       this.updateConfig(restoredConfig);
+
+      //notify
+      let notifEvt = new Notif('config', 'action', 'restored');
+      this.notifierStream.next(notifEvt);
       return true;
     }
     return false;
+  }
+
+  public get notificationsStream():Observable<Notif> {
+    return this.notifierStream.asObservable();
   }
 }

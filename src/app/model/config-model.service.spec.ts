@@ -181,7 +181,7 @@ describe('Service: ConfigModel OUTPUTS', () => {
     }, 600);
   }, 6000);
 
-  xit('updating config and save to localStorage', done => {
+  it('updating config and save to localStorage', done => {
     // setup test
     let testConfig = new PimpConfig('mock', 'mock.com', false, 2666, new PimpRule('mock pattern', ['mock modifs']));
     let service: ConfigModelService = TestBed.get(ConfigModelService);
@@ -205,25 +205,41 @@ describe('Service: ConfigModel OUTPUTS', () => {
           // check that current app config is still updatedConfig
           expect(deepEqual(newConfig, testConfig)).toBeTruthy('updated config doesn\'t match expectations B');
           // check that save/restore isn't possible anymore
-          console.log(afterSaveAActions);
-          console.log('CRAP ---------------------------');
           expect(afterSaveAActions.saveAllowed).toBeFalsy('shouldn\'t be true AFTER save action');
           expect(afterSaveAActions.restoreAllowed).toBeFalsy('shouldn\'t be true AFTER save action');
           done();
         });
 
         // fire SAVE COMMAND
-        console.log('FIRE SAVE')
         expect(service.save()).toBeTruthy('couldn\'t save');
       }, 600);
   });
-  xit('updating config and restore from localStorage', done => {
-    //setup test
-    //get previouslySavedConfig (default)
-    //update config
-    //check that current app config is different than previouslySavedConfig (default)
-    //fire RESTORE COMMAND
-    //check that current app config is previouslySavedConfig (default)
-    //check that save/restore isn't possible anymore
+  it('updating config and restore from localStorage', done => {
+    // setup test
+    let testConfig = new PimpConfig('mock', 'mock.com', false, 2666, new PimpRule('mock pattern', ['mock modifs']));
+    let service: ConfigModelService = TestBed.get(ConfigModelService);
+
+    setTimeout(() => { 
+      // get previouslySavedConfig (default)
+      let previouslySavedConfig = service.config;
+      // update config
+      service.updateConfig(testConfig);
+      // check that current app config is different than previouslySavedConfig (default)
+      let newConfig = service.config;
+      expect(deepEqual(newConfig, testConfig)).toBeTruthy('updated config doesn\'t match expectations A');
+      // test end setup (skip first one)
+      service.availableConfigActionsStream.skip(1).subscribe(afterRestoreAActions => {
+        // check that current app config is previouslySavedConfig (default)
+        let restoredConfig = service.config;
+        expect(deepEqual(restoredConfig, previouslySavedConfig)).toBeTruthy('updated config doesn\'t match expectations B');
+        // check that save/restore isn't possible anymore
+        expect(afterRestoreAActions.saveAllowed).toBeFalsy('shouldn\'t be true AFTER save action');
+        expect(afterRestoreAActions.restoreAllowed).toBeFalsy('shouldn\'t be true AFTER save action');
+        done();
+      });
+
+      // fire RESTORE COMMAND
+      expect(service.restore()).toBeTruthy('couldn\'t restore');
+    }, 600);
   });
 });

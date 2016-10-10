@@ -87,7 +87,6 @@ export class ConfigActions {
   }
 }
 
-
 export function defaultConfigGenerator():PimpConfig {
     let defaultName                 = 'default';
     let defaultTargetURL            = 'http://www.syntaxsuccess.com/viewarticle/socket.io-with-rxjs-in-angular-2.0';
@@ -112,4 +111,16 @@ export function defaultConfigGenerator():PimpConfig {
     );
 
     return new PimpConfig(defaultName, defaultTargetURL, defaultKeepCookies, defaultPort, [defaultPimpRuleA, defaultPimpRuleB]);
+}
+
+export class Notif {
+  public type:string;
+  public subType:string;
+  public payload:string|boolean;
+
+  constructor(type:string, subType:string, payload:string|boolean){
+    this.type = type;
+    this.subType = subType;
+    this.payload = payload;
+  }
 }
