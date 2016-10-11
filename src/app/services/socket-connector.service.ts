@@ -24,6 +24,10 @@ export class SocketConnectorService {
     
     this.socket.on('disconnect', () => { this.connectedStream.next(false); });
 
+    this.socket.on('connect_failed', () => { console.log('WEBSOCKET SERVICE --> failed connection attempt'); });
+
+    this.socket.on('connect_error', () => { console.log('WEBSOCKET SERVICE --> error in connection attempt'); });
+
     this.socket.on(pmpEngineOutputKey, data => { this.outputStream.next(data); });
 
     // console feedback
