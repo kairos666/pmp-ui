@@ -1,19 +1,16 @@
 <md-sidenav-layout>
-  <md-sidenav #sidenav align="start" mode="side">
-    <h2>navigation principale</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam libero magna, tincidunt non urna eget, semper tincidunt ex. Suspendisse ex quam, aliquam ut vehicula sollicitudin, auctor nec lorem. Interdum et malesuada fames ac ante ipsum primis in faucibus. Duis fermentum nisl sit amet sem mattis, id fermentum nisi fringilla. In urna enim, bibendum quis molestie at, dignissim at elit. Pellentesque tempor mauris sed metus cursus consequat. Phasellus metus orci, viverra at lorem quis, sollicitudin fringilla velit.</p>
-    <button md-raised-button (click)="sidenav.close()" color="accent">CLOSE</button>
+  <md-sidenav #sidenav align="start" mode="push">
+    <main-nav (onSelection)="mainNavSelection($event)"></main-nav>
   </md-sidenav>
-  <md-toolbar color="primary">
-    <h1>{{title}}</h1>
-  </md-toolbar>
+  <app-header (onMenuCall)="mainNavOpen($event)"></app-header>
+  <router-outlet></router-outlet>
   <md-grid-list cols="4" rowHeight="200px">
     <md-grid-tile *ngFor="let dog of dogs" [rowspan]="dog.rows">
       <img src="http://lorempixel.com/400/{{dog.rows * 200}}" alt="photo of lorempixels">
       <md-grid-tile-footer>
         <h3 md-line>{{dog.name}}</h3>
         <span md-line>Human: {{dog.human}}</span>
-        <button md-icon-button (click)="showDog(dog)">info</button>
+        <button md-icon-button (click)="showDog(dog)"><md-icon>more_vert</md-icon></button>
       </md-grid-tile-footer>
     </md-grid-tile>
   </md-grid-list>

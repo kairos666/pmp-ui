@@ -16,8 +16,6 @@ import { ConfigModelService } from './model/config-model.service';
   providers: [ConfigModelService, LocalStorageService, ConfigStorageService, SocketConnectorService, PmpEngineConnectorService]
 })
 export class AppComponent {
-  private title = 'app works!';
-  private currentDog = {};
   private dogs = [
     {rows: 2, name: "Mal", human: "Jeremy", age: 5},
     {rows: 1, name: "Molly", human: "David", age: 5},
@@ -36,7 +34,14 @@ export class AppComponent {
   }
 
   private showDog(dog) {
-    this.currentDog = dog;
+    this.sidenav.open();
+  }
+
+  private mainNavSelection():void {
+    this.sidenav.close();
+  }
+
+  private mainNavOpen():void {
     this.sidenav.open();
   }
 }

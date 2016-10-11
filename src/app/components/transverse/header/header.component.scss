@@ -1,0 +1,25 @@
+@import '../../../../pmp-material-theme-variables.scss';
+md-toolbar { background-color:darken($palette-accent, 35%); padding-left:0; padding-right:8px; }
+.pmp-ui-heading { flex:1 0 auto; }
+.engine-indicator { flex:2 0 auto; max-width:320px; }
+
+/* app heading styles */
+.btn-open-sidenav { border:6px solid darken($palette-accent, 35%); outline:none; padding:0; margin-right:16px; overflow:hidden; border-radius:50% 50%; 
+    width:64px; height:64px; background-color:$dark-bg; transition: background-color .2s ease-in-out; cursor:pointer;
+    &:hover, &:focus, &:active { background-color:darken($palette-accent, 35%); }
+}
+.logo { filter: drop-shadow(0px 1px 6px $palette-accent); margin-right:16px; }
+
+/* engine indicator styles */
+.btn-engine { float:right; border:none; border-radius:24px; background-color:$dark-bg; padding:12px 60px 12px 12px; margin-right:-48px; color:$base-text-color; text-transform:uppercase; cursor:pointer; transition: color .2s ease-in-out;
+    md-icon, span { line-height:24px; vertical-align:middle; }
+    span { font-size:16px; }
+    &.start:hover, &.start:focus, &.start:active { color:#4dff4c; }
+    &.stop:hover, &.stop:focus, &.stop:active { color:#ff4c4c; }
+}
+.process-status { margin:0; float:right; position:relative; width:48px; height:48px;
+    path { fill:transparent; transition: fill .5s ease; }
+    &.stopped path { fill:#ff4c4c; }
+    &.pending path { fill:#c4a000; }
+    &.started path { fill:#4dff4c; }
+}
