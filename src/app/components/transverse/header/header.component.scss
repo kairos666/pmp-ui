@@ -1,7 +1,7 @@
 @import '../../../../pmp-material-theme-variables.scss';
 md-toolbar { background-color:darken($palette-accent, 35%); padding-left:0; padding-right:8px; }
 .pmp-ui-heading { flex:1 0 auto; }
-.engine-indicator { flex:2 0 auto; max-width:320px; }
+.engine-indicator { flex:2 0 auto; max-width:320px; transition: opacity .5s ease-in-out; }
 
 /* app heading styles */
 .btn-open-sidenav { border:6px solid darken($palette-accent, 35%); outline:none; padding:0; margin-right:16px; overflow:hidden; border-radius:50% 50%; 
@@ -17,9 +17,13 @@ md-toolbar { background-color:darken($palette-accent, 35%); padding-left:0; padd
     &.start:hover, &.start:focus, &.start:active { color:#4dff4c; }
     &.stop:hover, &.stop:focus, &.stop:active { color:#ff4c4c; }
 }
-.process-status { margin:0; float:right; position:relative; width:48px; height:48px;
+.process-status { margin:0; float:right; position:relative; width:48px; height:48px; background-color:$dark-bg; border-radius:50% 50%;
     path { fill:transparent; transition: fill .5s ease; }
     &.stopped path { fill:#ff4c4c; }
     &.pending path { fill:#c4a000; }
     &.started path { fill:#4dff4c; }
+}
+.engine-indicator.disconnected { opacity:.75;
+    .process-status path { fill:lighten($dark-bg, 25%); }
+    .btn-engine { cursor:not-allowed; }
 }
