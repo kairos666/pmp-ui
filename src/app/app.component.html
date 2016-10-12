@@ -1,8 +1,15 @@
 <md-sidenav-layout>
   <md-sidenav #sidenav align="start" mode="push">
-    <main-nav (onSelection)="mainNavSelection($event)"></main-nav>
+    <app-nav (onSelection)="mainNavSelection($event)"></app-nav>
   </md-sidenav>
-  <app-header (onMenuCall)="mainNavOpen($event)"></app-header>
+  <app-header
+    [statusStream]="pmpEngine.pmpEngineDataStatusStream"
+    [connectionStream]="pmpEngine.isPmpEngineConnected"
+    [availableActionsStream]="configModel.availableConfigActionsStream" 
+    (onMenuCall)="mainNavOpen($event)"
+    (onStartClick)="startPmpEngine($event)"
+    (onStopClick)="stopPmpEngine($event)">
+  </app-header>
   <router-outlet></router-outlet>
   <md-grid-list cols="4" rowHeight="200px">
     <md-grid-tile *ngFor="let dog of dogs" [rowspan]="dog.rows">
