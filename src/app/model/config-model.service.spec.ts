@@ -28,8 +28,6 @@ describe('Service: ConfigModel INIT', () => {
         ConfigModelService
       ]
     });
-
-
   });
 
   it('should provide a PimpConfig shortly after instanciation', done => { 
