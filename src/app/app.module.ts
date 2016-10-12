@@ -4,6 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '@angular/material';
 import { RouterModule }   from '@angular/router';
 
+/* GLOBAL SERVICES */
+import { LocalStorageService } from './services/local-storage.service';
+import { ConfigStorageService } from './services/config-storage.service';
+import { SocketConnectorService } from './services/socket-connector.service';
+import { PmpEngineConnectorService } from './services/pmp-engine-connector.service';
+import { ConfigModelService } from './model/config-model.service';
+
+/* COMPONENTS */
 import { AppComponent } from './app.component';
 import { MainNavComponent } from './components/transverse/main-nav/main-nav.component';
 import { DashboardComponent } from './components/views/dashboard/dashboard.component';
@@ -37,7 +45,7 @@ let routes = [
     RouterModule.forRoot(routes),
     MaterialModule.forRoot()
   ],
-  providers: [],
+  providers: [ConfigModelService, LocalStorageService, ConfigStorageService, SocketConnectorService, PmpEngineConnectorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
