@@ -1,8 +1,10 @@
+@import '../../../../pmp-material-theme-variables.scss';
+
 md-card { box-sizing:border-box;
-    @media (max-width:(850 + 2*16)+0px) {
+    @media (max-width:$card-breakpoint) {
         margin:16px;
     } 
-    @media (min-width:(850 + 2*16)+0px) {
+    @media (min-width:$card-breakpoint) {
         max-width:800px; margin:16px auto;
     } 
 }

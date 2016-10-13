@@ -23,6 +23,12 @@ $theme: md-dark-theme($primary, $accent, $warn);
 // that you are using.
 @include angular-material-theme($theme);
 
+// PAGE CONTAINER
+.page-container { position:relative; height:$content-max-height-no-secondary-nav; overflow:hidden;
+    &.has-secondary-nav { height:$content-max-height; }
+    .button-holder { position:absolute; right:0; bottom:0; }
+}
+
 // SECONDARY NAV OVERRIDE
 .secondary-navigation {
     /deep/ .md-tab-header { background-color:darken($palette-accent, 35%); }
@@ -31,4 +37,9 @@ $theme: md-dark-theme($primary, $accent, $warn);
         &:hover, &:focus { background:none; }
     }
     md-ink-bar { background-color:$palette-accent }
+}
+
+// BUTTON HOLDERS
+.button-holder { padding:0 4px 16px 0; margin:0; width:64px; text-align:center;
+    button + button { margin-top:16px; }
 }

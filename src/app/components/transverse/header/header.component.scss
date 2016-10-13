@@ -1,4 +1,5 @@
 @import '../../../../pmp-material-theme-variables.scss';
+
 md-toolbar { background-color:darken($palette-accent, 35%); padding-left:0; padding-right:8px; }
 .pmp-ui-heading { flex:1 0 auto; }
 .engine-indicator { flex:2 0 auto; max-width:320px; transition: opacity .5s ease-in-out; }

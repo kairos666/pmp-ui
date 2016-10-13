@@ -10,6 +10,7 @@ import { ConfigStorageService } from './services/config-storage.service';
 import { SocketConnectorService } from './services/socket-connector.service';
 import { PmpEngineConnectorService } from './services/pmp-engine-connector.service';
 import { ConfigModelService } from './model/config-model.service';
+import { LogsService } from './model/logs-model.service';
 
 /* COMPONENTS */
 import { AppComponent } from './app.component';
@@ -19,6 +20,7 @@ import { ConfigComponent } from './components/views/config/config.component';
 import { ConsoleComponent } from './components/views/console/console.component';
 import { HelpComponent } from './components/views/help/help.component';
 import { HeaderComponent } from './components/transverse/header/header.component';
+import { ConsoleOutputComponent } from './components/ui-parts/console-output/console-output.component';
 
 let routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -37,7 +39,8 @@ let routes = [
     ConsoleComponent,
     ConfigComponent,
     HelpComponent,
-    HeaderComponent
+    HeaderComponent,
+    ConsoleOutputComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,7 @@ let routes = [
     RouterModule.forRoot(routes),
     MaterialModule.forRoot()
   ],
-  providers: [ConfigModelService, LocalStorageService, ConfigStorageService, SocketConnectorService, PmpEngineConnectorService],
+  providers: [ConfigModelService, LocalStorageService, ConfigStorageService, SocketConnectorService, PmpEngineConnectorService, LogsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

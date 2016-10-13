@@ -6,6 +6,8 @@ $dark-bg:#303030;
 $base-text-color:#fff;
 
 /* dimensions */
+$card-breakpoint:(850 + 2*16)+0px;
 $header-height: 64px;
 $secondary-nav-height: 49px;
 $content-max-height:calc(100vh - #{$header-height + $secondary-nav-height});
+$content-max-height-no-secondary-nav:calc(100vh - #{$header-height});
