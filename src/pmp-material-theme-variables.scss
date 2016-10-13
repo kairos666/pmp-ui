@@ -4,3 +4,8 @@ $palette-accent:#ff4881;
 $palette-warn:#ff0000;
 $dark-bg:#303030;
 $base-text-color:#fff;
+
+/* dimensions */
+$header-height: 64px;
+$secondary-nav-height: 49px;
+$content-max-height:calc(100vh - #{$header-height + $secondary-nav-height});
