@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@angular/material';
 import { RouterModule }   from '@angular/router';
 
@@ -23,6 +23,9 @@ import { HeaderComponent } from './components/transverse/header/header.component
 import { ConsoleOutputComponent } from './components/ui-parts/console-output/console-output.component';
 import { PimpFormGeneralComponent } from './components/ui-parts/forms/pimp-form-general/pimp-form-general.component';
 import { PimpFormRulesComponent } from './components/ui-parts/forms/pimp-form-rules/pimp-form-rules.component';
+
+//only for testing
+import { MockSocketConnectorServiceB } from '../../e2e/mocks/mock-socket-connectorB.service';
 
 let routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -48,11 +51,11 @@ let routes = [
   ],
   imports: [
     BrowserModule,
-    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(routes),
     MaterialModule.forRoot()
   ],
-  providers: [ConfigModelService, LocalStorageService, ConfigStorageService, SocketConnectorService, PmpEngineConnectorService, LogsService],
+  providers: [ConfigModelService, LocalStorageService, ConfigStorageService, { provide: SocketConnectorService, useClass: MockSocketConnectorServiceB}, PmpEngineConnectorService, LogsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
