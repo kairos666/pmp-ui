@@ -24,4 +24,9 @@ export class ConfigComponent {
   private onApplyClick():void {
     console.log('apply config clicked');
   }
+
+  private onUpdateConfig(event):void {
+    console.log('received config update');
+    console.log(event);
+  }
 }

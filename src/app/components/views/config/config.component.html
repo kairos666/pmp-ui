@@ -3,7 +3,10 @@
       <md-tab>
         <template md-tab-label>general</template>
         <template md-tab-content>
-          <app-pimp-form-general></app-pimp-form-general>
+          <app-pimp-form-general 
+            [pimpConfigChanges]="configModel.configStream" 
+            (updatePimpConfig)="onUpdateConfig($event)"
+          ></app-pimp-form-general>
         </template>
       </md-tab>
       <md-tab>
