@@ -21,6 +21,8 @@ import { ConsoleComponent } from './components/views/console/console.component';
 import { HelpComponent } from './components/views/help/help.component';
 import { HeaderComponent } from './components/transverse/header/header.component';
 import { ConsoleOutputComponent } from './components/ui-parts/console-output/console-output.component';
+import { PimpFormGeneralComponent } from './components/ui-parts/forms/pimp-form-general/pimp-form-general.component';
+import { PimpFormRulesComponent } from './components/ui-parts/forms/pimp-form-rules/pimp-form-rules.component';
 
 let routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -40,7 +42,9 @@ let routes = [
     ConfigComponent,
     HelpComponent,
     HeaderComponent,
-    ConsoleOutputComponent
+    ConsoleOutputComponent,
+    PimpFormGeneralComponent,
+    PimpFormRulesComponent
   ],
   imports: [
     BrowserModule,

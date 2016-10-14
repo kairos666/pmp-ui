@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { ConfigComponent } from './config.component';
+import { PimpFormGeneralComponent } from './pimp-form-general.component';
 
-describe('Component: Config', () => {
+describe('Component: PimpFormGeneral', () => {
   it('should create an instance', () => {
-    let component = new ConfigComponent();
+    let component = new PimpFormGeneralComponent();
     expect(component).toBeTruthy();
   });
 });

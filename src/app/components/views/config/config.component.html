@@ -1,3 +1,45 @@
-<p>
-  config works!
-</p>
+<div class="page-container">
+    <md-tab-group class="secondary-navigation">
+      <md-tab>
+        <template md-tab-label>general</template>
+        <template md-tab-content>
+          <app-pimp-form-general></app-pimp-form-general>
+        </template>
+      </md-tab>
+      <md-tab>
+        <template md-tab-label>pimp rules</template>
+        <template md-tab-content>
+          <app-pimp-form-rules></app-pimp-form-rules>
+        </template>
+      </md-tab>
+      <md-tab>
+        <template md-tab-label>pimp plugins</template>
+        <template md-tab-content>
+          <md-card>
+            <md-card-title>Pimp plugins configuration - in construction</md-card-title>
+            <md-card-subtitle>This configuration section is used for defining pimp transformations helpers. Each plugin provides a set of JS, HTML presets to ease the pimping.</md-card-subtitle>
+            <md-card-content>
+                This will be nice but it isn't done yet!
+            </md-card-content>
+          </md-card>
+        </template>
+      </md-tab>
+    </md-tab-group>
+    <menu class="button-holder">
+        <button md-mini-fab title="restore previously saved pimp configuration" 
+          [attr.disabled]="isRestoreAllowed ? null : ''" 
+          (click)="onRestoreClick()"
+        >
+            <md-icon>settings_backup_restore</md-icon>
+        </button>
+        <button md-mini-fab title="save current pimp configuration" 
+          [attr.disabled]="isSaveAllowed ? null : ''" 
+          (click)="onSaveClick()"
+        >
+            <md-icon>save</md-icon>
+        </button>
+        <button md-fab title="apply configuration" [attr.disabled]="isApplyAllowed ? null : ''" (click)="onApplyClick()">
+            <md-icon>exit_to_app</md-icon>
+        </button>
+    </menu>
+</div>
