@@ -118,6 +118,6 @@ export class MockSocketConnectorServiceB {
     */ 
     return this.outputStream.asObservable()
                             .filter(() => { return this.isConnected; })
-                            .filter(event => { return (event.subType !== 'log' || (event.subType !== 'log' && this.engineStatStream.value !== 'stopped')); });
+                            .filter(event => { return (event.subType !== 'log' || (event.subType === 'log' && this.engineStatStream.value !== 'stopped')); });
   }
 }
