@@ -30,19 +30,6 @@ export class LogsService {
       // update output stream
       this._logStream.next(this._logs);
     });
-
-    // test TODO remove from sources
-    Observable.interval(500).map(index => { return 'mock log N°' + index; }).subscribe(fakeLog => {
-      this._logs.push(fakeLog);
-      
-      // remove items if too many
-      if (this._logs.length === (maxLogEntries + 1)) {
-        this._logs.shift();
-      }
-
-      // update output stream
-      this._logStream.next(this._logs);
-    });
   }
 
   public clear():void {
