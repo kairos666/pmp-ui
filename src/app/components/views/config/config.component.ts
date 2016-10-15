@@ -20,7 +20,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
     this.sub = this.configModel.availableConfigActionsStream.subscribe(aActions => {
       this.isSaveAllowed = aActions.saveAllowed;
       this.isRestoreAllowed = aActions.restoreAllowed;
-      this.isApplyAllowed = aActions.startAllowed;
+      this.isApplyAllowed = (aActions.startAllowed || aActions.restartAllowed);
     });
   }
 

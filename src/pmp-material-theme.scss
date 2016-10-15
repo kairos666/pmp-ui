@@ -1,4 +1,5 @@
 @import 'pmp-material-theme-variables';
+@import 'pmp-material-theme-utils';
 @import '~@angular/material/core/theming/all-theme';
 // Plus imports for other components in your app.
 
@@ -42,4 +43,13 @@ $theme: md-dark-theme($primary, $accent, $warn);
 // BUTTON HOLDERS
 .button-holder { padding:0 4px 16px 0; margin:0; width:64px; text-align:center;
     button + button { margin-top:16px; }
+}
+
+// PIMP FORMS STYLES
+.pimp-form {
+    .form-control-container { margin-top:16px; margin-bottom:16px; @include clearfix;
+        md-input { display:block; margin-top:32px; }
+        md-slide-toggle { margin-top:32px; }
+    }
+    .text-muted { opacity:.65; font-size:.79em; margin-top:4px; }
 }

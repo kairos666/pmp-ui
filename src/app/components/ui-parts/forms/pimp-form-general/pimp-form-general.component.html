@@ -3,25 +3,29 @@
   <md-card-subtitle>This configuration section is used for defining what website to pimp and where to output the result.</md-card-subtitle> 
   <md-card-content>
       <form [formGroup]="generalPimpForm" class="pimp-form" novalidate>
-        <label for="targetURL" class="form-control-label">proxy this</label>
-        <md-input class="form-control required" id="targetURL" 
-          type="text"
-          formControlName="target"
-          placeholder="URL to proxy"
-          dividerColor="accent"
-        ></md-input>
-        <small class="text-muted">this is the website domain URL you want to target for pimping</small>
-
-        <label for="proxyToPort" class="form-control-label">use port</label>
-        <md-input class="form-control required" id="proxyToPort"
-          type="number"
-          formControlName="port"
-          placeholder="port"
-          dividerColor="accent"
-        ></md-input>
-        <small class="text-muted">this is the localhost port to output the pimped result</small>
-
-        <md-slide-toggle formControlName="cookies">transfer cookies (useful to allow session sharing)</md-slide-toggle>
+        <div class="form-control-container">
+          <md-input class="form-control required" id="targetURL" 
+            type="text"
+            formControlName="target"
+            placeholder="URL to proxy"
+            dividerColor="accent"
+          ></md-input>
+          <p class="text-muted">this is the website domain URL you want to target for pimping</p>
+        </div>
+        <div class="form-control-container">
+          <md-input class="form-control required" id="proxyToPort"
+            type="number"
+            min="0" 
+            max="65535"
+            formControlName="port"
+            placeholder="port"
+            dividerColor="accent"
+          ></md-input>
+          <p class="text-muted">this is the localhost port to output the pimped result</p>
+        </div>
+        <div class="form-control-container">
+          <md-slide-toggle formControlName="cookies">transfer cookies (useful to allow session sharing)</md-slide-toggle>
+        </div>
       </form>
   </md-card-content>
 </md-card>

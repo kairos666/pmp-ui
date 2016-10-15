@@ -7,7 +7,7 @@ import { CustomValidators } from '../custom-validators';
 @Component({
   selector: 'app-pimp-form-general',
   templateUrl: './pimp-form-general.component.html',
-  styleUrls: ['./pimp-form-general.component.css']
+  styleUrls: ['./pimp-form-general.component.scss']
 })
 export class PimpFormGeneralComponent implements OnInit, OnDestroy {
   @Input() pimpConfigInit:Observable<PimpConfig>; //always send current config (no distinct)
@@ -58,9 +58,9 @@ export class PimpFormGeneralComponent implements OnInit, OnDestroy {
       let targetFormControl   = (<any>this.generalPimpForm.controls).target;
       let portFormControl     = (<any>this.generalPimpForm.controls).port;
       let cookiesFormControl  = (<any>this.generalPimpForm.controls).cookies;
-      if (updateParams[1] !== targetFormControl.value) { console.log('change target: ' + targetFormControl.value); targetFormControl.setValue(updateParams[1]); };
-      if (updateParams[3] !== portFormControl.value) { console.log('change port: ' + targetFormControl.value); portFormControl.setValue(updateParams[3]); };
-      if (updateParams[2] !== cookiesFormControl.value) { console.log('change cookies: ' + targetFormControl.value); cookiesFormControl.setValue(updateParams[2]); };
+      if (updateParams[1] !== targetFormControl.value) { targetFormControl.setValue(updateParams[1]); };
+      if (updateParams[3] !== portFormControl.value) { portFormControl.setValue(updateParams[3]); };
+      if (updateParams[2] !== cookiesFormControl.value) { cookiesFormControl.setValue(updateParams[2]); };
     });
   }
 
