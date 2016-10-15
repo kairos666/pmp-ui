@@ -1,16 +1,17 @@
 /* tslint:disable:no-unused-variable */
-import { Component, Input, Output, OnInit, EventEmitter, HostListener, ElementRef } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Component, Input, Output, OnInit, OnDestroy, EventEmitter, HostListener, ElementRef } from '@angular/core';
+import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-console-output',
   templateUrl: './console-output.component.html',
   styleUrls: ['./console-output.component.scss']
 })
-export class ConsoleOutputComponent implements OnInit {
+export class ConsoleOutputComponent implements OnInit, OnDestroy {
   @Input()  logs:Observable<string>;
   @Output() autoscroll = new EventEmitter();
   private scrollStream = new BehaviorSubject(new ScrollState(true, 0 ));
+  private sub:Subscription;
 
   constructor(private element:ElementRef) {}
 
@@ -19,7 +20,7 @@ export class ConsoleOutputComponent implements OnInit {
 
     // handle auto scroll behavior (delay is necessary to synchronize better with log display in view)
     let currentScrollState = this.scrollStream.value;
-    this.logs
+    this.sub = this.logs
       .filter(() => { return this.scrollStream.value.autoScroll; })
       .delay(1)
       .do(() => { this.scrollStream.next(new ScrollState(currentScrollState.autoScroll, currentScrollState.scroll, true)); })
@@ -33,6 +34,10 @@ export class ConsoleOutputComponent implements OnInit {
     let newScrollState = new ScrollState(true, currentScrollState.scroll, currentScrollState.skipNext);
     this.scrollStream.next(newScrollState);
     this.autoscroll.emit(this.scrollStream.value.autoScroll);
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   @HostListener('scroll', ['$event'])

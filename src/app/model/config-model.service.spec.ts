@@ -33,7 +33,7 @@ describe('Service: ConfigModel INIT', () => {
   it('should provide a PimpConfig shortly after instanciation', done => { 
     let service: ConfigModelService = TestBed.get(ConfigModelService);
     // first item --> init result
-    service.configStream.first().subscribe(config => {
+    service.distinctConfigStream.first().subscribe(config => {
       let actualConfig = config;
       let baselineConfig = defaultConfigGenerator();
       // make sure ID match (UUID is regenrated each time)
@@ -88,7 +88,7 @@ describe('Service: ConfigModel OUTPUTS', () => {
       expect(deepEqual(service.config, baselineConfig)).toBeFalsy('config is not different from default at this point');
 
       // detect config coming from engine
-      service.configStream.subscribe(config => {
+      service.distinctConfigStream.subscribe(config => {
         expect(deepEqual(config, baselineConfig)).toBeTruthy('config retrieved from engine is different');
         done();
       });

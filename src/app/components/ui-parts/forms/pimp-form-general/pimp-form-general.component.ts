@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PimpConfig, deconstructPimpConfig } from '../../../../schema/config';
 import { CustomValidators } from '../custom-validators';
@@ -11,15 +11,16 @@ const matchUrl:string = '([-a-zA-Z0-9:%_\+.~#?&//=]*)';
   templateUrl: './pimp-form-general.component.html',
   styleUrls: ['./pimp-form-general.component.css']
 })
-export class PimpFormGeneralComponent implements OnInit {
-  @Input() pimpConfigChanges:Observable<PimpConfig>; // only works first subscription & when config change
+export class PimpFormGeneralComponent implements OnInit, OnDestroy {
+  @Input() pimpConfigInit:Observable<PimpConfig>; //always send current config (no distinct)
+  @Input() pimpConfigChanges:Observable<PimpConfig>; // only works when config change
   @Output() updatePimpConfig = new EventEmitter();
   private generalPimpForm:FormGroup;
+  private sub:Subscription;
 
   constructor(private formBuilder:FormBuilder) { }
 
   ngOnInit() {
-    console.log('init')
     // create form model
     /* no validator for URL pattern because it is not possible */
     this.generalPimpForm = this.formBuilder.group({
@@ -30,7 +31,7 @@ export class PimpFormGeneralComponent implements OnInit {
 
     //set initial paramters
     let initialParams:any[];
-    this.pimpConfigChanges.first().subscribe(config => {
+    this.pimpConfigInit.first().subscribe(config => {
       initialParams = deconstructPimpConfig(config);
       (<any>this.generalPimpForm.controls).target.setValue(initialParams[1]);
       (<any>this.generalPimpForm.controls).port.setValue(initialParams[3]);
@@ -38,9 +39,13 @@ export class PimpFormGeneralComponent implements OnInit {
     });
 
     // handle form changes
-    this.generalPimpForm.valueChanges.subscribe(formValues => {
+    this.sub = this.generalPimpForm.valueChanges.subscribe(formValues => {
       console.log(formValues);
       console.log(this.generalPimpForm.valid);
     });
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 }
