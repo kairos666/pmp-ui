@@ -1,10 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PimpConfig, deconstructPimpConfig } from '../../../../schema/config';
 import { CustomValidators } from '../custom-validators';
-
-const matchUrl:string = '([-a-zA-Z0-9:%_\+.~#?&//=]*)';
 
 @Component({
   selector: 'app-pimp-form-general',
@@ -16,7 +14,7 @@ export class PimpFormGeneralComponent implements OnInit, OnDestroy {
   @Input() pimpConfigChanges:Observable<PimpConfig>; // only works when config change
   @Output() updatePimpConfig = new EventEmitter();
   private generalPimpForm:FormGroup;
-  private sub:Subscription;
+  private killSubs = new Subject();
 
   constructor(private formBuilder:FormBuilder) { }
 
@@ -36,16 +34,35 @@ export class PimpFormGeneralComponent implements OnInit, OnDestroy {
       (<any>this.generalPimpForm.controls).target.setValue(initialParams[1]);
       (<any>this.generalPimpForm.controls).port.setValue(initialParams[3]);
       (<any>this.generalPimpForm.controls).cookies.setValue(initialParams[2]);
-    });
 
-    // handle form changes
-    this.sub = this.generalPimpForm.valueChanges.subscribe(formValues => {
-      console.log(formValues);
-      console.log(this.generalPimpForm.valid);
+      //setup form update (no submit)
+      this.formUpdateSetup();
+    });
+  }
+
+  private formUpdateSetup():void {
+    // handle form changes (take in only valid inputs)
+    this.generalPimpForm.valueChanges.takeUntil(this.killSubs)
+      .debounceTime(200) /* to avoid too many consecutive calls */
+      .filter(() => this.generalPimpForm.valid)
+      .subscribe(formValues => {
+        this.updatePimpConfig.emit(formValues);
+      });
+
+    //react to new config parameters incoming
+    let updateParams:any[];
+    this.pimpConfigChanges.takeUntil(this.killSubs).subscribe(config => {
+      updateParams = deconstructPimpConfig(config);
+      let targetFormControl   = (<any>this.generalPimpForm.controls).target;
+      let portFormControl     = (<any>this.generalPimpForm.controls).port;
+      let cookiesFormControl  = (<any>this.generalPimpForm.controls).cookies;
+      if (updateParams[1] !== targetFormControl.value) { console.log('change target: ' + targetFormControl.value); targetFormControl.setValue(updateParams[1]); };
+      if (updateParams[3] !== portFormControl.value) { console.log('change port: ' + targetFormControl.value); portFormControl.setValue(updateParams[3]); };
+      if (updateParams[2] !== cookiesFormControl.value) { console.log('change cookies: ' + targetFormControl.value); cookiesFormControl.setValue(updateParams[2]); };
     });
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    this.killSubs.next(true);
   }
 }
