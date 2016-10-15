@@ -4,25 +4,24 @@
   <md-card-content>
       <form [formGroup]="generalPimpForm" class="pimp-form" novalidate>
         <label for="targetURL" class="form-control-label">proxy this</label>
-        <input class="form-control required" id="targetURL" 
+        <md-input class="form-control required" id="targetURL" 
           type="text"
           formControlName="target"
-        />
+          placeholder="URL to proxy"
+          dividerColor="accent"
+        ></md-input>
         <small class="text-muted">this is the website domain URL you want to target for pimping</small>
 
         <label for="proxyToPort" class="form-control-label">use port</label>
-        <input class="form-control required" id="proxyToPort"
+        <md-input class="form-control required" id="proxyToPort"
           type="number"
           formControlName="port"
-        />
+          placeholder="port"
+          dividerColor="accent"
+        ></md-input>
         <small class="text-muted">this is the localhost port to output the pimped result</small>
 
-        <label>
-          <input id="cookieTransfer" 
-            type="checkbox"
-            formControlName="cookies"
-          /> transfer cookies (useful to allow session sharing)
-        </label>
+        <md-slide-toggle formControlName="cookies">transfer cookies (useful to allow session sharing)</md-slide-toggle>
       </form>
   </md-card-content>
 </md-card>
