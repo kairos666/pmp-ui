@@ -44,9 +44,11 @@ export class PimpFormGeneralComponent implements OnInit, OnDestroy {
     // handle form changes (take in only valid inputs)
     this.generalPimpForm.valueChanges.takeUntil(this.killSubs)
       .debounceTime(200) /* to avoid too many consecutive calls */
-      .filter(() => this.generalPimpForm.valid)
       .subscribe(formValues => {
-        this.updatePimpConfig.emit(formValues);
+        this.updatePimpConfig.emit(Object.assign({
+          formId:'general-pimp-form',
+          formValidity: this.generalPimpForm.valid
+        }, formValues));
       });
 
     //react to new config parameters incoming
