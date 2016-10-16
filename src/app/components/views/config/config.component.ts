@@ -45,10 +45,16 @@ export class ConfigComponent implements OnInit, OnDestroy {
       let configParameters = deconstructPimpConfig(this.configModel.config);
 
       // general pimp form case
-      if (event.formId === 'general-pimp-form') {
-        configParameters[1] = event.target;
-        configParameters[3] = event.port;
-        configParameters[2] = event.cookies;
+      switch(event.formId) {
+        case 'general-pimp-form':
+          configParameters[1] = event.target;
+          configParameters[3] = event.port;
+          configParameters[2] = event.cookies;
+        break;
+
+        case 'rules-pimp-form':
+          configParameters[4] = event.pimpCmds;
+        break;
       }
 
       this.configModel.updateConfig(new (<any>PimpConfig)(...configParameters));

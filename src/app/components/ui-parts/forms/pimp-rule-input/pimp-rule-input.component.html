@@ -1,0 +1,19 @@
+<form [formGroup]="rulePimpForm" class="pimp-form" novalidate>
+  <div class="rule-header">
+    <button md-button color="accent" title="delete this rule" (click)="onDeleteRule($event)">
+      <md-icon>cancel</md-icon> delete rule
+    </button>
+    <h3>{{ ruleData.title }}</h3>
+  </div>
+  <div class="form-control-container">
+    <md-input class="form-control required" id="rulePattern" 
+      type="text"
+      formControlName="rulePattern"
+      placeholder="rule pattern"
+      dividerColor="accent"
+    ></md-input>
+  </div>
+  <div class="form-control-container">
+    <textarea formControlName="modifs" rows="5"></textarea>
+  </div>
+</form>
