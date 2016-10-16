@@ -4,8 +4,6 @@ import { PimpConfig, deconstructPimpConfig, PimpRule } from '../../../../schema/
 import { PimpRuleInputComponent } from '../pimp-rule-input/pimp-rule-input.component';
 import * as _ from 'lodash';
 
-const ruleTitlePrefix = 'Rule N°';
-
 @Component({
   selector: 'app-pimp-form-rules',
   templateUrl: './pimp-form-rules.component.html',
@@ -17,7 +15,7 @@ export class PimpFormRulesComponent implements OnInit, OnDestroy {
   @Output() updatePimpConfig = new EventEmitter();
   @ViewChildren(PimpRuleInputComponent) allPimpRuleForms;
   private rules:any[];
-  private needAfterViewCheckUpdating = false;
+  private rulesParams:any[];
   private killSubs = new Subject();
 
   constructor() { }
@@ -25,162 +23,108 @@ export class PimpFormRulesComponent implements OnInit, OnDestroy {
   ngOnInit() {
     //set initial paramters
     this.pimpConfigInit.first().subscribe(config => {
-      this.rules = this.buildInitRulesObjectsFromConfig(config);
+      let initRules = this.buildInitRulesObjectsFromConfig(config);
+      this.rules = initRules.rules;
+      this.rulesParams = initRules.rulesParams;
 
       //react to new config parameters incoming
       this.pimpConfigChanges.takeUntil(this.killSubs).subscribe(config => {
-        
+        console.log('CONFIG')
+        console.log(config)
+        console.warn('TODO can\'t yet restore pimp configs that have more rules that what is already there');
+        let tempRulesParams = [];
+        deconstructPimpConfig(config)[4].forEach((item, index) => {
+          let ruleItem = { rulePattern:item.url, modifs:item.modifs.join('\n') };
+          tempRulesParams.push(ruleItem);
+        });
+        this.rulesParams = tempRulesParams;
       });
     });
   }
 
-  private buildInitRulesObjectsFromConfig(config:PimpConfig):any[] {
-    let inputPimpRules = deconstructPimpConfig(config)[4];
-    let result = [];
+  private onRuleUpdate(event?):void {
+    switch(event.action) {
+      case 'addition':
+        // send update when view has been re-rendered
+        this.allPimpRuleForms.changes.delay(0).first().subscribe(change => {
+          this.updateUpstream();
+        });
 
-    //build all
-    inputPimpRules.forEach((item, index) => {
-      let ruleItem = { title:ruleTitlePrefix + (index + 1), rulePattern:item.url, modifs:item.modifs.join('\n') };
-      result.push(ruleItem)
-    });
+        // add rule block
+        let ruleItem = { rulePattern:'', modifs:'' };
+        this.rules.push('someRuleToken');
+        this.rulesParams.push(ruleItem);
+      break;
 
-    return result;
+      case 'delete':
+        // send update when view has been re-rendered
+        this.allPimpRuleForms.changes.delay(0).first().subscribe(change => {
+          this.updateUpstream();
+        });
+
+        // timeout 0 (async) is necessary to avoid strange refresh bug
+        let sub = Observable.timer(0).subscribe(() => {
+            this.rulesParams = this.rulesParams.filter((item, index) => (event.ruleIndex !== index));
+            this.rules.pop();
+          },
+          undefined,
+          () => { sub.unsubscribe(); }
+        );
+      break;
+
+      case 'update':
+        // changes inside an existing rule block
+        this.updateUpstream();
+      break;
+    }
   }
 
-  private onRuleUpdate(event?):void {
+  private updateUpstream() {
     // get all rules status
     let allPimpRulesStatus = [];
     this.allPimpRuleForms.toArray().forEach(pimpRule => {
       let status = (<PimpRuleInputComponent>pimpRule).ruleStatus();
-      
-      //use received event if event ID is matching
-      if (event && event.ruleIndex === status.ruleIndex) {
-        status = event;
-      }
-
       allPimpRulesStatus.push(status);
     });
 
-    // handle addition of rule
-    if (!event) {
-      let addedRuleStatus = {
-        ruleValidity: false,
-        rule:new PimpRule('', ['']),
-        ruleIndex:allPimpRulesStatus.length,
-        action:'addition'
-      };
-      allPimpRulesStatus.push(addedRuleStatus);
-    }
+    // format update object
+    let updateObj = {
+      formId:'rules-pimp-form',
+      formValidity:true,
+      pimpCmds: []
+    };
+    allPimpRulesStatus.forEach(status => {
+      if(status.action !== 'delete') {
+        //register this rule (else will ignore entry)
+        updateObj.pimpCmds.push(new PimpRule(status.rule.url, [status.rule.modifs]));
 
-    //resolve actions
-    this.resolveUpdates(allPimpRulesStatus);
+        //check validity
+        if(!status.ruleValidity) updateObj.formValidity = false;
+      }
+    });
+
+    //send update
+    this.updatePimpConfig.emit(updateObj);
   }
 
-  private resolveUpdates(commands:any[]):any[] {
-    let rulesClone = this.rules.slice(0);
+  private buildInitRulesObjectsFromConfig(config:PimpConfig):any {
+    let inputPimpRules = deconstructPimpConfig(config)[4];
+    let result = {
+      rules:[],
+      rulesParams:[]
+    };
 
-    // handle deletion
-    commands.filter(item => (item.action === 'delete')).forEach(item => {
-      delete rulesClone[item.ruleIndex];
+    //build all
+    inputPimpRules.forEach((item, index) => {
+      let ruleItem = { rulePattern:item.url, modifs:item.modifs.join('\n') };
+      result.rules.push('someRuleToken');
+      result.rulesParams.push(ruleItem);
     });
 
-    // handle addition
-    commands.filter(item => (item.action === 'addition')).forEach(item => {
-      rulesClone[item.ruleIndex] = { title:'', rulePattern:item.rule.url, modifs:item.rule.modifs };
-    });
-
-    // handle update
-    commands.filter(item => (item.action === 'update')).forEach(item => {
-      rulesClone[item.ruleIndex] = { title:'', rulePattern:item.rule.url, modifs:item.rule.modifs };
-    });
-
-    // clean deleted items
-    rulesClone = rulesClone.filter(item => (item));
-
-    // reset titles
-    rulesClone.map((item, index) => {
-      item.title = ruleTitlePrefix + (index + 1);
-    });
-
-    // check overall validity
-    // send update
+    return result;
   }
 
   ngOnDestroy() {
     this.killSubs.next(true);
   }
 }
-
-// private addEmptyRule():void {
-//     let AddedEmptyRule = {
-//       title:ruleTitlePrefix + (this.rules.length + 1),
-//       rulePattern:'',
-//       modifs:''
-//     };
-//     this.rules.push(AddedEmptyRule);
-//   }
-
-//   private onRuleUpdate(event?):void {
-//     // get all rules status
-//     let allPimpRulesStatus = [];
-//     this.allPimpRuleForms.toArray().forEach(pimpRule => {
-//       let status = (<PimpRuleInputComponent>pimpRule).ruleStatus();
-      
-//       //use received event if event ID is matching
-//       if (event && event.ruleIndex === status.ruleIndex) {
-//         status = event;
-//       }
-
-//       allPimpRulesStatus.push(status);
-//     });
-
-//     // handle addition of rule
-//     if (!event) {
-//       let addedRuleStatus = {
-//         ruleValidity: false,
-//         rule:new PimpRule('', ['']),
-//         ruleIndex:allPimpRulesStatus.length,
-//         action:'addition'
-//       };
-//       allPimpRulesStatus.push(addedRuleStatus);
-//       this.addEmptyRule();
-//     }
-
-//     //resolve actions
-//     let resolvedPimpRulesUpdate = this.resolveActionsAndOutputUpdate(allPimpRulesStatus);
-
-//     //send update
-//     this.updatePimpConfig.emit(resolvedPimpRulesUpdate);
-//   }
-
-//   private buildRulesObjectFromConfig(config:PimpConfig):any[] {
-//     let inputPimpRules = deconstructPimpConfig(config)[4];
-//     let result = [];
-
-//     //build all
-//     inputPimpRules.forEach((item, index) => {
-//       let ruleItem = { title:ruleTitlePrefix + (index + 1), rulePattern:item.url, modifs:item.modifs.join('\n') };
-//       result.push(ruleItem)
-//     });
-
-//     return result;
-//   }
-
-//   private resolveActionsAndOutputUpdate(pimpRulesStatus:any[]):any {
-//     let result = {
-//       formId:'rules-pimp-form',
-//       formValidity:true,
-//       pimpCmds: []
-//     };
-//     pimpRulesStatus.forEach(status => {
-//       if(status.action !== 'delete') {
-//         //register this rule (else will ignore entry)
-//         result.pimpCmds.push(new PimpRule(status.rule.url, [status.rule.modifs]));
-
-//         //check validity
-//         if(!status.ruleValidity) result.formValidity = false;
-//       }
-//     });
-
-//     return result;
-//   }

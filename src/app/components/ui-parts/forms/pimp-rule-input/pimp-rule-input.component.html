@@ -3,7 +3,7 @@
     <button md-button color="accent" title="delete this rule" (click)="onDeleteRule($event)">
       <md-icon>cancel</md-icon> delete rule
     </button>
-    <h3>{{ ruleData.title }}</h3>
+    <h3>{{ 'Rule N°' + (ruleIndex + 1) }}</h3>
   </div>
   <div class="form-control-container">
     <md-input class="form-control required" id="rulePattern" 
