@@ -1,0 +1,10 @@
+<md-grid-list cols="4" rowHeight="200px">
+  <md-grid-tile *ngFor="let dog of dogs" [rowspan]="dog.rows">
+    <img src="http://lorempixel.com/400/{{dog.rows * 200}}" alt="photo of lorempixels">
+    <md-grid-tile-footer>
+      <h3 md-line>{{dog.name}}</h3>
+      <span md-line>Human: {{dog.human}}</span>
+      <button md-icon-button><md-icon>more_vert</md-icon></button>
+    </md-grid-tile-footer>
+  </md-grid-tile>
+</md-grid-list>

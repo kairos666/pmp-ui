@@ -95,7 +95,7 @@ export class ConfigModelService {
 
   private allowedActionsLogicSetting():void {
     // react to config change (first is init)
-    this.configStream.subscribe(appConfig => {
+    this.distinctConfigStream.subscribe(appConfig => {
       this.configActionsUpdater(appConfig);
     });
 
@@ -142,12 +142,18 @@ export class ConfigModelService {
     return this.currentConfig.value;
   }
 
-  public get configStream ():Observable<PimpConfig> {
+  public get distinctConfigStream ():Observable<PimpConfig> {
     // remove initial undefined item and all identical configs
     return this.currentConfig.asObservable()
       .pairwise()
       .filter(pair => { return !(_.isEqual(pair[0], pair[1])); })
       .map(pair => { return pair[1]; });
+  }
+
+  public get fullConfigStream ():Observable<PimpConfig> {
+    // remove initial undefined item and all identical configs
+    return this.currentConfig.asObservable()
+      .filter(config => { return (config !== undefined); });
   }
 
   /* CONFIG SETTER */

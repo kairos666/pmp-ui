@@ -1,0 +1,11 @@
+<div class="page-container">
+    <app-console-output #consoleOutput [logs]="logsService.logsStream" (autoscroll)="isGoBottomAllowed = !$event"></app-console-output>
+    <menu class="button-holder">
+        <button md-mini-fab title="clear console" [attr.disabled]="isClearAllowed ? null : ''" (click)="onClearClick()">
+            <md-icon>clear_all</md-icon>
+        </button>
+        <button md-fab title="go to console's bottom" [attr.disabled]="isGoBottomAllowed ? null : ''" (click)="onGoBottomClick()">
+            <md-icon>system_update_alt</md-icon>
+        </button>
+    </menu>
+</div>

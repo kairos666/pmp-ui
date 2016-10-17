@@ -1,0 +1,7 @@
+@import '../../../../pmp-material-theme-variables.scss';
+
+.button-holder {
+    @media (min-width:($card-breakpoint + 64px)) {
+        right:auto; left:50%; margin-left:404px;
+    } 
+}

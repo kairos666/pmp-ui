@@ -1,0 +1,28 @@
+<div class="sidenav-illustration"></div>
+<md-nav-list>
+  <a md-list-item routerLink="dashboard" routerLinkActive="active" (click)="onSelection.emit('bip')">
+    <md-icon md-list-avatar>dashboard</md-icon>
+    <h4 md-line>dashboard</h4>
+    <p md-line>overview all</p>
+  </a>
+  <a md-list-item routerLink="console" routerLinkActive="active" (click)="onSelection.emit('bip')">
+    <md-icon md-list-avatar>visibility</md-icon>
+    <h4 md-line>console</h4>
+    <p md-line>pimp engine outputs</p>
+  </a>
+  <a md-list-item routerLink="configuration" routerLinkActive="active" (click)="onSelection.emit('bip')">
+    <md-icon md-list-avatar>settings</md-icon>
+    <h4 md-line>configuration</h4>
+    <p md-line>pimp engine configuration</p>
+  </a>
+  <a md-list-item routerLink="help" routerLinkActive="active" (click)="onSelection.emit('bip')">
+    <md-icon md-list-avatar>help</md-icon>
+    <h4 md-line>help</h4>
+    <p md-line>documentation & tips</p>  
+  </a>
+  <md-divider></md-divider>
+  <h3 md-subheader>More</h3>
+  <a md-list-item href="..."> cogito </a>
+  <a md-list-item href="..."> ergo </a>
+  <a md-list-item href="..."> sum </a>
+</md-nav-list>

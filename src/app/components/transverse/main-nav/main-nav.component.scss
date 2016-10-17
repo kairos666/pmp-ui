@@ -1,0 +1,10 @@
+@import '../../../../pmp-material-theme-variables.scss';
+.sidenav-illustration { height:128px; background:url(../assets/supervisor-square-logo-transparent.png) top left no-repeat, url(../assets/sidenav-bg.png) top left no-repeat; background-size:contain; }
+
+/* navigation links */
+md-nav-list { padding-top:0; }
+a[md-list-item] { display:block;
+    &.active { background-color:$palette-accent; pointer-events:none; cursor:default; }
+    &:hover:not(.active), &:focus:not(.active), &:active:not(.active) { color:$palette-accent; }
+    md-icon { font-size:40px; }
+}

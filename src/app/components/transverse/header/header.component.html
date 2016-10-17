@@ -1,0 +1,25 @@
+<md-toolbar>
+    <div class="pmp-ui-heading">
+      <button class="btn-open-sidenav" title="open menu" (click)="onMenuCall.emit('bip')">
+        <img width="48" height="48" src="../../../../assets/supervisor-square-logo-transparent.png" alt="PimpMyPage logo" />
+      </button>
+      <img class="logo" width="245" height="48" src="../../../../assets/graf-title.png" alt="Pimp My Page" />
+    </div>
+    <div class="engine-indicator" [ngClass]="{ 'disconnected': !isConnected }">
+      <figure class="process-status" [ngClass]="engineStatus">
+        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="7 7 50 50" preserveAspectRatio="xMidYMid meet"><path d="M56.8 32C56.8 18.3 45.7 7.2 32 7.2 18.3 7.2 7.2 18.3 7.2 32c0 13.7 11.1 24.8 24.8 24.8C45.7 56.8 56.8 45.7 56.8 32zM34.4 32c0 1.3-1.1 2.4-2.4 2.4 -1.3 0-2.4-1.1-2.4-2.4V19.7c0-1.3 1.1-2.4 2.4-2.4 1.3 0 2.4 1.1 2.4 2.4V32zM48 32C48 40.9 40.8 48.1 32 48.1s-16-7.2-16-16c0-4.3 1.7-8.3 4.7-11.3 0.5-0.5 1.1-0.7 1.7-0.7s1.2 0.2 1.7 0.7c0.9 0.9 0.9 2.4 0 3.3 -2.1 2.1-3.3 5-3.3 8 0 6.2 5.1 11.3 11.3 11.3s11.3-5.1 11.3-11.3c0-3-1.2-5.9-3.3-8 -0.9-0.9-0.9-2.4 0-3.3 0.9-0.9 2.4-0.9 3.3 0C46.4 23.7 48 27.8 48 32z"/></svg>
+      </figure>
+      <button class="btn-engine start" title="start pmp engine" 
+        *ngIf="isStartAllowed"
+        (click)="onStartClick.emit('bip')">
+        <md-icon>play_circle_filled</md-icon>
+        <span>start</span>
+      </button>
+      <button class="btn-engine stop" title="stop pmp engine" 
+        *ngIf="isStopAllowed"
+        (click)="onStopClick.emit('bip')">
+        <md-icon>cancel</md-icon>
+        <span>stop</span>
+      </button>
+    </div>
+</md-toolbar>

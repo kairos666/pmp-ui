@@ -1,0 +1,6 @@
+@import '../../../../../pmp-material-theme-variables.scss';
+@import '../../../../../pmp-material-theme-utils.scss';
+
+app-pimp-rule-input { display:block; margin-top:16px; @include clearfix; }
+app-pimp-rule-input + app-pimp-rule-input { padding-top:16px; border-top:1px solid #fff; }
+button { margin-top:32px; }
