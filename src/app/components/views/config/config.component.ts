@@ -41,7 +41,6 @@ export class ConfigComponent implements OnInit, OnDestroy {
   }
 
   private onUpdateConfig(event):void {
-    console.log(event)
     if (event.formValidity) {
       let configParameters = deconstructPimpConfig(this.configModel.config);
 

@@ -24,10 +24,17 @@ $theme: md-dark-theme($primary, $accent, $warn);
 // that you are using.
 @include angular-material-theme($theme);
 
+//paragraph link
+p a { color:$palette-accent; text-decoration:none;
+    &:hover, &:focus, &:active { text-decoration:underline; }
+}
+
 // PAGE CONTAINER
 .page-container { position:relative; height:$content-max-height-no-secondary-nav; overflow:hidden;
     &.has-secondary-nav { height:$content-max-height; }
     .button-holder { position:absolute; right:0; bottom:0; }
+    p { margin-bottom:0; }
+    p + p { margin-top:4px; }
 }
 
 // SECONDARY NAV OVERRIDE
@@ -46,10 +53,19 @@ $theme: md-dark-theme($primary, $accent, $warn);
 }
 
 // PIMP FORMS STYLES
-.pimp-form {
+.pimp-form { padding-top:16px;
     .form-control-container { margin-top:16px; margin-bottom:16px; @include clearfix;
         md-input { display:block; margin-top:32px; }
         md-slide-toggle { margin-top:32px; }
     }
     .text-muted { opacity:.65; font-size:.79em; margin-top:4px; }
+
+    // textarea styling (see pimp rule implementation)
+    .textarea-container { position:relative; padding-top:22px;
+        label { font-size:10.5px; color:rgba(255, 255, 255, .3); display:block; position:absolute; top:0; left:0; transition:color #{$base-transition}; }
+        textarea:focus + label { color:$palette-accent; }
+        textarea { outline:none; width:100%; max-width:100%; padding:8px; background-color:$dark-bg; color:#fff; box-sizing:border-box; border:2px solid $dark-bg; transition:border-color #{$base-transition};
+            &:focus { border-color:$palette-accent; }
+        }
+    }
 }

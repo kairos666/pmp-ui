@@ -6,7 +6,7 @@ import { PimpRule } from '../../../../schema/config';
 @Component({
   selector: 'app-pimp-rule-input',
   templateUrl: './pimp-rule-input.component.html',
-  styleUrls: ['./pimp-rule-input.component.css']
+  styleUrls: ['./pimp-rule-input.component.scss']
 })
 export class PimpRuleInputComponent implements OnInit, OnDestroy, OnChanges {
   @Input() ruleIndex:number;

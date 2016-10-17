@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 @Component({
   selector: 'app-pimp-form-rules',
   templateUrl: './pimp-form-rules.component.html',
-  styleUrls: ['./pimp-form-rules.component.css']
+  styleUrls: ['./pimp-form-rules.component.scss']
 })
 export class PimpFormRulesComponent implements OnInit, OnDestroy {
   @Input() pimpConfigInit:Observable<PimpConfig>; //always send current config (no distinct)
@@ -29,15 +29,18 @@ export class PimpFormRulesComponent implements OnInit, OnDestroy {
 
       //react to new config parameters incoming
       this.pimpConfigChanges.takeUntil(this.killSubs).subscribe(config => {
-        console.log('CONFIG')
-        console.log(config)
-        console.warn('TODO can\'t yet restore pimp configs that have more rules that what is already there');
+        // update params
         let tempRulesParams = [];
         deconstructPimpConfig(config)[4].forEach((item, index) => {
           let ruleItem = { rulePattern:item.url, modifs:item.modifs.join('\n') };
           tempRulesParams.push(ruleItem);
         });
         this.rulesParams = tempRulesParams;
+
+        //add pimp rule form blocks (if needed)
+        while (this.rulesParams.length > this.rules.length) { this.rules.push('someRuleToken'); }
+        //remove pimp rule form blocks (if needed)
+        while (this.rulesParams.length < this.rules.length) { this.rules.pop(); }
       });
     });
   }
