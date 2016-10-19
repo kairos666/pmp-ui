@@ -1,0 +1,15 @@
+@import '../../../../pmp-material-theme-variables.scss';
+@import '../../../../pmp-engine-indicator.scss';
+
+:host {
+    h3 { margin-top:16px; margin-bottom:8px; line-height:24px; }
+    .engine-indicator-tile-container { padding:16px; background-color:#000; border-radius:2px; }
+    .engine-indicator { margin:0 auto; max-width:150px; }
+    .process-status figcaption { font-size:2em; text-align:center; }
+    .engine-controls { text-align:center; padding:0; margin:32px 0 0;
+        .btn-engine { width:120px; text-align:center;
+            &.start { border-top-right-radius:0; border-bottom-right-radius:0; }
+            &.stop { border-top-left-radius:0; border-bottom-left-radius:0; }
+        }
+    }
+}

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LogsService } from '../../../model/logs-model.service';
+import { ConfigModelService } from '../../../model/config-model.service';
+import { PmpEngineConnectorService } from '../../../services/pmp-engine-connector.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,6 +10,8 @@ import { LogsService } from '../../../model/logs-model.service';
 })
 export class DashboardComponent {
   constructor(
-    private logsService:LogsService
+    private logsService:LogsService,
+    private configService:ConfigModelService,
+    private engineService:PmpEngineConnectorService
   ) {}
 }

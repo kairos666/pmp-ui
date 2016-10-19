@@ -2,6 +2,6 @@
 
 :host { display:block; height:100%;
     h3 { margin-top:16px; margin-bottom:8px; line-height:24px; }
-    .console-output-tile-container { color:#fff; border:16px solid #000; background-color:#000; overflow:hidden; height:calc(100% - 48px - 32px); }
+    .console-output-tile-container { color:#fff; border:16px solid #000; background-color:#000; overflow:hidden; height:calc(100% - 48px - 32px);  border-radius:2px; }
     pre { margin-top:0; margin-bottom:2px; padding-right:12px; white-space:pre-line; }
 }

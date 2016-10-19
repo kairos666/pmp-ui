@@ -28,6 +28,7 @@ import { PimpFormRulesComponent } from './components/ui-parts/forms/pimp-form-ru
 import { MockSocketConnectorServiceB } from '../../e2e/mocks/mock-socket-connectorB.service';
 import { PimpRuleInputComponent } from './components/ui-parts/forms/pimp-rule-input/pimp-rule-input.component';
 import { ConsoleOutputTileComponent } from './components/ui-parts/console-output-tile/console-output-tile.component';
+import { EngineIndicatorTileComponent } from './components/ui-parts/engine-indicator-tile/engine-indicator-tile.component';
 
 let routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -51,7 +52,8 @@ let routes = [
     PimpFormGeneralComponent,
     PimpFormRulesComponent,
     PimpRuleInputComponent,
-    ConsoleOutputTileComponent
+    ConsoleOutputTileComponent,
+    EngineIndicatorTileComponent
   ],
   imports: [
     BrowserModule,

@@ -3,7 +3,13 @@
         <app-console-output-tile [logs]="logsService.logsStream"></app-console-output-tile>
     </div>
     <div class="column-layout">
-        <app-console-output-tile [logs]="logsService.logsStream"></app-console-output-tile>
+        <app-engine-indicator-tile 
+            [status]="engineService.pmpEngineDataStatusStream" 
+            [connection]="engineService.isPmpEngineConnected"
+            [availableActions]="configService.availableConfigActionsStream"
+            (startClicked)="configService.start()"
+            (stopClicked)="configService.stop()"
+        ></app-engine-indicator-tile>
     </div>
     <div class="column-layout">
         <app-console-output-tile [logs]="logsService.logsStream"></app-console-output-tile>

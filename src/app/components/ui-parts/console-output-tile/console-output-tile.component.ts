@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
   templateUrl: './console-output-tile.component.html',
   styleUrls: ['./console-output-tile.component.scss']
 })
-export class ConsoleOutputTileComponent {
+export class ConsoleOutputTileComponent implements OnInit, OnDestroy {
   @Input() logs:Observable<string>;
   private sub:Subscription;
 

@@ -1,0 +1,20 @@
+@import './pmp-material-theme-variables.scss';
+
+/* engine indicator styles */
+.btn-engine { border:none; border-radius:24px; background-color:$dark-bg; padding:12px; color:$base-text-color; text-transform:uppercase; cursor:pointer; transition: color .2s ease-in-out; outline:none;
+    md-icon, span { line-height:24px; vertical-align:middle; }
+    span { font-size:16px; }
+    &.start:hover, &.start:focus, &.start:active { color:#4dff4c; }
+    &.stop:hover, &.stop:focus, &.stop:active { color:#ff4c4c; }
+    &[disabled] { cursor:not-allowed; color:rgba($base-text-color, .35); }
+}
+.process-status { margin:0;
+    path { fill:transparent; transition: fill .5s ease; }
+    &.stopped path { fill:#ff4c4c; }
+    &.pending path { fill:#c4a000; }
+    &.started path { fill:#4dff4c; }
+}
+.engine-indicator.disconnected { opacity:.75;
+    .process-status path { fill:lighten($dark-bg, 25%); }
+    .btn-engine { cursor:not-allowed; }
+}
