@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Input, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-console-output-tile',
@@ -8,6 +8,20 @@ import { Observable } from 'rxjs';
 })
 export class ConsoleOutputTileComponent {
   @Input() logs:Observable<string>;
+  private sub:Subscription;
 
-  constructor() {}
+  constructor(private element:ElementRef) {}
+
+  ngOnInit() {
+    // handle auto scroll behavior (delay is necessary to synchronize better with log display in view)
+    this.sub = this.logs
+      .delay(0)
+      .subscribe(() => {
+        this.element.nativeElement.children[1].scrollTop = this.element.nativeElement.children[1].scrollHeight;
+      });
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
 }
