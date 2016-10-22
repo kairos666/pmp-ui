@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { PimpConfig } from '../schema/config';
 import { SocketConnectorService } from './socket-connector.service';
 
@@ -26,8 +26,15 @@ const pmpEngineSocketEvts = {
 
 @Injectable()
 export class PmpEngineConnectorService {
+  private engineStatusStream = new BehaviorSubject(undefined);
 
-  constructor(private socketConnector: SocketConnectorService) {}
+  constructor(private socketConnector: SocketConnectorService) {
+    // handle engine state (always get a value)
+    this.socketConnector.socketOutputStream
+      .filter(data => { return (data.subType === pmpEngineSocketEvts.outputsSubTypes.engineStatusLog); })
+      .map(data => data.payload)
+      .subscribe(status => { this.engineStatusStream.next(status); });
+  }
 
   public startPmpEngine (config: PimpConfig): void {
     let pimpCmd = pmpEngineSocketEvts.inputs.startCmd(config);
@@ -58,9 +65,7 @@ export class PmpEngineConnectorService {
   }
 
   public get pmpEngineDataStatusStream (): Observable<string> {
-    return this.socketConnector.socketOutputStream
-      .filter(data => { return (data.subType === pmpEngineSocketEvts.outputsSubTypes.engineStatusLog); })
-      .map(data => data.payload);
+    return this.engineStatusStream.asObservable().filter(state => (state !== undefined) );
   }
 
   public get pmpEngineDataLogStream (): Observable<string> {
