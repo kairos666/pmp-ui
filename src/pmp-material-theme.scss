@@ -54,6 +54,9 @@ app-pimp-links-tile,
 app-config-preview-tile {
     h3 { margin-top:16px; margin-bottom:8px; line-height:24px; }
     h3 + * { padding:16px; background-color:#000; border-radius:2px; }
+    .btn-edit { border:none; background:none; padding:0; margin-left:16px; float:right; color:$base-text-color; cursor:pointer; outline:none; transition:color #{$base-transition};
+        &:focus, &:active, &:hover { color:$palette-accent; }
+    }
 }
 
 // BUTTON HOLDERS
@@ -73,7 +76,7 @@ app-config-preview-tile {
     .textarea-container { position:relative; padding-top:22px;
         label { font-size:10.5px; color:rgba(255, 255, 255, .3); display:block; position:absolute; top:0; left:0; transition:color #{$base-transition}; }
         textarea:focus + label { color:$palette-accent; }
-        textarea { outline:none; width:100%; max-width:100%; padding:8px; background-color:$dark-bg; color:#fff; box-sizing:border-box; border:2px solid $dark-bg; transition:border-color #{$base-transition};
+        textarea { outline:none; width:100%; max-width:100%; padding:8px; background-color:$dark-bg; color:$base-text-color; box-sizing:border-box; border:2px solid $dark-bg; transition:border-color #{$base-transition};
             &:focus { border-color:$palette-accent; }
         }
     }
