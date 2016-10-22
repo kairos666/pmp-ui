@@ -30,6 +30,7 @@ import { PimpRuleInputComponent } from './components/ui-parts/forms/pimp-rule-in
 import { ConsoleOutputTileComponent } from './components/ui-parts/console-output-tile/console-output-tile.component';
 import { EngineIndicatorTileComponent } from './components/ui-parts/engine-indicator-tile/engine-indicator-tile.component';
 import { PimpLinksTileComponent } from './components/ui-parts/pimp-links-tile/pimp-links-tile.component';
+import { ConfigPreviewTileComponent } from './components/ui-parts/config-preview-tile/config-preview-tile.component';
 
 let routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -55,7 +56,8 @@ let routes = [
     PimpRuleInputComponent,
     ConsoleOutputTileComponent,
     EngineIndicatorTileComponent,
-    PimpLinksTileComponent
+    PimpLinksTileComponent,
+    ConfigPreviewTileComponent
   ],
   imports: [
     BrowserModule,
