@@ -47,6 +47,14 @@ p a { color:$palette-accent; text-decoration:none;
     md-ink-bar { background-color:$palette-accent }
 }
 
+// DASHBOARD TILE
+app-console-output-tile,
+app-engine-indicator-tile,
+app-pimp-links-tile {
+    h3 { margin-top:16px; margin-bottom:8px; line-height:24px; }
+    h3 + * { padding:16px; background-color:#000; border-radius:2px; }
+}
+
 // BUTTON HOLDERS
 .button-holder { padding:0 4px 16px 0; margin:0; width:64px; text-align:center;
     button + button { margin-top:16px; }
@@ -68,4 +76,14 @@ p a { color:$palette-accent; text-decoration:none;
             &:focus { border-color:$palette-accent; }
         }
     }
+}
+
+// LINK LIST
+.link-list { list-style:none;
+    a { display:block; text-decoration:none; color:$base-text-color; transition:color #{$base-transition}; padding:8px 0;
+        &:hover, &:focus, &:active { color:$palette-accent; }
+    }
+    md-icon { float:left; font-size:46px; width:46px; height:46px; margin-right:16px; }
+    h4 { margin-top:0; margin-bottom:0; overflow:hidden; }
+    p { margin-top:4px; margin-bottom:0; overflow:hidden; opacity:.75; white-space:nowrap; text-overflow:ellipsis; max-width:400px; }
 }

@@ -10,6 +10,7 @@
             (startClicked)="configService.start()"
             (stopClicked)="configService.stop()"
         ></app-engine-indicator-tile>
+        <app-pimp-links-tile [config]="configService.fullConfigStream"></app-pimp-links-tile>
     </div>
     <div class="column-layout">
         <app-console-output-tile [logs]="logsService.logsStream"></app-console-output-tile>
