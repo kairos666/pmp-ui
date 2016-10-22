@@ -1,8 +1,5 @@
 <div class="layout-container">
     <div class="column-layout">
-        <app-console-output-tile [logs]="logsService.logsStream"></app-console-output-tile>
-    </div>
-    <div class="column-layout">
         <app-engine-indicator-tile 
             [status]="engineService.pmpEngineDataStatusStream" 
             [connection]="engineService.isPmpEngineConnected"
@@ -11,6 +8,9 @@
             (stopClicked)="configService.stop()"
         ></app-engine-indicator-tile>
         <app-pimp-links-tile [config]="configService.fullConfigStream"></app-pimp-links-tile>
+    </div>
+    <div class="column-layout">
+        <app-console-output-tile [logs]="logsService.logsStream"></app-console-output-tile>
     </div>
     <div class="column-layout">
         <app-console-output-tile [logs]="logsService.logsStream"></app-console-output-tile>

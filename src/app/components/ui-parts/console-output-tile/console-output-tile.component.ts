@@ -3,8 +3,13 @@ import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-console-output-tile',
-  templateUrl: './console-output-tile.component.html',
-  styleUrls: ['./console-output-tile.component.scss']
+  styleUrls: ['./console-output-tile.component.scss'],
+  template: `
+    <h3>Console</h3>
+    <div class="console-output-tile-container">
+      <pre *ngFor="let log of logs | async">{{log}}</pre>
+    </div>
+  `
 })
 export class ConsoleOutputTileComponent implements OnInit, OnDestroy {
   @Input() logs:Observable<string>;

@@ -4,7 +4,7 @@ import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-console-output',
-  templateUrl: './console-output.component.html',
+  template: '<pre *ngFor="let log of logs | async">{{log}}</pre>',
   styleUrls: ['./console-output.component.scss']
 })
 export class ConsoleOutputComponent implements OnInit, OnDestroy {
