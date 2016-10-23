@@ -1,10 +1,18 @@
-<md-grid-list cols="4" rowHeight="200px">
-  <md-grid-tile *ngFor="let dog of dogs" [rowspan]="dog.rows">
-    <img src="http://lorempixel.com/400/{{dog.rows * 200}}" alt="photo of lorempixels">
-    <md-grid-tile-footer>
-      <h3 md-line>{{dog.name}}</h3>
-      <span md-line>Human: {{dog.human}}</span>
-      <button md-icon-button><md-icon>more_vert</md-icon></button>
-    </md-grid-tile-footer>
-  </md-grid-tile>
-</md-grid-list>
+<div class="layout-container">
+    <div class="column-layout">
+        <app-engine-indicator-tile 
+            [status]="engineService.pmpEngineDataStatusStream" 
+            [connection]="engineService.isPmpEngineConnected"
+            [availableActions]="configService.availableConfigActionsStream"
+            (startClicked)="configService.start()"
+            (stopClicked)="configService.stop()"
+        ></app-engine-indicator-tile>
+        <app-pimp-links-tile [config]="configService.fullConfigStream"></app-pimp-links-tile>
+    </div>
+    <div class="column-layout">
+        <app-config-preview-tile [config]="configService.fullConfigStream"></app-config-preview-tile>
+    </div>
+    <div class="column-layout">
+        <app-console-output-tile [logs]="logsService.logsStream"></app-console-output-tile>
+    </div>
+</div>

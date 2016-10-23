@@ -8,8 +8,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    .before-app-loader { position:fixed; top:0; right:0; bottom:0; left:0; background-color:#000; color:#fff; text-align:center; }
+    .before-app-loader span { display:block; font-size:8vw; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); }
+  </style>
 </head>
 <body>
-  <app-root>Loading...</app-root>
+  <app-root>
+    <div class="before-app-loader">
+      <span>Loading...</span>  
+    </div>
+  </app-root>
 </body>
 </html>

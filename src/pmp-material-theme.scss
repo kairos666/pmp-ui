@@ -47,6 +47,18 @@ p a { color:$palette-accent; text-decoration:none;
     md-ink-bar { background-color:$palette-accent }
 }
 
+// DASHBOARD TILE
+app-console-output-tile,
+app-engine-indicator-tile,
+app-pimp-links-tile,
+app-config-preview-tile {
+    h3 { margin-top:16px; margin-bottom:8px; line-height:24px; }
+    h3 + * { padding:16px; margin-top:0; margin-bottom:0; background-color:#000; border-radius:2px; }
+    .btn-edit { border:none; background:none; padding:0; margin-left:16px; float:right; color:$base-text-color; cursor:pointer; outline:none; transition:color #{$base-transition};
+        &:focus, &:active, &:hover { color:$palette-accent; }
+    }
+}
+
 // BUTTON HOLDERS
 .button-holder { padding:0 4px 16px 0; margin:0; width:64px; text-align:center;
     button + button { margin-top:16px; }
@@ -64,8 +76,19 @@ p a { color:$palette-accent; text-decoration:none;
     .textarea-container { position:relative; padding-top:22px;
         label { font-size:10.5px; color:rgba(255, 255, 255, .3); display:block; position:absolute; top:0; left:0; transition:color #{$base-transition}; }
         textarea:focus + label { color:$palette-accent; }
-        textarea { outline:none; width:100%; max-width:100%; padding:8px; background-color:$dark-bg; color:#fff; box-sizing:border-box; border:2px solid $dark-bg; transition:border-color #{$base-transition};
+        textarea { outline:none; width:100%; max-width:100%; padding:8px; background-color:$dark-bg; color:$base-text-color; box-sizing:border-box; border:2px solid $dark-bg; transition:border-color #{$base-transition};
             &:focus { border-color:$palette-accent; }
         }
     }
 }
+
+// LINK LIST
+.link-list, .item-list { list-style:none;
+    a { display:block; text-decoration:none; color:$base-text-color; transition:color #{$base-transition}; padding:8px 0;
+        &:hover, &:focus, &:active { color:$palette-accent; }
+    }
+    md-icon { float:left; font-size:46px; width:46px; height:46px; margin-right:16px; }
+    h4 { margin-top:0; margin-bottom:0; overflow:hidden; }
+    p { margin-top:4px; margin-bottom:0; overflow:hidden; opacity:.75; white-space:nowrap; text-overflow:ellipsis; }
+}
+.item-list > li { padding:8px 0; }

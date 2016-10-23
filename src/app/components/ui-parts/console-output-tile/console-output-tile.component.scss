@@ -1,0 +1,6 @@
+@import '../../../../pmp-material-theme-variables.scss';
+
+:host { display:block; height:100%;
+    .console-output-tile-container { color:#fff; padding:0; border:16px solid #000; overflow:hidden; height:calc(100% - 48px - 32px); }
+    pre { margin-top:0; margin-bottom:2px; padding-right:12px; white-space:pre-line; }
+}

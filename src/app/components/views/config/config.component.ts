@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Subject } from 'rxjs';
 import { ConfigModelService } from '../../../model/config-model.service';
 import { PimpConfig, deconstructPimpConfig } from '../../../schema/config';
 
@@ -12,12 +13,21 @@ export class ConfigComponent implements OnInit, OnDestroy {
   private isSaveAllowed:boolean;
   private isRestoreAllowed:boolean;
   private isApplyAllowed:boolean;
-  private sub:Subscription;
+  private selectedTab = 0;
+  private killSubs = new Subject();
 
-  constructor(private configModel:ConfigModelService) { }
+  constructor(private configModel:ConfigModelService, private route:ActivatedRoute, private router:Router) { }
 
   ngOnInit():void {
-    this.sub = this.configModel.availableConfigActionsStream.subscribe(aActions => {
+    // get optional route params for tab selection
+    this.route.params.takeUntil(this.killSubs).subscribe(params => {
+      if((<any>params).selectedTabIndex) {
+        this.selectedTab = +(<any>params).selectedTabIndex;
+      }
+    });
+
+    // handle aActions stream
+    this.configModel.availableConfigActionsStream.takeUntil(this.killSubs).subscribe(aActions => {
       this.isSaveAllowed = aActions.saveAllowed;
       this.isRestoreAllowed = aActions.restoreAllowed;
       this.isApplyAllowed = (aActions.startAllowed || aActions.restartAllowed);
@@ -25,7 +35,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy():void {
-    this.sub.unsubscribe();
+    this.killSubs.next(true);
   }
 
   private onSaveClick():void {
