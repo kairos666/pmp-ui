@@ -10,6 +10,7 @@
     height:$content-max-height-no-secondary-nav;
 }
 .column-layout { padding:16px 8px; flex: 1 1 auto; height:100%; box-sizing:border-box;
-    &:first-child { padding-left:16px; }
+    &:first-child { padding-left:16px; max-width:400px; }
+    &:nth-child(2) { max-width:400px; }
     &:last-child { padding-right:16px; }
 }

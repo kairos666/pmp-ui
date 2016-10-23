@@ -53,7 +53,7 @@ app-engine-indicator-tile,
 app-pimp-links-tile,
 app-config-preview-tile {
     h3 { margin-top:16px; margin-bottom:8px; line-height:24px; }
-    h3 + * { padding:16px; background-color:#000; border-radius:2px; }
+    h3 + * { padding:16px; margin-top:0; margin-bottom:0; background-color:#000; border-radius:2px; }
     .btn-edit { border:none; background:none; padding:0; margin-left:16px; float:right; color:$base-text-color; cursor:pointer; outline:none; transition:color #{$base-transition};
         &:focus, &:active, &:hover { color:$palette-accent; }
     }
@@ -83,11 +83,12 @@ app-config-preview-tile {
 }
 
 // LINK LIST
-.link-list { list-style:none;
+.link-list, .item-list { list-style:none;
     a { display:block; text-decoration:none; color:$base-text-color; transition:color #{$base-transition}; padding:8px 0;
         &:hover, &:focus, &:active { color:$palette-accent; }
     }
     md-icon { float:left; font-size:46px; width:46px; height:46px; margin-right:16px; }
     h4 { margin-top:0; margin-bottom:0; overflow:hidden; }
-    p { margin-top:4px; margin-bottom:0; overflow:hidden; opacity:.75; white-space:nowrap; text-overflow:ellipsis; max-width:400px; }
+    p { margin-top:4px; margin-bottom:0; overflow:hidden; opacity:.75; white-space:nowrap; text-overflow:ellipsis; }
 }
+.item-list > li { padding:8px 0; }

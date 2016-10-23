@@ -10,7 +10,7 @@
         <app-pimp-links-tile [config]="configService.fullConfigStream"></app-pimp-links-tile>
     </div>
     <div class="column-layout">
-        <app-config-preview-tile></app-config-preview-tile>
+        <app-config-preview-tile [config]="configService.fullConfigStream"></app-config-preview-tile>
     </div>
     <div class="column-layout">
         <app-console-output-tile [logs]="logsService.logsStream"></app-console-output-tile>
