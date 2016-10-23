@@ -30,6 +30,6 @@ export class ConfigPreviewTileComponent implements OnInit {
   }
 
   private onClickEdit() {
-    this.router.navigate(['/configuration']);
+    this.router.navigate(['/configuration', { selectedTabIndex: 1 }]);
   }
 }
