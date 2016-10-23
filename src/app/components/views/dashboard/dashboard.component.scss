@@ -3,14 +3,18 @@
 .layout-container { 
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: space-between;
     align-content: stretch;
     align-items: stretch;
     height:$content-max-height-no-secondary-nav;
 }
 .column-layout { padding:16px 8px; flex: 1 1 auto; height:100%; box-sizing:border-box;
-    &:first-child { padding-left:16px; max-width:400px; }
-    &:nth-child(2) { max-width:400px; }
-    &:last-child { padding-right:16px; }
+    &:first-child { padding-right:0px;
+        display:flex;
+        flex-direction:column;
+        flex-wrap:wrap;
+        > * { margin-left:8px; margin-right:8px; max-width:25vw; flex:1 1 auto; }
+    }
+    &:last-child { padding-right:16px; min-width:50%; }
 }
