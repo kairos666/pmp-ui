@@ -4,7 +4,32 @@
   <md-card-content>
     <p>Each rule will be applied to any URL matching its URL pattern on the targeted website.</p>
     <p>Please check <a href="https://github.com/bjoerge/route-pattern/tree/v0.0.6" title="go to route-pattern github page" target="_blank">this documentation</a> for pattern syntax</p>
-    <app-pimp-rule-input *ngFor="let rule of rules; let i = index" [ruleIndex]="i" [ruleData]="rulesParams[i]" (onRuleUpdate)="onRuleUpdate($event)"></app-pimp-rule-input>
-    <button md-raised-button color="accent" title="add a new rule to the configuration" (click)="onRuleUpdate({ action:'addition' })">ADD RULE</button>
+    <form [formGroup]="pimpRulesForm" class="pimp-form" novalidate>
+        <ul formArrayName="rules">
+          <!-- START iterate through rules form blocks -->
+          <li *ngFor="let rule of pimpRulesForm.controls.rules.controls; let ruleIndex = index;">
+            <fieldset [formGroupName]="ruleIndex">
+              <legend [ngClass]="{'error': !rule.valid }"><md-icon *ngIf="!rule.valid">error</md-icon>{{ 'Rule N°' + (ruleIndex + 1) }}</legend>
+              <button md-button color="accent" title="delete this rule" (click)="onRuleDelete(ruleIndex)">
+                <md-icon>cancel</md-icon> delete rule
+              </button>
+              <div class="form-control-container">
+                <md-input class="form-control required" id="{{ 'rule.rulePattern' + ruleIndex }}" 
+                  type="text"
+                  formControlName="rulePattern"
+                  placeholder="rule pattern"
+                  dividerColor="accent"
+                ></md-input>
+              </div>
+              <div class="form-control-container textarea-container">
+                <textarea id="{{ 'rule.modifs' + ruleIndex }}" spellcheck="false" formControlName="modifs" rows="7"></textarea>
+                <label attr.for="{{ 'rule.modifs' + ruleIndex }}">modification script</label>
+              </div>
+            </fieldset>
+          </li>
+          <!-- END iterate through rules form blocks -->
+        </ul>
+    </form>
+    <button md-raised-button color="accent" title="add a new rule to the configuration" (click)="onRuleAdd()">ADD RULE</button>
   </md-card-content>
 </md-card>
