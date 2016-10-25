@@ -1,12 +1,10 @@
-<form [formGroup]="rulePimpForm" class="pimp-form" novalidate>
-  <div class="rule-header">
-    <button md-button color="accent" title="delete this rule" (click)="onDeleteRule($event)">
-      <md-icon>cancel</md-icon> delete rule
-    </button>
-    <h3 [ngClass]="{'error': !rulePimpForm.valid }"><md-icon *ngIf="!rulePimpForm.valid">error</md-icon>{{ 'Rule N°' + (ruleIndex + 1) }}</h3>
-  </div>
+<fieldset [formGroup]="rule">
+  <legend [ngClass]="{'error': !rule.valid }"><md-icon *ngIf="!rule.valid">error</md-icon>{{ 'Rule N°' + (formGroupName + 1) }}</legend>
+  <button md-button color="accent" title="delete this rule" (click)="onRuleDelete()">
+    <md-icon>cancel</md-icon> delete rule
+  </button>
   <div class="form-control-container">
-    <md-input class="form-control required" id="{{ 'rulePattern' + ruleIndex }}" 
+    <md-input class="form-control required" id="{{ 'rule.rulePattern' + formGroupName }}" 
       type="text"
       formControlName="rulePattern"
       placeholder="rule pattern"
@@ -14,7 +12,7 @@
     ></md-input>
   </div>
   <div class="form-control-container textarea-container">
-    <textarea id="{{ 'modifs' + ruleIndex }}" spellcheck="false" formControlName="modifs" rows="7"></textarea>
-    <label attr.for="{{ 'modifs' + ruleIndex }}">modification script</label>
+    <textarea id="{{ 'rule.modifs' + formGroupName }}" spellcheck="false" formControlName="modifs" rows="7"></textarea>
+    <label attr.for="{{ 'rule.modifs' + formGroupName }}">modification script</label>
   </div>
-</form>
+</fieldset>

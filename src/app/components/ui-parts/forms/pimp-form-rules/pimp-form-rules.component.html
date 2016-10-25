@@ -8,24 +8,7 @@
         <ul formArrayName="rules">
           <!-- START iterate through rules form blocks -->
           <li *ngFor="let rule of pimpRulesForm.controls.rules.controls; let ruleIndex = index;">
-            <fieldset [formGroupName]="ruleIndex">
-              <legend [ngClass]="{'error': !rule.valid }"><md-icon *ngIf="!rule.valid">error</md-icon>{{ 'Rule N°' + (ruleIndex + 1) }}</legend>
-              <button md-button color="accent" title="delete this rule" (click)="onRuleDelete(ruleIndex)">
-                <md-icon>cancel</md-icon> delete rule
-              </button>
-              <div class="form-control-container">
-                <md-input class="form-control required" id="{{ 'rule.rulePattern' + ruleIndex }}" 
-                  type="text"
-                  formControlName="rulePattern"
-                  placeholder="rule pattern"
-                  dividerColor="accent"
-                ></md-input>
-              </div>
-              <div class="form-control-container textarea-container">
-                <textarea id="{{ 'rule.modifs' + ruleIndex }}" spellcheck="false" formControlName="modifs" rows="7"></textarea>
-                <label attr.for="{{ 'rule.modifs' + ruleIndex }}">modification script</label>
-              </div>
-            </fieldset>
+            <app-pimp-rule-input [formGroupName]="ruleIndex" [rule]="rule" (onClickDelete)="onRuleDelete(ruleIndex)"></app-pimp-rule-input>
           </li>
           <!-- END iterate through rules form blocks -->
         </ul>
