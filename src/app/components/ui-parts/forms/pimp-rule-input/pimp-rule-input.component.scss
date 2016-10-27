@@ -2,13 +2,15 @@
 @import '../../../../../pmp-material-theme-utils.scss';
 
 :host { 
-    .rule-header { margin-bottom:16px; }
+    fieldset { border:none;
+        legend, button { margin-bottom:24px; }
+    }
     button { float:right;
         md-icon { vertical-align:middle; }
     }
-    h3 { overflow:hidden; margin-top:0; margin-bottom:0; line-height:37px; transition:color #{$base-transition};
+    legend { float:left; line-height:37px; transition:color #{$base-transition};
         md-icon { margin-right:8px; position:relative; top:6px; }
         &.error { color:$palette-warn; }
     }
-    [ng-reflect-id^="rulePattern"] { max-width:75%; }
+    [ng-reflect-id^="rule.rulePattern"] { max-width:75%; }
 }
