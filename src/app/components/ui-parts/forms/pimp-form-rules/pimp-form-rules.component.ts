@@ -9,7 +9,7 @@ import { PimpConfig, deconstructPimpConfig, PimpRule } from '../../../../schema/
   styleUrls: ['./pimp-form-rules.component.scss']
 })
 export class PimpFormRulesComponent implements OnInit, OnDestroy {
-  @Input() pimpConfigInit:Observable<PimpConfig>; //always send current config (no distinct)
+  @Input() pimpConfigInit:Observable<PimpConfig>; // always send current config (no distinct)
   @Input() pimpConfigChanges:Observable<PimpConfig>; // only works when config change
   @Output() updatePimpConfig = new EventEmitter();
   private pimpRulesForm:FormGroup;
@@ -32,15 +32,15 @@ export class PimpFormRulesComponent implements OnInit, OnDestroy {
       });
 
     // update initial paramters
-    this.pimpConfigInit.first().subscribe(config => {
-      let rules = this.buildInitRulesObjectsFromConfig(config);
-      this.updateFormValues(rules);
+    this.pimpConfigInit.first().subscribe(firstConfig => {
+      let firstRules = this.buildInitRulesObjectsFromConfig(firstConfig);
+      this.updateFormValues(firstRules);
 
-      //react to new config parameters incoming
-      this.pimpConfigChanges.takeUntil(this.killSubs).subscribe(config => {
+      // react to new config parameters incoming
+      this.pimpConfigChanges.takeUntil(this.killSubs).subscribe(newConfig => {
         // update params
-        let rules = this.buildInitRulesObjectsFromConfig(config);
-        this.updateFormValues(rules);
+        let newRules = this.buildInitRulesObjectsFromConfig(newConfig);
+        this.updateFormValues(newRules);
       });
     });
   }
@@ -91,7 +91,7 @@ export class PimpFormRulesComponent implements OnInit, OnDestroy {
       pimpCmds: pimpRulesArray
     };
 
-    //send update
+    // send update
     this.updatePimpConfig.emit(updateObj);
   }
 
@@ -99,7 +99,7 @@ export class PimpFormRulesComponent implements OnInit, OnDestroy {
     let inputPimpRules = deconstructPimpConfig(config)[4];
     let result = [];
 
-    //build all
+    // build all
     inputPimpRules.forEach((item, index) => {
       let ruleItem = { rulePattern:item.url, modifs:item.modifs.join('\n') };
       result.push(ruleItem);
@@ -124,7 +124,7 @@ export class PimpFormRulesComponent implements OnInit, OnDestroy {
       const modifsFormControl         = <FormControl>ruleGroup.controls['modifs'];
       if (item.rulePattern !== rulePatternFormControl.value) { rulePatternFormControl.setValue(item.rulePattern); };
       if (item.modifs !== modifsFormControl.value) { modifsFormControl.setValue(item.modifs); };
-    })
+    });
   }
 
   ngOnDestroy() {

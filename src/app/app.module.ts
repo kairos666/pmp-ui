@@ -4,6 +4,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@angular/material';
 import { RouterModule }   from '@angular/router';
 
+// only for testing
+import { MockSocketConnectorServiceB } from '../../e2e/mocks/mock-socket-connectorB.service';
+
 /* GLOBAL SERVICES */
 import { LocalStorageService } from './services/local-storage.service';
 import { ConfigStorageService } from './services/config-storage.service';
@@ -23,9 +26,6 @@ import { HeaderComponent } from './components/transverse/header/header.component
 import { ConsoleOutputComponent } from './components/ui-parts/console-output/console-output.component';
 import { PimpFormGeneralComponent } from './components/ui-parts/forms/pimp-form-general/pimp-form-general.component';
 import { PimpFormRulesComponent } from './components/ui-parts/forms/pimp-form-rules/pimp-form-rules.component';
-
-//only for testing
-import { MockSocketConnectorServiceB } from '../../e2e/mocks/mock-socket-connectorB.service';
 import { PimpRuleInputComponent } from './components/ui-parts/forms/pimp-rule-input/pimp-rule-input.component';
 import { ConsoleOutputTileComponent } from './components/ui-parts/console-output-tile/console-output-tile.component';
 import { EngineIndicatorTileComponent } from './components/ui-parts/engine-indicator-tile/engine-indicator-tile.component';
