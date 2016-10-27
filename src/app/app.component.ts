@@ -1,6 +1,6 @@
 /* tslint:disable:no-unused-variable */
 import { Component, ViewChild } from '@angular/core';
-import { MdSidenav } from "@angular/material";
+import { MdSidenav } from '@angular/material';
 
 /* GLOBAL SERVICES */
 import { PmpEngineConnectorService } from './services/pmp-engine-connector.service';

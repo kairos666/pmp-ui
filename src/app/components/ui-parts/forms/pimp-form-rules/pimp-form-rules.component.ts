@@ -1,8 +1,7 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, ViewChildren } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { PimpConfig, deconstructPimpConfig, PimpRule } from '../../../../schema/config';
-import { PimpRuleInputComponent } from '../pimp-rule-input/pimp-rule-input.component';
-import * as _ from 'lodash';
 
 @Component({
   selector: 'app-pimp-form-rules',
@@ -10,121 +9,122 @@ import * as _ from 'lodash';
   styleUrls: ['./pimp-form-rules.component.scss']
 })
 export class PimpFormRulesComponent implements OnInit, OnDestroy {
-  @Input() pimpConfigInit:Observable<PimpConfig>; //always send current config (no distinct)
+  @Input() pimpConfigInit:Observable<PimpConfig>; // always send current config (no distinct)
   @Input() pimpConfigChanges:Observable<PimpConfig>; // only works when config change
   @Output() updatePimpConfig = new EventEmitter();
-  @ViewChildren(PimpRuleInputComponent) allPimpRuleForms;
-  private rules:any[];
-  private rulesParams:any[];
+  private pimpRulesForm:FormGroup;
   private killSubs = new Subject();
 
-  constructor() { }
+  constructor(private formBuilder:FormBuilder) { }
 
   ngOnInit() {
-    //set initial paramters
-    this.pimpConfigInit.first().subscribe(config => {
-      let initRules = this.buildInitRulesObjectsFromConfig(config);
-      this.rules = initRules.rules;
-      this.rulesParams = initRules.rulesParams;
+    // create initial form model
+    /* no validator for URL pattern because it is not possible */
+    this.pimpRulesForm = this.formBuilder.group({
+      rules: this.formBuilder.array([]
+    )});
 
-      //react to new config parameters incoming
-      this.pimpConfigChanges.takeUntil(this.killSubs).subscribe(config => {
+    // handle form updates
+    this.pimpRulesForm.valueChanges.takeUntil(this.killSubs)
+      .debounceTime(200) /* to avoid too many consecutive calls & allow time for typing */
+      .subscribe(rules => {
+        this.updateUpstream();
+      });
+
+    // update initial paramters
+    this.pimpConfigInit.first().subscribe(firstConfig => {
+      let firstRules = this.buildInitRulesObjectsFromConfig(firstConfig);
+      this.updateFormValues(firstRules);
+
+      // react to new config parameters incoming
+      this.pimpConfigChanges.takeUntil(this.killSubs).subscribe(newConfig => {
         // update params
-        let tempRulesParams = [];
-        deconstructPimpConfig(config)[4].forEach((item, index) => {
-          let ruleItem = { rulePattern:item.url, modifs:item.modifs.join('\n') };
-          tempRulesParams.push(ruleItem);
-        });
-        this.rulesParams = tempRulesParams;
-
-        //add pimp rule form blocks (if needed)
-        while (this.rulesParams.length > this.rules.length) { this.rules.push('someRuleToken'); }
-        //remove pimp rule form blocks (if needed)
-        while (this.rulesParams.length < this.rules.length) { this.rules.pop(); }
+        let newRules = this.buildInitRulesObjectsFromConfig(newConfig);
+        this.updateFormValues(newRules);
       });
     });
   }
 
-  private onRuleUpdate(event?):void {
-    switch(event.action) {
-      case 'addition':
-        // send update when view has been re-rendered
-        this.allPimpRuleForms.changes.delay(0).first().subscribe(change => {
-          this.updateUpstream();
-        });
+  private initRuleFormGroup(data?:PimpRule):FormGroup {
+    let ruleSet:FormGroup;
 
-        // add rule block
-        let ruleItem = { rulePattern:'', modifs:'' };
-        this.rules.push('someRuleToken');
-        this.rulesParams.push(ruleItem);
-      break;
-
-      case 'delete':
-        // send update when view has been re-rendered
-        this.allPimpRuleForms.changes.delay(0).first().subscribe(change => {
-          this.updateUpstream();
-        });
-
-        // timeout 0 (async) is necessary to avoid strange refresh bug
-        let sub = Observable.timer(0).subscribe(() => {
-            this.rulesParams = this.rulesParams.filter((item, index) => (event.ruleIndex !== index));
-            this.rules.pop();
-          },
-          undefined,
-          () => { sub.unsubscribe(); }
-        );
-      break;
-
-      case 'update':
-        // changes inside an existing rule block
-        this.updateUpstream();
-      break;
+    if (data) {
+      // apply rule default values
+      ruleSet = this.formBuilder.group({
+        rulePattern: [(<any>data).url, Validators.required],
+        modifs: [(<any>data).modifs, Validators.required]
+      });
+    } else {
+      // empty rule set
+      ruleSet = this.formBuilder.group({
+        rulePattern: ['', Validators.required],
+        modifs: ['', Validators.required]
+      });
     }
+
+    return ruleSet;
   }
 
-  private updateUpstream() {
-    // get all rules status
-    let allPimpRulesStatus = [];
-    this.allPimpRuleForms.toArray().forEach(pimpRule => {
-      let status = (<PimpRuleInputComponent>pimpRule).ruleStatus();
-      allPimpRulesStatus.push(status);
-    });
+  private onRuleAdd():void {
+    const rulesArray = <FormArray>this.pimpRulesForm.controls['rules'];
+    rulesArray.push(this.initRuleFormGroup());
+  }
+
+  private onRuleDelete(index:number):void {
+    const rulesArray = <FormArray>this.pimpRulesForm.controls['rules'];
+    rulesArray.removeAt(index);
+  }
+
+  private updateUpstream():void {
+    // fill pimp rules current values
+    const rulesArray = <FormArray>this.pimpRulesForm.controls['rules'];
+    const formValidity = rulesArray.valid;
+    const formRawValues = rulesArray.value;
+
+    // convert raw to PimpRules
+    const pimpRulesArray = formRawValues.map(item => new PimpRule(item.rulePattern, [item.modifs]));
 
     // format update object
     let updateObj = {
       formId:'rules-pimp-form',
-      formValidity:true,
-      pimpCmds: []
+      formValidity:formValidity,
+      pimpCmds: pimpRulesArray
     };
-    allPimpRulesStatus.forEach(status => {
-      if(status.action !== 'delete') {
-        //register this rule (else will ignore entry)
-        updateObj.pimpCmds.push(new PimpRule(status.rule.url, [status.rule.modifs]));
 
-        //check validity
-        if(!status.ruleValidity) updateObj.formValidity = false;
-      }
-    });
-
-    //send update
+    // send update
     this.updatePimpConfig.emit(updateObj);
   }
 
   private buildInitRulesObjectsFromConfig(config:PimpConfig):any {
     let inputPimpRules = deconstructPimpConfig(config)[4];
-    let result = {
-      rules:[],
-      rulesParams:[]
-    };
+    let result = [];
 
-    //build all
+    // build all
     inputPimpRules.forEach((item, index) => {
       let ruleItem = { rulePattern:item.url, modifs:item.modifs.join('\n') };
-      result.rules.push('someRuleToken');
-      result.rulesParams.push(ruleItem);
+      result.push(ruleItem);
     });
 
     return result;
+  }
+
+  private updateFormValues(rules:any[]):void {
+    const rulesArray = <FormArray>this.pimpRulesForm.controls['rules'];
+
+    // add pimp rule form blocks (if needed)
+    while (rulesArray.length < rules.length) { rulesArray.push(this.initRuleFormGroup()); }
+
+    // remove pimp rule form blocks (if needed)
+    while (rulesArray.length > rules.length) { rulesArray.removeAt(0); }
+
+    // update pimp rule blocks (if needed)
+    rules.forEach((item, index) => {
+      const ruleGroup                 = <FormGroup>rulesArray.controls[index];
+      const rulePatternFormControl    = <FormControl>ruleGroup.controls['rulePattern'];
+      const modifsFormControl         = <FormControl>ruleGroup.controls['modifs'];
+      if (item.rulePattern !== rulePatternFormControl.value) { rulePatternFormControl.setValue(item.rulePattern); };
+      if (item.modifs !== modifsFormControl.value) { modifsFormControl.setValue(item.modifs); };
+    });
   }
 
   ngOnDestroy() {

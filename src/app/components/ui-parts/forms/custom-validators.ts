@@ -4,7 +4,7 @@ import {FormControl} from '@angular/forms';
 function validatePortRange(c:FormControl) {
     let portNumber = c.value;
     
-    if(0 <= portNumber && portNumber <= 65535 && portNumber !== 5000) return null
+    if (0 <= portNumber && portNumber <= 65535 && portNumber !== 5000) { return null; }
 
     return {
         validatePortNumber: { valid:false }
@@ -13,4 +13,4 @@ function validatePortRange(c:FormControl) {
 
 export const CustomValidators = {
     portRange: validatePortRange
-}
+};

@@ -10,7 +10,7 @@ import { CustomValidators } from '../custom-validators';
   styleUrls: ['./pimp-form-general.component.scss']
 })
 export class PimpFormGeneralComponent implements OnInit, OnDestroy {
-  @Input() pimpConfigInit:Observable<PimpConfig>; //always send current config (no distinct)
+  @Input() pimpConfigInit:Observable<PimpConfig>; // always send current config (no distinct)
   @Input() pimpConfigChanges:Observable<PimpConfig>; // only works when config change
   @Output() updatePimpConfig = new EventEmitter();
   private generalPimpForm:FormGroup;
@@ -27,7 +27,7 @@ export class PimpFormGeneralComponent implements OnInit, OnDestroy {
       cookies: true
     });
 
-    //set initial paramters
+    // set initial paramters
     let initialParams:any[];
     this.pimpConfigInit.first().subscribe(config => {
       initialParams = deconstructPimpConfig(config);
@@ -35,7 +35,7 @@ export class PimpFormGeneralComponent implements OnInit, OnDestroy {
       (<any>this.generalPimpForm.controls).port.setValue(initialParams[3]);
       (<any>this.generalPimpForm.controls).cookies.setValue(initialParams[2]);
 
-      //setup form update (no submit)
+      // setup form update (no submit)
       this.formUpdateSetup();
     });
   }
@@ -51,7 +51,7 @@ export class PimpFormGeneralComponent implements OnInit, OnDestroy {
         }, formValues));
       });
 
-    //react to new config parameters incoming
+    // react to new config parameters incoming
     let updateParams:any[];
     this.pimpConfigChanges.takeUntil(this.killSubs).subscribe(config => {
       updateParams = deconstructPimpConfig(config);

@@ -4,7 +4,15 @@
   <md-card-content>
     <p>Each rule will be applied to any URL matching its URL pattern on the targeted website.</p>
     <p>Please check <a href="https://github.com/bjoerge/route-pattern/tree/v0.0.6" title="go to route-pattern github page" target="_blank">this documentation</a> for pattern syntax</p>
-    <app-pimp-rule-input *ngFor="let rule of rules; let i = index" [ruleIndex]="i" [ruleData]="rulesParams[i]" (onRuleUpdate)="onRuleUpdate($event)"></app-pimp-rule-input>
-    <button md-raised-button color="accent" title="add a new rule to the configuration" (click)="onRuleUpdate({ action:'addition' })">ADD RULE</button>
+    <form [formGroup]="pimpRulesForm" class="pimp-form" novalidate>
+        <ul formArrayName="rules">
+          <!-- START iterate through rules form blocks -->
+          <li *ngFor="let rule of pimpRulesForm.controls.rules.controls; let ruleIndex = index;">
+            <app-pimp-rule-input [formGroupName]="ruleIndex" [rule]="rule" (onClickDelete)="onRuleDelete(ruleIndex)"></app-pimp-rule-input>
+          </li>
+          <!-- END iterate through rules form blocks -->
+        </ul>
+    </form>
+    <button md-raised-button color="accent" title="add a new rule to the configuration" (click)="onRuleAdd()">ADD RULE</button>
   </md-card-content>
 </md-card>

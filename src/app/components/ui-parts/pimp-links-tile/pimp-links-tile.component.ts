@@ -29,7 +29,7 @@ export class PimpLinksTileComponent implements OnInit, OnDestroy {
 
   constructor(private sanitizer:DomSanitizer, private router:Router) { }
 
-  private sanitize(url:string){
+  private sanitize(url:string) {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
@@ -45,8 +45,8 @@ export class PimpLinksTileComponent implements OnInit, OnDestroy {
       this.links = [
         { href: targetURL, title: 'Origin URL', icon: 'link' },
         { href: 'localhost:' + port, title: 'Pimped URL', icon: 'link' },
-        { href: 'localhost:' + (port+1), title: 'BrowserSync interface', icon: 'developer_board' }
-      ]
+        { href: 'localhost:' + (port + 1), title: 'BrowserSync interface', icon: 'developer_board' }
+      ];
     });
   }
 

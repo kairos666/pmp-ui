@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { ConfigModelService } from '../../../model/config-model.service';
 import { PimpConfig, deconstructPimpConfig } from '../../../schema/config';
@@ -21,7 +21,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
   ngOnInit():void {
     // get optional route params for tab selection
     this.route.params.takeUntil(this.killSubs).subscribe(params => {
-      if((<any>params).selectedTabIndex) {
+      if ((<any>params).selectedTabIndex) {
         this.selectedTab = +(<any>params).selectedTabIndex;
       }
     });
@@ -55,7 +55,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
       let configParameters = deconstructPimpConfig(this.configModel.config);
 
       // general pimp form case
-      switch(event.formId) {
+      switch (event.formId) {
         case 'general-pimp-form':
           configParameters[1] = event.target;
           configParameters[3] = event.port;
