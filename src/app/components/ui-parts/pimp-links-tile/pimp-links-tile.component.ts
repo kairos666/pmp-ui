@@ -2,7 +2,6 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router }   from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
-import { PimpConfig } from '../../../schema/config';
 
 @Component({
   selector: 'app-pimp-links-tile',
@@ -23,7 +22,7 @@ import { PimpConfig } from '../../../schema/config';
   `
 })
 export class PimpLinksTileComponent implements OnInit, OnDestroy {
-  @Input() config:Observable<PimpConfig>;
+  @Input() linksStream:Observable<any>;
   private subs:Subscription;
   private links = [];
 
@@ -38,15 +37,17 @@ export class PimpLinksTileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subs = this.config.subscribe(config => {
-      let targetURL = config.bsOptions.proxy.target;
-      let port = config.bsOptions.port;
-
-      this.links = [
-        { href: targetURL, title: 'Origin URL', icon: 'link' },
-        { href: 'localhost:' + port, title: 'Pimped URL', icon: 'link' },
-        { href: 'localhost:' + (port + 1), title: 'BrowserSync interface', icon: 'developer_board' }
-      ];
+    this.subs = this.linksStream.subscribe(links => {
+      if(JSON.stringify(links) !== JSON.stringify({})) {
+        this.links = [
+          { href: links.originURL, title: 'Origin URL', icon: 'link' },
+          { href: links.proxiedURL, title: 'Pimped URL', icon: 'link' },
+          { href: links.bsUIURL, title: 'BrowserSync interface', icon: 'developer_board' },
+          { href: links.pimpSrcFilesPath, title: 'Pimp source files', icon: 'folder_open' },
+        ];
+      } else {
+        this.links = [];
+      }
     });
   }
 

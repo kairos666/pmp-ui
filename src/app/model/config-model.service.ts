@@ -166,6 +166,11 @@ export class ConfigModelService {
     return false;
   }
 
+  /* USEFUL LINKS GETTER */
+  public get links ():Observable<any> {
+    return this.pmpEngineConnector.pmpEngineLinksStream;
+  }
+
   /* AVAILABLE ACTIONS GETTERS */
   public get availableConfigActions ():ConfigActions {
     return this.currentAllowedConfigActions.value;
