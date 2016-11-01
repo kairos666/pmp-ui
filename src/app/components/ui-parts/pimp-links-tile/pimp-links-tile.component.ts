@@ -11,13 +11,22 @@ import { Observable, Subscription } from 'rxjs';
       <span>Pimp links</span>
     </h3>
     <ul class="pimp-links-tile-container link-list">
-      <li *ngFor="let link of links">
-        <a [href]="sanitize(link.href)" title="open tab at {{link.href}}" target="_blank">
-            <md-icon>{{link.icon}}</md-icon>
-            <h4>{{link.title}}</h4>
-            <p>{{link.href}}</p>
-        </a>
-      </li>
+      <template ngFor let-link [ngForOf]="links">
+        <li *ngIf="link.type === 'link'">
+          <a [href]="sanitize(link.href)" title="open tab at {{link.href}}" target="_blank">
+              <md-icon>{{link.icon}}</md-icon>
+              <h4>{{link.title}}</h4>
+              <p>{{link.href}}</p>
+          </a>
+        </li>
+        <li *ngIf="link.type === 'copy'">
+          <button (click)="onClipboardCopy($event)" title="copy {{link.href}} to clipboard">
+              <md-icon>{{link.icon}}</md-icon>
+              <h4>{{link.title}}<md-icon>{{link.subIcon}}</md-icon></h4>
+              <p class="copy-me">{{link.href}}</p>
+          </button>
+        </li>
+      </template>
     </ul>
   `
 })
@@ -36,14 +45,38 @@ export class PimpLinksTileComponent implements OnInit, OnDestroy {
     this.router.navigate(['/configuration']);
   }
 
+  private onClipboardCopy(evt) {
+    let successCopyingToClipboard;
+    try {
+      // create selection range
+      let rangeObj = document.createRange();
+      rangeObj.selectNodeContents(evt.currentTarget.querySelector('.copy-me'));
+
+      // copy to clipboard
+      let selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(rangeObj);
+      successCopyingToClipboard = document.execCommand('copy');
+
+      // remove selection
+      selection.removeAllRanges();
+      selection.empty();
+
+    } catch (err) {
+      console.log('unable to copy to clipboard', err);
+      successCopyingToClipboard = false;
+    }
+    console.log(successCopyingToClipboard);
+  }
+
   ngOnInit() {
     this.subs = this.linksStream.subscribe(links => {
       if(JSON.stringify(links) !== JSON.stringify({})) {
         this.links = [
-          { href: links.originURL, title: 'Origin URL', icon: 'link' },
-          { href: links.proxiedURL, title: 'Pimped URL', icon: 'link' },
-          { href: links.bsUIURL, title: 'BrowserSync interface', icon: 'developer_board' },
-          { href: links.pimpSrcFilesPath, title: 'Pimp source files', icon: 'folder_open' },
+          { type:'link', href: links.originURL, title: 'Origin URL', icon: 'link' },
+          { type:'link', href: links.proxiedURL, title: 'Pimped URL', icon: 'link' },
+          { type:'link', href: links.bsUIURL, title: 'BrowserSync interface', icon: 'developer_board' },
+          { type:'copy', href: links.pimpSrcFilesPath, title: 'Pimp source files', icon: 'folder_open', subIcon:'content_paste' }
         ];
       } else {
         this.links = [];
