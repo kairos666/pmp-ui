@@ -10,7 +10,7 @@ import { Observable, Subscription } from 'rxjs';
       <button type="button" class="btn-edit" (click)="onClickEdit()"><md-icon>mode_edit</md-icon></button>
       <span>Pimp links</span>
     </h3>
-    <ul class="pimp-links-tile-container link-list">
+    <ul *ngIf="links.length !== 0" class="pimp-links-tile-container link-list">
       <template ngFor let-link [ngForOf]="links">
         <li *ngIf="link.type === 'link'">
           <a [href]="sanitize(link.href)" title="open tab at {{link.href}}" target="_blank">
@@ -28,6 +28,7 @@ import { Observable, Subscription } from 'rxjs';
         </li>
       </template>
     </ul>
+    <p *ngIf="links.length === 0" class="no-data"><md-icon>not_interested</md-icon> Data available only when pimp engine is started</p>
   `
 })
 export class PimpLinksTileComponent implements OnInit, OnDestroy {
