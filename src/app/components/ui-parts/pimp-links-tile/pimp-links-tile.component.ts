@@ -28,7 +28,13 @@ import { Observable, Subscription } from 'rxjs';
         </li>
       </template>
     </ul>
-    <p *ngIf="links.length === 0" class="no-data"><md-icon>not_interested</md-icon> Data available only when pimp engine is started</p>
+    <ul class="no-data item-list" *ngIf="links.length === 0">
+      <li>
+        <md-icon>not_interested</md-icon>
+        <h4>No data</h4>
+        <p>Only available when pimp engine is started</p>
+      </li>
+    </ul>
   `
 })
 export class PimpLinksTileComponent implements OnInit, OnDestroy {
