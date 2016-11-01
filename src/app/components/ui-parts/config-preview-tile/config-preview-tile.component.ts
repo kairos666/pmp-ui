@@ -16,17 +16,26 @@ import { PimpConfig, PimpRule } from '../../../schema/config';
         <h4>Rule #{{i + 1}}</h4>
         <p>{{rule.url}}</p>
       </li>
+      <li *ngIf="hasNoRules">
+        <md-icon>not_interested</md-icon>
+        <h4>No pimp rules</h4>
+        <p>this configuration has no rules applied</p>
+      </li>
     </ul>
   `,
 })
 export class ConfigPreviewTileComponent implements OnInit {
   @Input() config:Observable<PimpConfig>;
   private pimpRulesStream:Observable<PimpRule[]>;
+  private hasNoRules = false;
 
   constructor(private router:Router) { }
 
   ngOnInit() {
-    this.pimpRulesStream = this.config.map(config => config.pimpCmds);
+    this.pimpRulesStream = this.config.map(config => config.pimpCmds).do(pimpRules => {
+      // no rules case
+      if (pimpRules.length === 0) this.hasNoRules = true;
+    });
   }
 
   private onClickEdit() {
