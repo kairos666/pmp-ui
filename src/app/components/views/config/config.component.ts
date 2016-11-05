@@ -12,6 +12,7 @@ import { PimpConfig, deconstructPimpConfig } from '../../../schema/config';
 export class ConfigComponent implements OnInit, OnDestroy {
   private isSaveAllowed:boolean;
   private isRestoreAllowed:boolean;
+  private isRestoreFromEngineAllowed:boolean;
   private isApplyAllowed:boolean;
   private selectedTab = 0;
   private killSubs = new Subject();
@@ -30,6 +31,7 @@ export class ConfigComponent implements OnInit, OnDestroy {
     this.configModel.availableConfigActionsStream.takeUntil(this.killSubs).subscribe(aActions => {
       this.isSaveAllowed = aActions.saveAllowed;
       this.isRestoreAllowed = aActions.restoreAllowed;
+      this.isRestoreFromEngineAllowed = aActions.restoreFromEngineAllowed;
       this.isApplyAllowed = (aActions.startAllowed || aActions.restartAllowed);
     });
   }
@@ -44,6 +46,10 @@ export class ConfigComponent implements OnInit, OnDestroy {
 
   private onRestoreClick():void {
     this.configModel.restore();
+  }
+
+  private onRestoreFromEngineClick():void {
+    this.configModel.restoreFromEngine();
   }
 
   private onApplyClick():void {

@@ -43,13 +43,11 @@ export class ConfigModelService {
       .subscribe(smartState => {
         switch (smartState.engineStatus) {
           case 'started':
-            console.log('detected started instance --> fetch applied config');
             this.pmpEngineConnector.getPmpEngineConfig();
           break;
 
           case 'stopped':
             // get init config from local storage
-            console.log('detected stopped instance --> fetch stored config');
             this.currentConfig.next(this.configStorage.restorePimpConfig());
             this.isInitiated = true;
           break;
@@ -288,6 +286,11 @@ export class ConfigModelService {
       return true;
     }
     return false;
+  }
+
+  public restoreFromEngine():boolean {
+    console.log('restore from engine triggered')
+    return true;
   }
 
   public get notificationsStream():Observable<Notif> {
