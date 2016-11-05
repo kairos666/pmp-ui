@@ -74,16 +74,19 @@ export class ConfigActions {
   public stopAllowed:boolean;
   public saveAllowed:boolean;
   public restoreAllowed:boolean;
+  public restoreFromEngineAllowed:boolean;
   public restartAllowed:boolean;
 
   constructor(
     startAllowed:boolean,
     stopAllowed:boolean,
-    saveOrRestoreAllowed:boolean
+    saveOrRestoreAllowed:boolean,
+    restoreFromEngineAllowed:boolean
   ) {
     this.startAllowed = startAllowed;
     this.stopAllowed = this.restartAllowed = stopAllowed;
     this.saveAllowed = this.restoreAllowed = saveOrRestoreAllowed;
+    this.restoreFromEngineAllowed = restoreFromEngineAllowed;
   }
 }
 

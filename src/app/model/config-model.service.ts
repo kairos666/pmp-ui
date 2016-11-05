@@ -11,7 +11,7 @@ export class ConfigModelService {
   private pmpEngineSmartState: Observable<any>  = undefined;
   private currentConfig: BehaviorSubject<PimpConfig> = new BehaviorSubject(undefined);
   private currentEngineConfig: BehaviorSubject<PimpConfig> = new BehaviorSubject(undefined);
-  private currentAllowedConfigActions: BehaviorSubject<ConfigActions> = new BehaviorSubject(new ConfigActions(false, false, false));
+  private currentAllowedConfigActions: BehaviorSubject<ConfigActions> = new BehaviorSubject(new ConfigActions(false, false, false, false));
   private notifierStream: Subject<any> = new Subject();
 
   constructor(private configStorage: ConfigStorageService, private pmpEngineConnector: PmpEngineConnectorService) {
@@ -77,20 +77,22 @@ export class ConfigModelService {
   }
 
   private configActionsUpdater(newConf:PimpConfig):void {
-    let currentAActions = this.currentAllowedConfigActions.value;
+    let previouslyAllowedActions = this.currentAllowedConfigActions.value;
     let oldConf = this.configStorage.restorePimpConfig(); 
     let nextAllowedActions:ConfigActions;
     if (_.isEqual(oldConf, newConf)) {
       nextAllowedActions = new ConfigActions(
-        currentAActions.startAllowed,
-        currentAActions.stopAllowed,
-        false
+        previouslyAllowedActions.startAllowed,
+        previouslyAllowedActions.stopAllowed,
+        false,
+        previouslyAllowedActions.restoreFromEngineAllowed
       );
     } else {
       nextAllowedActions = new ConfigActions(
-        currentAActions.startAllowed,
-        currentAActions.stopAllowed,
-        true
+        previouslyAllowedActions.startAllowed,
+        previouslyAllowedActions.stopAllowed,
+        true,
+        previouslyAllowedActions.restoreFromEngineAllowed
       );
     }
     this.currentAllowedConfigActions.next(nextAllowedActions);
@@ -111,21 +113,24 @@ export class ConfigModelService {
           nextAllowedActions = new ConfigActions(
             false,
             true,
-            previouslyAllowedActions.restoreAllowed
+            previouslyAllowedActions.restoreAllowed,
+            previouslyAllowedActions.restoreFromEngineAllowed
           );
         break;
         case 'pending':
           nextAllowedActions = new ConfigActions(
             false,
             false,
-            previouslyAllowedActions.restoreAllowed
+            previouslyAllowedActions.restoreAllowed,
+            previouslyAllowedActions.restoreFromEngineAllowed
           );
         break;
         case 'stopped':
           nextAllowedActions = new ConfigActions(
             true,
             false,
-            previouslyAllowedActions.restoreAllowed
+            previouslyAllowedActions.restoreAllowed,
+            previouslyAllowedActions.restoreFromEngineAllowed
           );
         break;
       }
@@ -136,15 +141,13 @@ export class ConfigModelService {
   private handleConfigSub():void {
     // only used for init (work once at most and only when not initiated)
     this.pmpEngineConnector.pmpEngineDataConfigStream.subscribe(config => {
+        let pimpconfig = new PimpConfig(config.name, config.bsOptions.proxy.target, !config.bsOptions.proxy.cookies.stripeDomain, config.bsOptions.port, config.pimpCmds);
         if (!this.isInitiated) {
-          this.currentConfig.next(config);
-          this.currentEngineConfig.next(config);
+          this.currentConfig.next(pimpconfig);
+          this.currentEngineConfig.next(pimpconfig);
           this.isInitiated = true;
-          console.log('get started engine config and init');
         } else {
-          this.currentEngineConfig.next(config);
-          console.log('TODO apply config diff checking');
-          console.log('TODO eventually modify available actions');
+          this.currentEngineConfig.next(pimpconfig);
         } 
     });
 
@@ -159,6 +162,30 @@ export class ConfigModelService {
           // reset engine config
           if(this.currentEngineConfig.value) this.currentEngineConfig.next(undefined);
       }
+    });
+
+    // update available restore from engine action
+    this.pmpEngineConnector.pmpEngineDataStatusStream
+      .combineLatest(this.pmpEngineConnector.pmpEngineDataConfigStream, this.fullConfigStream)
+      .subscribe(combi => {
+        let engineState = combi[0];
+        let engineConfig = this.engineAppliedConfig;
+        let uiConfig = this.config;
+        
+        //calculate if allowed
+        let isRestoreFromEngineAllowed = (engineState === 'started' && !(_.isEqual(engineConfig, uiConfig))) ? true : false;
+
+        //update only if changed
+        let previouslyAllowedActions = this.currentAllowedConfigActions.value;
+        if(previouslyAllowedActions.restoreFromEngineAllowed !== isRestoreFromEngineAllowed) {
+          let nextAllowedActions = new ConfigActions(
+            previouslyAllowedActions.startAllowed,
+            previouslyAllowedActions.stopAllowed,
+            previouslyAllowedActions.restoreAllowed,
+            isRestoreFromEngineAllowed
+          );
+          this.currentAllowedConfigActions.next(nextAllowedActions);
+        }
     });
   }
 
