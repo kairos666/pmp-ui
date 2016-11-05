@@ -10,13 +10,14 @@ export class ConfigModelService {
   private isInitiated = false;
   private pmpEngineSmartState: Observable<any>  = undefined;
   private currentConfig: BehaviorSubject<PimpConfig> = new BehaviorSubject(undefined);
+  private currentEngineConfig: BehaviorSubject<PimpConfig> = new BehaviorSubject(undefined);
   private currentAllowedConfigActions: BehaviorSubject<ConfigActions> = new BehaviorSubject(new ConfigActions(false, false, false));
   private notifierStream: Subject<any> = new Subject();
 
   constructor(private configStorage: ConfigStorageService, private pmpEngineConnector: PmpEngineConnectorService) {
     /* at instanciation check engine connection and status
     *  if not connected, wait for connection
-    *  if engine is started retrieve applied config (TODO)
+    *  if engine is started retrieve applied config
     *  if engine not started retrieve local storage config (eventually default config)
     */ 
 
@@ -27,7 +28,7 @@ export class ConfigModelService {
     this.notificationsSetting();
     
     // handle init (connection state, engine state, config)
-    this.generateConfigSub();
+    this.handleConfigSub();
     this.pmpEngineSmartState = this.pmpEngineConnector.isPmpEngineConnected.combineLatest(
       this.pmpEngineConnector.pmpEngineDataStatusStream,
       (isConnected, engineStatus) => { return { socketConnection: isConnected, engineStatus: engineStatus }; }
@@ -42,11 +43,13 @@ export class ConfigModelService {
       .subscribe(smartState => {
         switch (smartState.engineStatus) {
           case 'started':
+            console.log('detected started instance --> fetch applied config');
             this.pmpEngineConnector.getPmpEngineConfig();
           break;
 
           case 'stopped':
             // get init config from local storage
+            console.log('detected stopped instance --> fetch stored config');
             this.currentConfig.next(this.configStorage.restorePimpConfig());
             this.isInitiated = true;
           break;
@@ -130,10 +133,32 @@ export class ConfigModelService {
     });
   }
 
-  private generateConfigSub():void {
+  private handleConfigSub():void {
+    // only used for init (work once at most and only when not initiated)
     this.pmpEngineConnector.pmpEngineDataConfigStream.subscribe(config => {
-        this.currentConfig.next(config);
-        this.isInitiated = true; 
+        if (!this.isInitiated) {
+          this.currentConfig.next(config);
+          this.currentEngineConfig.next(config);
+          this.isInitiated = true;
+          console.log('get started engine config and init');
+        } else {
+          this.currentEngineConfig.next(config);
+          console.log('TODO apply config diff checking');
+          console.log('TODO eventually modify available actions');
+        } 
+    });
+
+    // update engine config on status change (after init only)
+    this.pmpEngineConnector.pmpEngineDataStatusStream.filter(() => this.isInitiated).subscribe(status => {
+      switch (status) {
+        case 'started':
+          // fetch config from engine itself (no inferences, that's better :)
+          this.pmpEngineConnector.getPmpEngineConfig();
+        break;
+        default:
+          // reset engine config
+          if(this.currentEngineConfig.value) this.currentEngineConfig.next(undefined);
+      }
     });
   }
 
@@ -154,6 +179,16 @@ export class ConfigModelService {
     // remove initial undefined item and all identical configs
     return this.currentConfig.asObservable()
       .filter(config => { return (config !== undefined); });
+  }
+
+  public get engineAppliedConfig():PimpConfig {
+    return this.currentEngineConfig.value;
+  }
+
+  public get engineAppliedConfigStream():Observable<PimpConfig> {
+    // provide the currently applied config for started engine instances (can be different from the UI config!!)
+    // when engine is not started it is undefined
+    return this.currentEngineConfig.asObservable();
   }
 
   /* CONFIG SETTER */
