@@ -281,7 +281,7 @@ export class ConfigModelService {
       this.updateConfig(restoredConfig);
 
       // notify
-      let notifEvt = new Notif('config', 'action', 'restored');
+      let notifEvt = new Notif('config', 'action', 'restored from storage');
       this.notifierStream.next(notifEvt);
       return true;
     }
@@ -289,8 +289,15 @@ export class ConfigModelService {
   }
 
   public restoreFromEngine():boolean {
-    console.log('restore from engine triggered')
-    return true;
+    if (this.availableConfigActions.restoreFromEngineAllowed) {
+      this.updateConfig(this.engineAppliedConfig);
+
+      // notify
+      let notifEvt = new Notif('config', 'action', 'restored from engine');
+      this.notifierStream.next(notifEvt);
+      return true;
+    }
+    return false;
   }
 
   public get notificationsStream():Observable<Notif> {
