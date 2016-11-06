@@ -8,7 +8,7 @@
             (stopClicked)="configService.stop()"
         ></app-engine-indicator-tile>
         <app-pimp-links-tile [linksStream]="configService.links"></app-pimp-links-tile>
-        <app-config-preview-tile [config]="configService.fullConfigStream"></app-config-preview-tile>
+        <app-config-preview-tile [config]="configService.engineAppliedConfigStream"></app-config-preview-tile>
     </div>
     <div class="column-layout">
         <app-console-output-tile [logs]="logsService.logsStream"></app-console-output-tile>
