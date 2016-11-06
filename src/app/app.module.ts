@@ -4,9 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@angular/material';
 import { RouterModule }   from '@angular/router';
 
-// only for testing
-import { MockSocketConnectorServiceB } from '../../e2e/mocks/mock-socket-connectorB.service';
-
 /* GLOBAL SERVICES */
 import { LocalStorageService } from './services/local-storage.service';
 import { ConfigStorageService } from './services/config-storage.service';
@@ -65,7 +62,7 @@ let routes = [
     RouterModule.forRoot(routes),
     MaterialModule.forRoot()
   ],
-  providers: [ConfigModelService, LocalStorageService, ConfigStorageService, { provide: SocketConnectorService, useClass: MockSocketConnectorServiceB}, PmpEngineConnectorService, LogsService],
+  providers: [ConfigModelService, LocalStorageService, ConfigStorageService, SocketConnectorService, PmpEngineConnectorService, LogsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

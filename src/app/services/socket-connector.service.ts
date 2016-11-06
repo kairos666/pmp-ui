@@ -7,6 +7,7 @@ const socketConfig = {
     port: 5000
 };
 const pmpEngineOutputKey = 'output';
+const pmpEngineInputKey = 'input';
 
 @Injectable()
 export class SocketConnectorService {
@@ -41,7 +42,7 @@ export class SocketConnectorService {
   }
 
   public emit (data: any): void {
-    this.socket.emit(data);
+    this.socket.emit(pmpEngineInputKey, data);
   }
 
   public get isConnected (): boolean {

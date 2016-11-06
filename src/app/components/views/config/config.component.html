@@ -34,6 +34,12 @@
       </md-tab>
     </md-tab-group>
     <menu class="button-holder">
+        <button md-mini-fab title="restore/sync with applied pimp configuration" 
+          [attr.disabled]="isRestoreFromEngineAllowed ? null : ''" 
+          (click)="onRestoreFromEngineClick()"
+        >
+            <md-icon>history</md-icon>
+        </button>
         <button md-mini-fab title="restore previously saved pimp configuration" 
           [attr.disabled]="isRestoreAllowed ? null : ''" 
           (click)="onRestoreClick()"
