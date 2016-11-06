@@ -32,7 +32,12 @@ export class ConfigComponent implements OnInit, OnDestroy {
       this.isSaveAllowed = aActions.saveAllowed;
       this.isRestoreAllowed = aActions.restoreAllowed;
       this.isRestoreFromEngineAllowed = aActions.restoreFromEngineAllowed;
-      this.isApplyAllowed = (aActions.startAllowed || aActions.restartAllowed);
+      /*
+        apply can be performed when
+        - engine is not started and there is a valid config ready in the UI --> action = start
+        - engine is already started but there is a diff between UI's config and the engine's config --> action = restart
+      */
+      this.isApplyAllowed = (aActions.startAllowed || (aActions.restartAllowed && aActions.restoreFromEngineAllowed));
     });
   }
 
