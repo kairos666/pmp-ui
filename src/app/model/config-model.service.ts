@@ -139,7 +139,7 @@ export class ConfigModelService {
   private handleConfigSub():void {
     // only used for init (work once at most and only when not initiated)
     this.pmpEngineConnector.pmpEngineDataConfigStream.subscribe(config => {
-        let pimpconfig = new PimpConfig(config.name, config.bsOptions.proxy.target, !config.bsOptions.proxy.cookies.stripeDomain, config.bsOptions.port, config.pimpCmds);
+        let pimpconfig = new PimpConfig(config.name, config.bsOptions.proxy.target, !config.bsOptions.proxy.cookies.stripeDomain, config.bsOptions.port, config.pimpCmds, config.id);
         if (!this.isInitiated) {
           this.currentConfig.next(pimpconfig);
           this.currentEngineConfig.next(pimpconfig);
@@ -172,7 +172,7 @@ export class ConfigModelService {
         
         //calculate if allowed
         let isRestoreFromEngineAllowed = (engineState === 'started' && !(_.isEqual(engineConfig, uiConfig))) ? true : false;
-
+        
         //update only if changed
         let previouslyAllowedActions = this.currentAllowedConfigActions.value;
         if(previouslyAllowedActions.restoreFromEngineAllowed !== isRestoreFromEngineAllowed) {
