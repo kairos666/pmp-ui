@@ -1,6 +1,6 @@
 <md-tab-group class="secondary-navigation">
   <md-tab>
-    <template md-tab-label>Introduction</template>
+    <template md-tab-label>introduction</template>
     <template md-tab-content>
       <md-card>
         <md-card-title>The basics</md-card-title>   
@@ -15,8 +15,13 @@
             </ul>
             <p>In all those cases, PMP will help get up and running in a minute.<br> You'll be hacking on some existing page without fearing of breaking anything. Best of all, you don't even have to know how the page you are working on is pieced together.</p>
             <h3>That's magic ! How does this work ?</h3>
-            <p>Pimp My page (PMP) is composed of 3 parts: the project, the engine, the interface. Let's quickly go through each of those parts to understand how they play together.</p>
+            <img width="100%" src="../../../../assets/pmp-anim.gif" alt="pmp micro anim" />
+            <p>Pimp My page (PMP) is composed of 4 parts: the target, the project, the engine, the interface. Let's quickly go through each of those parts to understand how they play together.</p>
             <ol>
+              <li>
+                <h4>The target</h4>
+                <p>That's the website or page you want to work on. You don't need any kinf of server access privileges on it. Having access to the URL you are interested in is all you need.</p>  
+              </li>
               <li>
                 <h4>The project</h4>
                 <p>That's your basic front-end files and assets. If you know HTML, CSS and JS you know what I'm talking about.</p>
@@ -25,7 +30,7 @@
               <li>
                 <h4>The engine</h4>
                 <p>Where the magic happens! It serves the modified page with all your customizations.</p>
-                <p><b><a href="https://www.browsersync.io/" target="_blank" title="go to BrowserSync website">BrowserSync</a></b> is used internally to proxy the existing page.<br>A configurable <b>middelware</b> intercepts the page request and transfroms it on the fly to apply various modifications.<br>A <b><a href="http://gulpjs.com/" target="_blank" title="go to Gulp website">Gulp</a> node process</b> takes care of glueing the project files to the page.</p>  
+                <p><b><a href="https://www.browsersync.io/" target="_blank" title="go to BrowserSync website">BrowserSync</a></b> is used internally to proxy the <b>targeted website or page</b> you wish to pimp.<br>A configurable <b>middelware</b> intercepts the page request and transfroms it on the fly to apply various modifications.<br>A <b><a href="http://gulpjs.com/" target="_blank" title="go to Gulp website">Gulp</a> node process</b> takes care of glueing the project files to the page.</p>  
               </li>
               <li>
                 <h4>The interface</h4>
@@ -39,6 +44,19 @@
   </md-tab>
   <md-tab>
     <template md-tab-label>getting started</template>
+    <template md-tab-content>
+      <md-card>
+        <md-card-title>Configuration tips</md-card-title>   
+        <md-card-content>
+            <p>Vestibulum vitae erat tortor. Maecenas vehicula mauris sed lectus sagittis dapibus. Morbi vehicula aliquam rhoncus. Nam dictum, quam et congue condimentum, augue leo porta ipsum, et vestibulum ex libero non nunc. Vestibulum fringilla leo eu sem tempor viverra. Sed vitae diam sit amet sem volutpat dictum. Duis venenatis leo sollicitudin, dignissim dui quis, sollicitudin orci. Phasellus mattis augue suscipit accumsan suscipit. Mauris pellentesque elit non imperdiet ornare. Curabitur ut nisl diam. Cras consequat tristique nisl, quis iaculis leo. Nunc finibus erat ac neque pulvinar, non consequat nulla mollis. Proin ut viverra erat, nec vehicula libero. Suspendisse imperdiet, leo eu faucibus interdum, massa tortor tincidunt dolor, aliquam condimentum magna diam sit amet ligula. Nullam quis magna pretium, tempor massa eu, sollicitudin odio. Donec porttitor dapibus arcu, nec dapibus quam tempus ut.</p>
+            <p>Nulla commodo blandit blandit. Fusce convallis faucibus ipsum sed porta. Nullam in magna ullamcorper tortor elementum pharetra. Quisque accumsan nisl non condimentum dictum. Aenean ligula ipsum, gravida a malesuada ut, vehicula et ligula. Cras quis vehicula dui. Etiam eu elit ac massa dictum facilisis at in arcu. Nulla ultrices, lacus eget molestie dapibus, risus ante ornare neque, finibus bibendum tortor justo et turpis. Praesent ut nisi quis purus ultricies egestas.</p>
+            <p>Vivamus ut nulla vitae magna congue tristique. Sed sit amet dapibus tortor. Donec vitae tortor ut diam sodales suscipit. Aliquam quis purus risus. Curabitur ultricies vehicula est sit amet feugiat. Ut placerat fermentum tellus nec tincidunt. Integer semper risus eget congue tincidunt. Donec mauris diam, condimentum at orci convallis, ullamcorper condimentum lacus. Phasellus vehicula sem vel ex hendrerit dictum. In vel tellus et dolor ultricies accumsan a eget massa. Nam sodales mi enim, non fermentum ex pellentesque id.</p>
+        </md-card-content>
+      </md-card>
+    </template>
+  </md-tab>
+  <md-tab>
+    <template md-tab-label>advanced tips</template>
     <template md-tab-content>
       <md-card>
         <md-card-title>Configuration tips</md-card-title>   
