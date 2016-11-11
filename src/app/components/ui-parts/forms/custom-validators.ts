@@ -14,6 +14,16 @@ function validatePortRange(c:FormControl) {
     };
 }
 
+/* check if a string is a well formed URL */
+function validURLChecker(c:FormControl) {
+    let urlString = c.value;
+
+    return {
+        validateURL: { valid:false }
+    }
+}
+
 export const CustomValidators = {
-    portRange: validatePortRange
+    portRange: validatePortRange,
+    validURL: validURLChecker
 };

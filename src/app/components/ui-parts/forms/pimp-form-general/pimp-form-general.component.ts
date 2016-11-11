@@ -22,7 +22,7 @@ export class PimpFormGeneralComponent implements OnInit, OnDestroy {
     // create form model
     /* no validator for URL pattern because it is not possible */
     this.generalPimpForm = this.formBuilder.group({
-      target: ['', Validators.required],
+      target: ['', [Validators.required, CustomValidators.validURL]],
       port: ['', [Validators.required, CustomValidators.portRange]],
       cookies: true
     });
