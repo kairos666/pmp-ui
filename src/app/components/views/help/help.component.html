@@ -1,12 +1,38 @@
 <md-tab-group class="secondary-navigation">
   <md-tab>
-    <template md-tab-label>basics</template>
+    <template md-tab-label>Introduction</template>
     <template md-tab-content>
       <md-card>
-        <md-card-title>How it works</md-card-title>   
+        <md-card-title>The basics</md-card-title>   
         <md-card-content>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce at leo lorem. Suspendisse non gravida erat. Etiam a mollis massa. Donec sit amet imperdiet urna. Praesent felis metus, aliquet vitae interdum rhoncus, vehicula eu augue. Mauris sollicitudin nisi sed vehicula vehicula. Quisque ullamcorper mi id nunc porttitor eleifend. Integer non nibh at ipsum mattis mollis. Aliquam malesuada, ipsum id dictum congue, risus ex iaculis augue, a condimentum ex tortor quis quam.</p>
-            <p>Curabitur lacus sem, convallis id luctus id, molestie eu lorem. Nunc sapien neque, cursus non felis ac, vulputate aliquet urna. Donec posuere orci sit amet facilisis volutpat. Morbi aliquet mi at nisl maximus semper. Mauris interdum hendrerit enim, pulvinar lacinia dolor congue nec. Aenean eget enim risus. Ut nibh dolor, molestie vitae tortor maximus, tempus dictum neque. Nam quam tellus, pulvinar vitae ullamcorper sit amet, malesuada quis turpis. Quisque lobortis sit amet dolor mattis aliquam. Nulla facilisi. Maecenas tempor nibh est, id convallis enim vestibulum in. Nunc porttitor arcu vel risus cursus consectetur. Praesent scelerisque ut mauris eget sodales.</p>
+            <h3>What Pimp My Page (PMP) allows you to do ?</h3>
+            <p>That is just a fancy tool to help front-end developers in hostile territory.<br> PMP aims to close the gap between the ease and flexibility of static front-end development and the hurdles in, real-world, complex CMS front-end development.</p>
+            <p>Here are a few scenarii where PMP will help:</p>
+            <ul>
+              <li>I don't have a development environment. Still I need to do some front-end work on this existing page</li>
+              <li>I don't know this CMS solution theming system. Still I need to contribute effectively without learning it, or introducing bugs.</li>
+              <li>I have to quiclky prototype some front-end elements and insert them in an existing page. I have to iterate a lot, without interfering with what is already in place. I don't have access to the sources.</li>
+            </ul>
+            <p>In all those cases, PMP will help get up and running in a minute.<br> You'll be hacking on some existing page without fearing of breaking anything. Best of all, you don't even have to know how the page you are working on is pieced together.</p>
+            <h3>That's magic ! How does this work ?</h3>
+            <p>Pimp My page (PMP) is composed of 3 parts: the project, the engine, the interface. Let's quickly go through each of those parts to understand how they play together.</p>
+            <ol>
+              <li>
+                <h4>The project</h4>
+                <p>That's your basic front-end files and assets. If you know HTML, CSS and JS you know what I'm talking about.</p>
+                <p><b>CSS</b> - you can write SASS/CSS and see directly the changes in the page.<br> <b>JS</b> - you can add some JS to the page and see the result after an automatic page refresh.<br> <b>HTML</b> - write your HTML partials and inject/replace them in the page.<br> <b>Assets</b> - provide images, fonts, JS libraries that can be used in the page in addition to what the page's server already provide.</p>   
+              </li>
+              <li>
+                <h4>The engine</h4>
+                <p>Where the magic happens! It serves the modified page with all your customizations.</p>
+                <p><b><a href="https://www.browsersync.io/" target="_blank" title="go to BrowserSync website">BrowserSync</a></b> is used internally to proxy the existing page.<br>A configurable <b>middelware</b> intercepts the page request and transfroms it on the fly to apply various modifications.<br>A <b><a href="http://gulpjs.com/" target="_blank" title="go to Gulp website">Gulp</a> node process</b> takes care of glueing the project files to the page.</p>  
+              </li>
+              <li>
+                <h4>The interface</h4>
+                <p>The web application you are currently on. It aims to provide intuitive control over the engine.</p>
+                <p><b>START or STOP</b> the engine with a button.<br> <b>Monitor</b> what happens in the engine (logs, errors, sass compilation events, ...).<br> <b>Change, save, restore the pimp configuration</b> that is used to instruct the engine what to do. Basically it is the configuration that is passed to the engine middleware.</p> 
+              </li>
+            </ol>
         </md-card-content>
       </md-card>
     </template>
