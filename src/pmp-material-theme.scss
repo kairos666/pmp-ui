@@ -25,7 +25,7 @@ $theme: md-dark-theme($primary, $accent, $warn);
 @include angular-material-theme($theme);
 
 //paragraph link
-p a { color:$palette-accent; text-decoration:none;
+p a, .link-style { color:$palette-accent; text-decoration:none;
     &:hover, &:focus, &:active { text-decoration:underline; }
 }
 
@@ -84,7 +84,7 @@ app-config-preview-tile {
 
 // LINK LIST
 .link-list, .item-list { list-style:none;
-    a, button { display:block; text-align:left; font-size:1em; line-height:1.2; border:none; background-color:transparent; text-decoration:none; color:$base-text-color; transition:color #{$base-transition}; padding:8px 0;
+    a, button { display:block; text-align:left; font-size:1em; line-height:1.2; border:none; background-color:transparent; text-decoration:none; color:$base-text-color; transition:color #{$base-transition}; padding:8px 0; outline:none;
         &:hover, &:focus, &:active { color:$palette-accent; }
     }
     button { width:100%; cursor:pointer; }
@@ -95,3 +95,6 @@ app-config-preview-tile {
     p { margin-top:4px; margin-bottom:0; overflow:hidden; opacity:.75; white-space:nowrap; text-overflow:ellipsis; }
 }
 .item-list > li { padding:8px 0; }
+
+// SMALL STUFF
+.highlight { color:$palette-accent; }

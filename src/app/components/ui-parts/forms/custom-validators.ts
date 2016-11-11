@@ -14,6 +14,30 @@ function validatePortRange(c:FormControl) {
     };
 }
 
+/* check if a string is a well formed URL */
+function validURLChecker(c:FormControl) {
+    if(document) {
+        // do the checking via anchor tag technique
+        let url = document.createElement('a');
+        url.href = c.value;
+
+        /* has valid protocol & has host */
+        // check for external URLs
+        if((url.protocol === 'http:' || url.protocol === 'https:') && url.host !== '') return null;
+        // check for local URLs
+        if(url.protocol === 'localhost:') return null;
+
+    } else {
+        // validate anyway
+        return null;
+    }
+
+    return {
+        validateURL: { valid:false }
+    }
+}
+
 export const CustomValidators = {
-    portRange: validatePortRange
+    portRange: validatePortRange,
+    validURL: validURLChecker
 };
