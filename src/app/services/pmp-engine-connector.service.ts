@@ -15,14 +15,16 @@ const pmpEngineSocketEvts = {
         stopCmd: function () { return { type: 'input', subType: 'stop-command' }; },
         restartCmd: function (config) { return { type: 'input', subType: 'restart-command', payload: config }; },
         getConfigCmd: function () { return { type: 'input', subType: 'config-command' }; },
-        getUsefulLinks: function () { return { type:'input', subType:'links-command' }; }
+        getUsefulLinks: function () { return { type: 'input', subType: 'links-command' }; },
+        getAvailablePlugins: function() { return { type: 'input', subType: 'available-plugins-command' }; }
     },
     outputsSubTypes: {
         engineStatusLog: 'status',
         log: 'log',
         error: 'error',
         config: 'config',
-        usefulLinks: 'links'
+        usefulLinks: 'links',
+        availablePlugins: 'plugins'
     }
 };
 
@@ -75,6 +77,11 @@ export class PmpEngineConnectorService {
     this.socketConnector.emit(pimpCmd);
   }
 
+  public getPmpEngineAvailablePlugins (): void {
+    let pimpCmd = pmpEngineSocketEvts.inputs.getAvailablePlugins();
+    this.socketConnector.emit(pimpCmd);
+  }
+
   public get isPmpEngineConnected (): Observable<boolean> {
     return this.socketConnector.isConnectedStream;
   }
@@ -108,5 +115,11 @@ export class PmpEngineConnectorService {
   public get pmpEngineLinksStream (): Observable<any> {
     // distincUntilChanged with custom heuristic function for getting identical object
     return this.engineLinksStream.asObservable().distinctUntilChanged((a, b) => (JSON.stringify(a) === JSON.stringify(b)));
+  }
+
+  public get pmpEngineAvailablePlugins (): Observable<string[]> {
+    return this.socketConnector.socketOutputStream
+      .filter(data => { return (data.subType === pmpEngineSocketEvts.outputsSubTypes.availablePlugins); })
+      .map(data => data.payload);
   }
 }
