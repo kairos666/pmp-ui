@@ -6,6 +6,7 @@ export class PimpConfig {
   public id:string;
   public bsOptions:any;
   public pimpCmds:any;
+  public plugins:string[];
 
   constructor (
     name: string,
@@ -13,12 +14,14 @@ export class PimpConfig {
     keepCookies: boolean,
     port: number,
     rules: PimpRule | PimpRule[],
+    plugins?: string[],
     manuallySetId?:string
   ) {
     this.name       = name;
     this.id         = (!manuallySetId) ? UUID.UUID() : manuallySetId;
     this.bsOptions  = new BrowserSyncOptions(targetURL, keepCookies, port);
     this.pimpCmds   = (Array.isArray(rules)) ? rules : [rules];
+    this.plugins    = (!plugins) ? [] : plugins;
   }
 };
 
@@ -58,7 +61,7 @@ export class PimpRule {
 export function deconstructPimpConfig(original:PimpConfig):any[] {
   let bsOptions            = original.bsOptions;
   let pimpCmds             = original.pimpCmds;
-
+  let plugins              = original.plugins;
   let name                 = original.name;
   let targetURL            = bsOptions.proxy.target;
   let keepCookies          = !(bsOptions.proxy.cookies.stripeDomain);
@@ -66,7 +69,7 @@ export function deconstructPimpConfig(original:PimpConfig):any[] {
   let PimpRules            = pimpCmds;
   let id                   = original.id;
 
-  return [name, targetURL, keepCookies, port, PimpRules, id];
+  return [name, targetURL, keepCookies, port, PimpRules, plugins, id];
 }
 
 export class ConfigActions {
@@ -92,28 +95,28 @@ export class ConfigActions {
 
 export function defaultConfigGenerator():PimpConfig {
     let defaultName                 = 'default';
-    let defaultTargetURL            = 'http://www.syntaxsuccess.com/viewarticle/socket.io-with-rxjs-in-angular-2.0';
+    let defaultTargetURL            = 'http://www.gouvernement.fr/';
     let defaultKeepCookies          = true;
     let defaultPort                 = 3000;
     let defaultPimpRuleA: PimpRule  = new PimpRule(
-        '*/viewarticle*',
+        '*',
         [`
             $('head').append('<link rel="stylesheet" type="text/css" href="/css/main.min.css">');
             $('body').append('<script type="text/javascript" src="/js/main.min.js"></script>');
-            $('body').addClass('sample-modifier-rules');
-            $('.container').html('<p>replaced text</p>');
         `]
     );
     let defaultPimpRuleB: PimpRule  = new PimpRule(
         '*/sample-url2*',
         [`
-            $('head').append('<link rel="stylesheet" type="text/css" href="/css/main.min.css">');
-            $('body').append('<script type="text/javascript" src="/js/main.min.js"></script>');
             $('body').addClass('sample-modifier-rules2');
+            $('.container').html('<p>replaced text</p>');
         `]
     );
+    let pluginsList= [
+      'pmp-plugin-staples'
+    ];
 
-    return new PimpConfig(defaultName, defaultTargetURL, defaultKeepCookies, defaultPort, [defaultPimpRuleA, defaultPimpRuleB]);
+    return new PimpConfig(defaultName, defaultTargetURL, defaultKeepCookies, defaultPort, [defaultPimpRuleA, defaultPimpRuleB], pluginsList);
 }
 
 export class Notif {
