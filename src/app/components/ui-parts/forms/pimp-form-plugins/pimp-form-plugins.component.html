@@ -1,0 +1,16 @@
+<md-card>
+  <md-card-title>Pimp plugins configuration</md-card-title>
+  <md-card-subtitle>This configuration section is used for defining pimp transformations helpers. Each plugin provides a set of JS, HTML presets to ease the pimping.</md-card-subtitle>
+  <md-card-content>
+    <p>You can use none, one or multiples plugins. It is recommended to at least install and use "pmp-plugin-staples"</p>
+    <form [formGroup]="pimpPluginsForm" class="pimp-form" novalidate>
+        <ul formArrayName="plugins">
+          <!-- START iterate through rules form blocks -->
+          <li *ngFor="let plugin of pimpPluginsForm.controls.plugins.controls; let pluginIndex = index;">
+            [formGroupName]="{{pluginIndex}}" [plugin]="{{plugin}}"
+          </li>
+          <!-- END iterate through rules form blocks -->
+        </ul>
+    </form>
+  </md-card-content>
+</md-card>

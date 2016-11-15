@@ -23,13 +23,11 @@
       <md-tab>
         <template md-tab-label>pimp plugins</template>
         <template md-tab-content>
-          <md-card>
-            <md-card-title>Pimp plugins configuration - in construction</md-card-title>
-            <md-card-subtitle>This configuration section is used for defining pimp transformations helpers. Each plugin provides a set of JS, HTML presets to ease the pimping.</md-card-subtitle>
-            <md-card-content>
-                This will be nice but it isn't done yet!
-            </md-card-content>
-          </md-card>
+          <app-pimp-form-plugins
+            [pimpConfigInit]="configModel.fullConfigStream"
+            [pimpConfigChanges]="configModel.distinctConfigStream" 
+            (updatePimpConfig)="onUpdateConfig($event)"
+          ></app-pimp-form-plugins>
         </template>
       </md-tab>
     </md-tab-group>
