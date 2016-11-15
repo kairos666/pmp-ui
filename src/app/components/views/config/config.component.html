@@ -26,6 +26,7 @@
           <app-pimp-form-plugins
             [pimpConfigInit]="configModel.fullConfigStream"
             [pimpConfigChanges]="configModel.distinctConfigStream" 
+            [availablePlugins]="configModel.availablePluginsPromise"
             (updatePimpConfig)="onUpdateConfig($event)"
           ></app-pimp-form-plugins>
         </template>

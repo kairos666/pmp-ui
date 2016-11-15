@@ -117,7 +117,7 @@ export class PmpEngineConnectorService {
     return this.engineLinksStream.asObservable().distinctUntilChanged((a, b) => (JSON.stringify(a) === JSON.stringify(b)));
   }
 
-  public get pmpEngineAvailablePlugins (): Observable<string[]> {
+  public get pmpEngineAvailablePluginsStream (): Observable<string[]> {
     return this.socketConnector.socketOutputStream
       .filter(data => { return (data.subType === pmpEngineSocketEvts.outputsSubTypes.availablePlugins); })
       .map(data => data.payload);

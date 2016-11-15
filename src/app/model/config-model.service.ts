@@ -240,6 +240,14 @@ export class ConfigModelService {
     return this.currentAllowedConfigActions.asObservable();
   }
 
+  /* AVAILABLE PLUGINS GETTER */
+  public get availablePluginsPromise ():Promise<string[]> {
+    let availablePluginsPromise = this.pmpEngineConnector.pmpEngineAvailablePluginsStream.first().toPromise();
+    this.pmpEngineConnector.getPmpEngineAvailablePlugins();
+
+    return availablePluginsPromise;
+  }
+
   /* ACTIONS */
   public start():boolean {
     if (this.availableConfigActions.startAllowed) {

@@ -11,6 +11,7 @@ import { PimpConfig } from '../../../../schema/config';
 export class PimpFormPluginsComponent implements OnInit, OnDestroy {
   @Input() pimpConfigInit:Observable<PimpConfig>; // always send current config (no distinct)
   @Input() pimpConfigChanges:Observable<PimpConfig>; // only works when config change
+  @Input() availablePlugins:Promise<string[]>;
   @Output() updatePimpConfig = new EventEmitter();
   private pimpPluginsForm:FormGroup;
   private killSubs = new Subject();
@@ -48,6 +49,7 @@ export class PimpFormPluginsComponent implements OnInit, OnDestroy {
 
   private updateFormValues(plugins:string[]):void {
     console.log(plugins);
+    console.log(this.availablePlugins.then(plugins => { console.log(plugins) }))
   }
 
   ngOnDestroy() {
