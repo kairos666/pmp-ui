@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angu
 import { FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { PimpConfig } from '../../../../schema/config';
+import { PluginFormData } from '../../../../schema/pimp-form-plugin-data';
 
 @Component({
   selector: 'app-pimp-form-plugins',
@@ -11,7 +12,7 @@ import { PimpConfig } from '../../../../schema/config';
 export class PimpFormPluginsComponent implements OnInit, OnDestroy {
   @Input() pimpConfigInit:Observable<PimpConfig>; // always send current config (no distinct)
   @Input() pimpConfigChanges:Observable<PimpConfig>; // only works when config change
-  @Input() availablePlugins:Promise<string[]>;
+  @Input() availablePluginsPromise:Promise<string[]>;
   @Output() updatePimpConfig = new EventEmitter();
   private pimpPluginsForm:FormGroup;
   private killSubs = new Subject();
@@ -48,8 +49,40 @@ export class PimpFormPluginsComponent implements OnInit, OnDestroy {
   }
 
   private updateFormValues(plugins:string[]):void {
-    console.log(plugins);
-    this.availablePlugins.then(plugins => { console.log(plugins) })
+    this.availablePluginsPromise.then(availablePlugins => {
+      let formStateData = this.processPluginsData(plugins, availablePlugins);
+
+      console.log(formStateData);
+    });
+  }
+
+  private processPluginsData(pluginConfig:string[], availablePlugins:string[]):PluginFormData[] {
+    let removeDuplicates = function(src:string[]):string[] {
+      let a = src.concat();
+      for(var i=0; i<a.length; ++i) {
+        for(var j=i+1; j<a.length; ++j) {
+            if(a[i] === a[j])
+                a.splice(j--, 1);
+        }
+      }
+
+      return a;
+    }
+    let preResult = removeDuplicates(pluginConfig.concat(availablePlugins));
+    let result:PluginFormData[] = [];
+
+    // compute values
+    preResult.forEach(item => {
+      let pluginFormData:PluginFormData = {
+        name:item,
+        applied:(pluginConfig.indexOf(item) !== -1) ? true : false,
+        available:(availablePlugins.indexOf(item) !== -1) ? true : false
+      };
+
+      result.push(pluginFormData);
+    });
+
+    return result;
   }
 
   ngOnDestroy() {
