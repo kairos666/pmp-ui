@@ -12,6 +12,7 @@ export class ConfigModelService {
   private currentConfig: BehaviorSubject<PimpConfig> = new BehaviorSubject(undefined);
   private currentEngineConfig: BehaviorSubject<PimpConfig> = new BehaviorSubject(undefined);
   private currentAllowedConfigActions: BehaviorSubject<ConfigActions> = new BehaviorSubject(new ConfigActions(false, false, false, false));
+  private currentAllowedPlugins:Promise<string[]>;
   private notifierStream: Subject<any> = new Subject();
 
   constructor(private configStorage: ConfigStorageService, private pmpEngineConnector: PmpEngineConnectorService) {
@@ -37,6 +38,9 @@ export class ConfigModelService {
   }
 
   private initHandler (): void {
+    // setup available plugins Promise
+    this.currentAllowedPlugins = this.pmpEngineConnector.pmpEngineAvailablePluginsStream.first().toPromise();
+
     // act only when connection is established and engineStatus known (not pending)
     let initsubscription = this.pmpEngineSmartState
       .first(smartState => { return (smartState.socketConnection && smartState.engineStatus !== 'pending'); })
@@ -52,6 +56,9 @@ export class ConfigModelService {
             this.isInitiated = true;
           break;
         }
+
+        // trigger available plugins commands
+        this.pmpEngineConnector.getPmpEngineAvailablePlugins();
 
         // unsubscribe init behavior
         initsubscription.unsubscribe();
@@ -187,6 +194,11 @@ export class ConfigModelService {
     });
   }
 
+  /* AVAILABLE PLUGINS GETTER */
+  public get availablePluginsPromise():Promise<string[]> {
+    return this.currentAllowedPlugins;
+  };
+
   /* CONFIG GETTERS */
   public get config ():any {
     return this.currentConfig.value;
@@ -238,14 +250,6 @@ export class ConfigModelService {
 
   public get availableConfigActionsStream ():Observable<ConfigActions> {
     return this.currentAllowedConfigActions.asObservable();
-  }
-
-  /* AVAILABLE PLUGINS GETTER */
-  public get availablePluginsPromise ():Promise<string[]> {
-    let availablePluginsPromise = this.pmpEngineConnector.pmpEngineAvailablePluginsStream.first().toPromise();
-    this.pmpEngineConnector.getPmpEngineAvailablePlugins();
-
-    return availablePluginsPromise;
   }
 
   /* ACTIONS */

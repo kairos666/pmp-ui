@@ -49,7 +49,7 @@ export class PimpFormPluginsComponent implements OnInit, OnDestroy {
 
   private updateFormValues(plugins:string[]):void {
     console.log(plugins);
-    console.log(this.availablePlugins.then(plugins => { console.log(plugins) }))
+    this.availablePlugins.then(plugins => { console.log(plugins) })
   }
 
   ngOnDestroy() {
