@@ -14,6 +14,7 @@ export class PimpFormPluginsComponent implements OnInit, OnDestroy {
   @Input() pimpConfigChanges:Observable<PimpConfig>; // only works when config change
   @Input() availablePluginsPromise:Promise<string[]>;
   @Output() updatePimpConfig = new EventEmitter();
+  private metaFormData:PluginFormData[];
   private pimpPluginsForm:FormGroup;
   private killSubs = new Subject();
 
@@ -49,10 +50,24 @@ export class PimpFormPluginsComponent implements OnInit, OnDestroy {
   }
 
   private updateFormValues(plugins:string[]):void {
-    this.availablePluginsPromise.then(availablePlugins => {
-      let formStateData = this.processPluginsData(plugins, availablePlugins);
+    const pluginsArray = <FormArray>this.pimpPluginsForm.controls['plugins'];
 
-      console.log(formStateData);
+    this.availablePluginsPromise.then(availablePlugins => {
+      this.metaFormData = this.processPluginsData(plugins, availablePlugins);
+
+      // add pimp plugin form blocks (if needed)
+      while (pluginsArray.length < this.metaFormData.length) { 
+        pluginsArray.push(this.formBuilder.control(false)); 
+      }
+
+      // remove pimp plugin form blocks (if needed)
+      while (pluginsArray.length > this.metaFormData.length) { pluginsArray.removeAt(0); }
+
+      // setup data
+      this.metaFormData.forEach((item, index) => {
+        let pluginFormControl = <FormControl>pluginsArray.controls[index];
+        if (item.applied !== pluginFormControl.value) { pluginFormControl.setValue(item.applied); };
+      });
     });
   }
 

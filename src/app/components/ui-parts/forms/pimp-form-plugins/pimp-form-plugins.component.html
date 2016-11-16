@@ -7,7 +7,13 @@
         <ul formArrayName="plugins">
           <!-- START iterate through rules form blocks -->
           <li *ngFor="let plugin of pimpPluginsForm.controls.plugins.controls; let pluginIndex = index;">
-            [formGroupName]="{{pluginIndex}}" [plugin]="{{plugin}}"
+            <div class="form-control-container">
+              <md-slide-toggle 
+                 id="{{ 'plugin-form-block-' + pluginIndex }}" 
+                formControlName="{{pluginIndex}}"
+                [disabled]="metaFormData[pluginIndex].available ? null : ''"    
+              >{{metaFormData[pluginIndex].name}}</md-slide-toggle>
+            </div>
           </li>
           <!-- END iterate through rules form blocks -->
         </ul>
