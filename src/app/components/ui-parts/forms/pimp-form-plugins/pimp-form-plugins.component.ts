@@ -46,7 +46,23 @@ export class PimpFormPluginsComponent implements OnInit, OnDestroy {
   }
 
   private updateUpstream():void {
-    console.log('UPDATE DETECTED');
+    // fill pimp plugins current values
+    const pluginsArray = <FormArray>this.pimpPluginsForm.controls['plugins'];
+    const formValidity = pluginsArray.valid;
+    let pluginConfig = [];
+    pluginsArray.controls.forEach((item, index) => {
+      if(item) pluginConfig.push(this.metaFormData[index].name);
+    });
+    console.log(formValidity)
+    // format update object
+    let updateObj = {
+      formId:'plugins-pimp-form',
+      formValidity:formValidity,
+      plugins: pluginConfig
+    };
+
+    // send update
+    this.updatePimpConfig.emit(updateObj);
   }
 
   private updateFormValues(plugins:string[]):void {
@@ -67,7 +83,6 @@ export class PimpFormPluginsComponent implements OnInit, OnDestroy {
       this.metaFormData.forEach((item, index) => {
         let pluginFormControl = <FormControl>pluginsArray.controls[index];
         if (item.applied !== pluginFormControl.value) { pluginFormControl.setValue(item.applied); };
-        if (item.available) { pluginFormControl.enable(); } else { pluginFormControl.disable(); }
       });
     });
   }
