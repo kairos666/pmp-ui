@@ -67,6 +67,7 @@ export class PimpFormPluginsComponent implements OnInit, OnDestroy {
       this.metaFormData.forEach((item, index) => {
         let pluginFormControl = <FormControl>pluginsArray.controls[index];
         if (item.applied !== pluginFormControl.value) { pluginFormControl.setValue(item.applied); };
+        if (item.available) { pluginFormControl.enable(); } else { pluginFormControl.disable(); }
       });
     });
   }
