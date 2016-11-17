@@ -76,6 +76,10 @@ export class ConfigComponent implements OnInit, OnDestroy {
         case 'rules-pimp-form':
           configParameters[4] = event.pimpCmds;
         break;
+
+        case 'plugins-pimp-form':
+          configParameters[5] = event.plugins;
+        break;
       }
 
       this.configModel.updateConfig(new (<any>PimpConfig)(...configParameters));

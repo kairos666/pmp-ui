@@ -53,7 +53,7 @@ export class PimpFormPluginsComponent implements OnInit, OnDestroy {
     pluginsArray.controls.forEach((item, index) => {
       if(item) pluginConfig.push(this.metaFormData[index].name);
     });
-    console.log(formValidity)
+    
     // format update object
     let updateObj = {
       formId:'plugins-pimp-form',
