@@ -51,7 +51,7 @@ export class PimpFormPluginsComponent implements OnInit, OnDestroy {
     const formValidity = pluginsArray.valid;
     let pluginConfig = [];
     pluginsArray.controls.forEach((item, index) => {
-      if(item) pluginConfig.push(this.metaFormData[index].name);
+      if(item.value) pluginConfig.push(this.metaFormData[index].name);
     });
     
     // format update object
@@ -111,6 +111,15 @@ export class PimpFormPluginsComponent implements OnInit, OnDestroy {
       };
 
       result.push(pluginFormData);
+    });
+
+    // sort alphabetically (staples always first)
+    result.sort((a, b) => {
+      if(a.name === 'pmp-plugin-staples') return -1;
+      if(b.name === 'pmp-plugin-staples') return 1;
+      if(a.name < b.name) return -1;
+      if(a.name > b.name) return 1;
+      return 0;
     });
 
     return result;
