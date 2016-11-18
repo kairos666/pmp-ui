@@ -12,6 +12,7 @@ export class ConfigModelService {
   private currentConfig: BehaviorSubject<PimpConfig> = new BehaviorSubject(undefined);
   private currentEngineConfig: BehaviorSubject<PimpConfig> = new BehaviorSubject(undefined);
   private currentAllowedConfigActions: BehaviorSubject<ConfigActions> = new BehaviorSubject(new ConfigActions(false, false, false, false));
+  private currentAllowedPlugins:Promise<string[]>;
   private notifierStream: Subject<any> = new Subject();
 
   constructor(private configStorage: ConfigStorageService, private pmpEngineConnector: PmpEngineConnectorService) {
@@ -37,6 +38,9 @@ export class ConfigModelService {
   }
 
   private initHandler (): void {
+    // setup available plugins Promise
+    this.currentAllowedPlugins = this.pmpEngineConnector.pmpEngineAvailablePluginsStream.first().toPromise();
+
     // act only when connection is established and engineStatus known (not pending)
     let initsubscription = this.pmpEngineSmartState
       .first(smartState => { return (smartState.socketConnection && smartState.engineStatus !== 'pending'); })
@@ -52,6 +56,9 @@ export class ConfigModelService {
             this.isInitiated = true;
           break;
         }
+
+        // trigger available plugins commands
+        this.pmpEngineConnector.getPmpEngineAvailablePlugins();
 
         // unsubscribe init behavior
         initsubscription.unsubscribe();
@@ -139,7 +146,7 @@ export class ConfigModelService {
   private handleConfigSub():void {
     // only used for init (work once at most and only when not initiated)
     this.pmpEngineConnector.pmpEngineDataConfigStream.subscribe(config => {
-        let pimpconfig = new PimpConfig(config.name, config.bsOptions.proxy.target, !config.bsOptions.proxy.cookies.stripeDomain, config.bsOptions.port, config.pimpCmds, config.id);
+        let pimpconfig = new PimpConfig(config.name, config.bsOptions.proxy.target, !config.bsOptions.proxy.cookies.stripeDomain, config.bsOptions.port, config.pimpCmds, config.plugins, config.id);
         if (!this.isInitiated) {
           this.currentConfig.next(pimpconfig);
           this.currentEngineConfig.next(pimpconfig);
@@ -186,6 +193,11 @@ export class ConfigModelService {
         }
     });
   }
+
+  /* AVAILABLE PLUGINS GETTER */
+  public get availablePluginsPromise():Promise<string[]> {
+    return this.currentAllowedPlugins;
+  };
 
   /* CONFIG GETTERS */
   public get config ():any {

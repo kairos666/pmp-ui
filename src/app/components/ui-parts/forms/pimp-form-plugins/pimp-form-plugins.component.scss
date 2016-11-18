@@ -1,0 +1,14 @@
+@import '../../../../../pmp-material-theme-variables.scss';
+@import '../../../../../pmp-material-theme-utils.scss';
+
+:host .pimp-form ul { list-style:none; margin:0; padding:0; }
+li {
+    .form-control-container { display:flex; align-items:center; }
+    md-slide-toggle { margin:0 16px 0 0; flex:1 1 auto; }
+    aside { text-align:right;
+        md-icon { float:left; margin-right:16px; }
+        h4 { overflow:hidden; margin:0; }
+        p { clear:both; font-size:.8em; }
+    }
+    .form-control-container.disable  md-slide-toggle { pointer-events:none; opacity:.5; }
+}
