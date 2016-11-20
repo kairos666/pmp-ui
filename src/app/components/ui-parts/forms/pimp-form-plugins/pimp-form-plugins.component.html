@@ -4,6 +4,14 @@
   <md-card-content>
     <p>You can use none, one or multiples plugins. It is recommended to at least install and use "pmp-plugin-staples"</p>
     <form [formGroup]="pimpPluginsForm" class="pimp-form" novalidate>
+        <md-progress-circle *ngIf="isLoadingAvailablePlugins" mode="indeterminate" color="accent"></md-progress-circle>
+        <ul class="no-data item-list" *ngIf="pimpPluginsForm.controls.plugins.controls.length === 0 && !isLoadingAvailablePlugins">
+          <li>
+            <md-icon>not_interested</md-icon>
+            <h4>No plugins available</h4>
+            <p>See available plugins <a class="regular-link highlight" href="https://www.npmjs.com/search?q=pmp-plugin" target="_blank">NPM registry</a></p>
+          </li>
+        </ul>
         <ul formArrayName="plugins">
           <!-- START iterate through rules form blocks -->
           <li *ngFor="let plugin of pimpPluginsForm.controls.plugins.controls; let pluginIndex = index;">

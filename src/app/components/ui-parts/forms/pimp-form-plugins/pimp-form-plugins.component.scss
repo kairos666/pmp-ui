@@ -2,6 +2,7 @@
 @import '../../../../../pmp-material-theme-utils.scss';
 
 :host .pimp-form ul { list-style:none; margin:0; padding:0; }
+md-progress-circle { margin:16px auto; }
 li {
     .form-control-container { display:flex; align-items:center; }
     md-slide-toggle { margin:0 16px 0 0; flex:1 1 auto; }

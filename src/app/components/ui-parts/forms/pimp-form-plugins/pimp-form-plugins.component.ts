@@ -17,6 +17,7 @@ export class PimpFormPluginsComponent implements OnInit, OnDestroy {
   private metaFormData:PluginFormData[];
   private pimpPluginsForm:FormGroup;
   private killSubs = new Subject();
+  private isLoadingAvailablePlugins = true;
 
   constructor(private formBuilder:FormBuilder) { }
 
@@ -69,6 +70,10 @@ export class PimpFormPluginsComponent implements OnInit, OnDestroy {
     const pluginsArray = <FormArray>this.pimpPluginsForm.controls['plugins'];
 
     this.availablePluginsPromise.then(availablePlugins => {
+      // remove loader
+      this.isLoadingAvailablePlugins = false;
+
+      // process data
       this.metaFormData = this.processPluginsData(plugins, availablePlugins);
 
       // add pimp plugin form blocks (if needed)
