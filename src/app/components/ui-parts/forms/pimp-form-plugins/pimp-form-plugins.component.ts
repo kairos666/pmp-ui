@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
-import { PimpConfig } from '../../../../schema/config';
+import { PimpConfig, PmpPluginDescriptor } from '../../../../schema/config';
 import { PluginFormData } from '../../../../schema/pimp-form-plugin-data';
 
 @Component({
@@ -12,7 +12,7 @@ import { PluginFormData } from '../../../../schema/pimp-form-plugin-data';
 export class PimpFormPluginsComponent implements OnInit, OnDestroy {
   @Input() pimpConfigInit:Observable<PimpConfig>; // always send current config (no distinct)
   @Input() pimpConfigChanges:Observable<PimpConfig>; // only works when config change
-  @Input() availablePluginsPromise:Promise<string[]>;
+  @Input() availablePluginsPromise:Promise<PmpPluginDescriptor[]>;
   @Output() updatePimpConfig = new EventEmitter();
   private metaFormData:PluginFormData[];
   private pimpPluginsForm:FormGroup;
@@ -92,7 +92,7 @@ export class PimpFormPluginsComponent implements OnInit, OnDestroy {
     });
   }
 
-  private processPluginsData(pluginConfig:string[], availablePlugins:string[]):PluginFormData[] {
+  private processPluginsData(pluginConfig:string[], availablePlugins:PmpPluginDescriptor[]):PluginFormData[] {
     let removeDuplicates = function(src:string[]):string[] {
       let a = src.concat();
       for(var i=0; i<a.length; ++i) {
@@ -104,15 +104,18 @@ export class PimpFormPluginsComponent implements OnInit, OnDestroy {
 
       return a;
     }
-    let preResult = removeDuplicates(pluginConfig.concat(availablePlugins));
+    let preResult = removeDuplicates(pluginConfig.concat(availablePlugins.map(pluginDescriptor => pluginDescriptor.packageName)));
     let result:PluginFormData[] = [];
 
     // compute values
     preResult.forEach(item => {
+      let pluginDescriptorObj = availablePlugins.find(pluginDescriptor => (pluginDescriptor.packageName === item));
       let pluginFormData:PluginFormData = {
         name:item,
+        description: (pluginDescriptorObj && pluginDescriptorObj.packageDescription) ? pluginDescriptorObj.packageDescription : 'not available',
+        readme: (pluginDescriptorObj && pluginDescriptorObj.packageReadme) ? pluginDescriptorObj.packageReadme : 'not available',
         applied:(pluginConfig.indexOf(item) !== -1) ? true : false,
-        available:(availablePlugins.indexOf(item) !== -1) ? true : false
+        available:(pluginDescriptorObj) ? true : false
       };
 
       result.push(pluginFormData);

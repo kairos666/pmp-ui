@@ -130,3 +130,9 @@ export class Notif {
     this.payload = payload;
   }
 }
+
+export interface PmpPluginDescriptor {
+  packageName:string;
+  packageDescription:string;
+  packageReadme:string;
+}

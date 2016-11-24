@@ -20,6 +20,9 @@
                  id="{{ 'plugin-form-block-' + pluginIndex }}" 
                 formControlName="{{pluginIndex}}"
               >{{metaFormData[pluginIndex].name}}</md-slide-toggle>
+              <aside *ngIf="metaFormData[pluginIndex].available">
+                <p>{{metaFormData[pluginIndex].description}}</p>
+              </aside>
               <aside *ngIf="!metaFormData[pluginIndex].available">
                 <md-icon>not_interested</md-icon>
                 <h4>plugin not available</h4>

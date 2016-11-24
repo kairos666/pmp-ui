@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PimpConfig, ConfigActions, Notif } from '../schema/config';
+import { PimpConfig, ConfigActions, Notif, PmpPluginDescriptor } from '../schema/config';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { ConfigStorageService } from '../services/config-storage.service';
 import { PmpEngineConnectorService } from '../services/pmp-engine-connector.service';
@@ -12,7 +12,7 @@ export class ConfigModelService {
   private currentConfig: BehaviorSubject<PimpConfig> = new BehaviorSubject(undefined);
   private currentEngineConfig: BehaviorSubject<PimpConfig> = new BehaviorSubject(undefined);
   private currentAllowedConfigActions: BehaviorSubject<ConfigActions> = new BehaviorSubject(new ConfigActions(false, false, false, false));
-  private currentAllowedPlugins:Promise<string[]>;
+  private currentAllowedPlugins:Promise<PmpPluginDescriptor[]>;
   private notifierStream: Subject<any> = new Subject();
 
   constructor(private configStorage: ConfigStorageService, private pmpEngineConnector: PmpEngineConnectorService) {
@@ -195,7 +195,7 @@ export class ConfigModelService {
   }
 
   /* AVAILABLE PLUGINS GETTER */
-  public get availablePluginsPromise():Promise<string[]> {
+  public get availablePluginsPromise():Promise<PmpPluginDescriptor[]> {
     return this.currentAllowedPlugins;
   };
 
