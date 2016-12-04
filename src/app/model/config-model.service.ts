@@ -146,7 +146,7 @@ export class ConfigModelService {
   private handleConfigSub():void {
     // only used for init (work once at most and only when not initiated)
     this.pmpEngineConnector.pmpEngineDataConfigStream.subscribe(config => {
-        let pimpconfig = new PimpConfig(config.name, config.bsOptions.proxy.target, !config.bsOptions.proxy.cookies.stripeDomain, config.bsOptions.port, config.pimpCmds, config.plugins, config.id);
+        let pimpconfig = new PimpConfig(config.name, config.bsOptions.proxy.target, !config.bsOptions.proxy.cookies.stripeDomain, config.bsOptions.port, config.bsOptions.cors, config.pimpCmds, config.plugins, config.id);
         if (!this.isInitiated) {
           this.currentConfig.next(pimpconfig);
           this.currentEngineConfig.next(pimpconfig);

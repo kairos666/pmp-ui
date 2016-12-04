@@ -24,6 +24,7 @@ export class PimpFormGeneralComponent implements OnInit, OnDestroy {
     this.generalPimpForm = this.formBuilder.group({
       target: ['', [Validators.required, CustomValidators.validURL]],
       port: ['', [Validators.required, CustomValidators.portRange]],
+      cors: true,
       cookies: true
     });
 
@@ -34,6 +35,7 @@ export class PimpFormGeneralComponent implements OnInit, OnDestroy {
       (<any>this.generalPimpForm.controls).target.setValue(initialParams[1]);
       (<any>this.generalPimpForm.controls).port.setValue(initialParams[3]);
       (<any>this.generalPimpForm.controls).cookies.setValue(initialParams[2]);
+      (<any>this.generalPimpForm.controls).cors.setValue(initialParams[4]);
 
       // setup form update (no submit)
       this.formUpdateSetup();
@@ -58,9 +60,11 @@ export class PimpFormGeneralComponent implements OnInit, OnDestroy {
       let targetFormControl   = (<any>this.generalPimpForm.controls).target;
       let portFormControl     = (<any>this.generalPimpForm.controls).port;
       let cookiesFormControl  = (<any>this.generalPimpForm.controls).cookies;
+      let corsFormControl  = (<any>this.generalPimpForm.controls).cors;
       if (updateParams[1] !== targetFormControl.value) { targetFormControl.setValue(updateParams[1]); };
       if (updateParams[3] !== portFormControl.value) { portFormControl.setValue(updateParams[3]); };
       if (updateParams[2] !== cookiesFormControl.value) { cookiesFormControl.setValue(updateParams[2]); };
+      if (updateParams[4] !== corsFormControl.value) { corsFormControl.setValue(updateParams[4]); };
     });
   }
 

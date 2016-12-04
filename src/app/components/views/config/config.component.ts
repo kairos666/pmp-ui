@@ -71,14 +71,15 @@ export class ConfigComponent implements OnInit, OnDestroy {
           configParameters[1] = event.target;
           configParameters[3] = event.port;
           configParameters[2] = event.cookies;
+          configParameters[4] = event.cors;
         break;
 
         case 'rules-pimp-form':
-          configParameters[4] = event.pimpCmds;
+          configParameters[5] = event.pimpCmds;
         break;
 
         case 'plugins-pimp-form':
-          configParameters[5] = event.plugins;
+          configParameters[6] = event.plugins;
         break;
       }
 

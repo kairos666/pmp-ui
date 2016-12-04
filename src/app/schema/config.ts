@@ -13,13 +13,14 @@ export class PimpConfig {
     targetURL: string,
     keepCookies: boolean,
     port: number,
+    cors: boolean,
     rules: PimpRule | PimpRule[],
     plugins?: string[],
     manuallySetId?:string
   ) {
     this.name       = name;
     this.id         = (!manuallySetId) ? UUID.UUID() : manuallySetId;
-    this.bsOptions  = new BrowserSyncOptions(targetURL, keepCookies, port);
+    this.bsOptions  = new BrowserSyncOptions(targetURL, keepCookies, port, cors);
     this.pimpCmds   = (Array.isArray(rules)) ? rules : [rules];
     this.plugins    = (!plugins) ? [] : plugins;
   }
@@ -29,7 +30,8 @@ class BrowserSyncOptions {
   constructor (
     targetURL: string,
     keepCookies: boolean,
-    port: number
+    port: number,
+    cors: boolean
   ) {
     return {
       proxy: {
@@ -39,6 +41,7 @@ class BrowserSyncOptions {
         }
       },
       port: port,
+      cors: cors,
       serveStatic: ['./dist'],
       middleware: [],
       rewriteRules: []
@@ -68,8 +71,9 @@ export function deconstructPimpConfig(original:PimpConfig):any[] {
   let port                 = bsOptions.port;
   let PimpRules            = pimpCmds;
   let id                   = original.id;
+  let cors                 = bsOptions.cors;
 
-  return [name, targetURL, keepCookies, port, PimpRules, plugins, id];
+  return [name, targetURL, keepCookies, port, cors, PimpRules, plugins, id];
 }
 
 export class ConfigActions {
@@ -97,6 +101,7 @@ export function defaultConfigGenerator():PimpConfig {
     let defaultName                 = 'default';
     let defaultTargetURL            = 'http://www.gouvernement.fr/';
     let defaultKeepCookies          = true;
+    let defaultCors                 = true;
     let defaultPort                 = 3000;
     let defaultPimpRuleA: PimpRule  = new PimpRule(
         '*',
@@ -116,7 +121,7 @@ export function defaultConfigGenerator():PimpConfig {
       'pmp-plugin-staples'
     ];
 
-    return new PimpConfig(defaultName, defaultTargetURL, defaultKeepCookies, defaultPort, [defaultPimpRuleA, defaultPimpRuleB], pluginsList);
+    return new PimpConfig(defaultName, defaultTargetURL, defaultKeepCookies, defaultPort, defaultCors, [defaultPimpRuleA, defaultPimpRuleB], pluginsList);
 }
 
 export class Notif {

@@ -96,9 +96,9 @@ export class PimpFormRulesComponent implements OnInit, OnDestroy {
   }
 
   private buildInitRulesObjectsFromConfig(config:PimpConfig):any {
-    let inputPimpRules = deconstructPimpConfig(config)[4];
+    let inputPimpRules = deconstructPimpConfig(config)[5];
     let result = [];
-
+    
     // build all
     inputPimpRules.forEach((item, index) => {
       let ruleItem = { rulePattern:item.url, modifs:item.modifs.join('\n') };
