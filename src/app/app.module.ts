@@ -31,6 +31,9 @@ import { ConfigPreviewTileComponent } from './components/ui-parts/config-preview
 import { PimpFormPluginsComponent } from './components/ui-parts/forms/pimp-form-plugins/pimp-form-plugins.component';
 import { PluginReadmeComponent } from './components/ui-parts/dialogs/plugin-readme/plugin-readme.component';
 
+/* PIPES */
+import { MarkdownToHtmlPipe } from 'markdown-to-html-pipe';
+
 let routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'console', component: ConsoleComponent },
@@ -58,7 +61,8 @@ let routes = [
     PimpLinksTileComponent,
     ConfigPreviewTileComponent,
     PimpFormPluginsComponent,
-    PluginReadmeComponent
+    PluginReadmeComponent,
+    MarkdownToHtmlPipe
   ],
   entryComponents: [
     PluginReadmeComponent
