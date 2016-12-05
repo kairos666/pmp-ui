@@ -137,8 +137,10 @@ export class PimpFormPluginsComponent implements OnInit, OnDestroy {
   }
 
   private openDialog(pluginName):void {
-    console.log(pluginName)
     this.dialogRef = this.dialog.open(PluginReadmeComponent);
+
+    // provide plugin name to dialog
+    this.dialogRef.componentInstance.pluginName = pluginName;
   }
 
   ngOnDestroy() {
