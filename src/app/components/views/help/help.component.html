@@ -1,162 +1,156 @@
 <md-tab-group class="secondary-navigation">
   <md-tab>
     <template md-tab-label>introduction</template>
-    <template md-tab-content>
-      <md-card>
-        <md-card-title>The basics</md-card-title>   
-        <md-card-content>
-            <h3>What Pimp My Page (PMP) allows you to do ?</h3>
-            <p>That is just a fancy tool to help front-end developers in hostile territory.<br> PMP aims to close the gap between the ease and flexibility of static front-end development and the hurdles in, real-world, complex CMS front-end development.</p>
-            <p>Here are a few scenarii where PMP will help:</p>
-            <ul>
-              <li>I don't have a development environment. Still I need to do some front-end work on this existing page</li>
-              <li>I don't know this CMS solution theming system. Still I need to contribute effectively without learning it, or introducing bugs.</li>
-              <li>I have to quiclky prototype some front-end elements and insert them in an existing page. I have to iterate a lot, without interfering with what is already in place. I don't have access to the sources.</li>
-            </ul>
-            <p>In all those cases, PMP will help get up and running in a minute.<br> You'll be hacking on some existing page without fearing of breaking anything. Best of all, you don't even have to know how the page you are working on is pieced together.</p>
-            <h3>That's magic ! How does this work ?</h3>
-            <img width="100%" src="../../../../assets/pmp-anim.gif" alt="pmp micro anim" />
-            <p>Pimp My page (PMP) is composed of 4 parts: the target, the project, the engine, the interface. Let's quickly go through each of those parts to understand how they play together.</p>
-            <ol>
-              <li>
-                <h4>The target</h4>
-                <p>That's the website or page you want to work on. You don't need any kinf of server access privileges on it. Having access to the URL you are interested in is all you need.</p>  
-              </li>
-              <li>
-                <h4>The project</h4>
-                <p>That's your basic front-end files and assets. If you know HTML, CSS and JS you know what I'm talking about.</p>
-                <p><b>CSS</b> - you can write SASS/CSS and see directly the changes in the page.<br> <b>JS</b> - you can add some JS to the page and see the result after an automatic page refresh.<br> <b>HTML</b> - write your HTML partials and inject/replace them in the page.<br> <b>Assets</b> - provide images, fonts, JS libraries that can be used in the page in addition to what the page's server already provide.</p>   
-              </li>
-              <li>
-                <h4>The engine</h4>
-                <p>Where the magic happens! It serves the modified page with all your customizations.</p>
-                <p><b><a href="https://www.browsersync.io/" target="_blank" title="go to BrowserSync website">BrowserSync</a></b> is used internally to proxy the <b>targeted website or page</b> you wish to pimp.<br>A configurable <b>middelware</b> intercepts the page request and transfroms it on the fly to apply various modifications.<br>A <b><a href="http://gulpjs.com/" target="_blank" title="go to Gulp website">Gulp</a> node process</b> takes care of glueing the project files to the page.</p>  
-              </li>
-              <li>
-                <h4>The interface</h4>
-                <p>The web application you are currently on. It aims to provide intuitive control over the engine.</p>
-                <p><b>START or STOP</b> the engine with a button.<br> <b>Monitor</b> what happens in the engine (logs, errors, sass compilation events, ...).<br> <b>Change, save, restore the pimp configuration</b> that is used to instruct the engine what to do. Basically it is the configuration that is passed to the engine middleware.</p> 
-              </li>
-            </ol>
-        </md-card-content>
-      </md-card>
-    </template>
+    <md-card>
+      <md-card-title>The basics</md-card-title>   
+      <md-card-content>
+          <h3>What Pimp My Page (PMP) allows you to do ?</h3>
+          <p>That is just a fancy tool to help front-end developers in hostile territory.<br> PMP aims to close the gap between the ease and flexibility of static front-end development and the hurdles in, real-world, complex CMS front-end development.</p>
+          <p>Here are a few scenarii where PMP will help:</p>
+          <ul>
+            <li>I don't have a development environment. Still I need to do some front-end work on this existing page</li>
+            <li>I don't know this CMS solution theming system. Still I need to contribute effectively without learning it, or introducing bugs.</li>
+            <li>I have to quiclky prototype some front-end elements and insert them in an existing page. I have to iterate a lot, without interfering with what is already in place. I don't have access to the sources.</li>
+          </ul>
+          <p>In all those cases, PMP will help get up and running in a minute.<br> You'll be hacking on some existing page without fearing of breaking anything. Best of all, you don't even have to know how the page you are working on is pieced together.</p>
+          <h3>That's magic ! How does this work ?</h3>
+          <img width="100%" src="../../../../assets/pmp-anim.gif" alt="pmp micro anim" />
+          <p>Pimp My page (PMP) is composed of 4 parts: the target, the project, the engine, the interface. Let's quickly go through each of those parts to understand how they play together.</p>
+          <ol>
+            <li>
+              <h4>The target</h4>
+              <p>That's the website or page you want to work on. You don't need any kinf of server access privileges on it. Having access to the URL you are interested in is all you need.</p>  
+            </li>
+            <li>
+              <h4>The project</h4>
+              <p>That's your basic front-end files and assets. If you know HTML, CSS and JS you know what I'm talking about.</p>
+              <p><b>CSS</b> - you can write SASS/CSS and see directly the changes in the page.<br> <b>JS</b> - you can add some JS to the page and see the result after an automatic page refresh.<br> <b>HTML</b> - write your HTML partials and inject/replace them in the page.<br> <b>Assets</b> - provide images, fonts, JS libraries that can be used in the page in addition to what the page's server already provide.</p>   
+            </li>
+            <li>
+              <h4>The engine</h4>
+              <p>Where the magic happens! It serves the modified page with all your customizations.</p>
+              <p><b><a href="https://www.browsersync.io/" target="_blank" title="go to BrowserSync website">BrowserSync</a></b> is used internally to proxy the <b>targeted website or page</b> you wish to pimp.<br>A configurable <b>middelware</b> intercepts the page request and transfroms it on the fly to apply various modifications.<br>A <b><a href="http://gulpjs.com/" target="_blank" title="go to Gulp website">Gulp</a> node process</b> takes care of glueing the project files to the page.</p>  
+            </li>
+            <li>
+              <h4>The interface</h4>
+              <p>The web application you are currently on. It aims to provide intuitive control over the engine.</p>
+              <p><b>START or STOP</b> the engine with a button.<br> <b>Monitor</b> what happens in the engine (logs, errors, sass compilation events, ...).<br> <b>Change, save, restore the pimp configuration</b> that is used to instruct the engine what to do. Basically it is the configuration that is passed to the engine middleware.</p> 
+            </li>
+          </ol>
+      </md-card-content>
+    </md-card>
   </md-tab>
   <md-tab>
     <template md-tab-label>getting started</template>
-    <template md-tab-content>
-      <md-card>
-        <md-card-title>Quick start</md-card-title>   
-        <md-card-content>
-            <p>You just have to press the <span class="highlight">START button</span> on the dasboard or in the top right corner. Voila!</p>
-            <p>If you never created a <span class="highlight">PIMP configuration</span> before, a default one will be automatically provided. Then a sequence of actions will unfold:</p>
-            <ul>
-              <li><b>Dashboard</b> engine' state indicator will turn yellow, then green. Useful information will also appear.</li>
-              <li><b>Console</b> engine starting logs will begin to show in the console.</li>
-              <li><b>Browser</b> A new browser window will open with the pimp page being loaded (proxied URL)</li>
-            </ul>
-            <p>At that point you have already everything setup to start pimping. You can start playing around with project files (see <span class="highlight">"Pimp source files"</span> folder path in the dashboard).</p>
-        </md-card-content>
-      </md-card>
-      <md-card>
-        <md-card-title>Configuration editing</md-card-title>   
-        <md-card-content>
-            <p>Now you are ready to provide your own custom configuration.</p>
-            <h3>target editing</h3>
-            <p>First thing to do is to point to the website you want to work on.</p>
-            <ol>
-              <li>Go to the <a class="link-style" routerLink="/configuration" title="go to the configuration page | general tab">configuration page | general tab</a></li>
-              <li>Change <span class="highlight">"URL to proxy"</span> input field with a valid URL</li>
-              <li>click the <span class="highlight">apply button</span> <button md-mini-fab><md-icon>exit_to_app</md-icon></button> to update the engine target (will restart the engine).</li>
-            </ol>
-            <h3>rule editing</h3>
-            <p>A pimp rule is the basic instruction unit that will support the pimping of the page. To summarize this will describe actions to perform and where.<br> A rule is composed of an URL pattern and a list of javascript instructions to perform.<br> More information on this in the following <span class="highlight">help sections.</span></p>
-            <ol>
-              <li>Go to the <a class="link-style" [routerLink]="['/configuration', { selectedTabIndex:'1' }]" title="go to the configuration page | pimp rules tab">configuration page | pimp rules tab</a></li>
-              <li>Choose an existing rule to edit or create one with the <button md-raised-button color="accent">ADD RULE</button> button</li>
-              <li>modify the <span class="highlight">rule pattern</span> input field to describe which pages of the target website will be impacted by the rule.<br>Here are a few patterns examples (<a class="link-style" href="https://github.com/bjoerge/route-pattern" target="_blank" title="go to route pattern readme on github">see pattern syntax documentation</a>): 
-                <ul>
-                  <li><span class="highlight">"*"</span> will match all pages</li>
-                  <li><span class="highlight">"*/specific-page.html"</span> will match only URLs endings</li>
-                  <li><span class="highlight">"*/news*"</span> will match all URLs containing the "news" path</li>
-                </ul>
-              </li>
-              <li>update the <span class="highlight">modification script</span> textarea with the modifications you want to apply to the page.
-                <h5>Staple instruction #1 - adding the main stylesheet to the page</h5>
-                <code>$('head').append('&lt;link rel="stylesheet" type="text/css" href="/css/main.min.css"&gt;');</code>
-                <h5>Staple instruction #2 - adding the main JS to the page</h5>
-                <code>$('body').append('&lt;script type="text/javascript" src="/js/main.min.js"&gt;&lt;/script&gt;');</code>
-                <h5>Here are common gotchas and pitfalls</h5>
-                <ul>
-                  <li>the modification script is written in <b>javascript/node</b></li>
-                  <li>the modification script is executed in the engine middleware therefore <b>it leaves no traces in the browser</b>.</li>
-                  <li>you <b>can't use ES6's' multi-line strings</b> in your instructions</li>
-                  <li>A light version of jQuery is accessible through the <span class="highlight">$</span> object (<a class="link-style" href="https://github.com/cheeriojs/cheerio#selectors" target="_blank" title="go to cheerio readme on github">see available methods there</a>).</li>
-                  <li>For more information on this part, see the related help sections</li>
-                </ul>
-              </li>
-            </ol>
-        </md-card-content>
-      </md-card>
-      <md-card>
-        <md-card-title>Start pimping</md-card-title>   
-        <md-card-content>
-            <p>Now that you have customized your <span class="highlight">PIMP configuration</span> you should have:</p>
-            <ul>
-              <li>engine is started (green state indicator)</li>
-              <li>got a browser tab displaying the proxied website you are targeting</li>
-              <li>some <span class="highlight">PIMP rules</span> are defined and applied accordingly to the pages you display</li>
-            </ul>
-            <p>At that point you have already everything setup to start pimping the page in the browser.</p>
-            <p>Click on the <span class="highlight">"Pimp source files" dashboard button</span>, you'll have the project folder path in your clipboard. Paste that path in your explorer address bar to open it at that location.<br> Now you have access to HTML, JS, CSS files to start working. Open them in your editor of choice and start editing.</p>
-        </md-card-content>
-      </md-card>
-    </template>
+    <md-card>
+      <md-card-title>Quick start</md-card-title>   
+      <md-card-content>
+          <p>You just have to press the <span class="highlight">START button</span> on the dasboard or in the top right corner. Voila!</p>
+          <p>If you never created a <span class="highlight">PIMP configuration</span> before, a default one will be automatically provided. Then a sequence of actions will unfold:</p>
+          <ul>
+            <li><b>Dashboard</b> engine' state indicator will turn yellow, then green. Useful information will also appear.</li>
+            <li><b>Console</b> engine starting logs will begin to show in the console.</li>
+            <li><b>Browser</b> A new browser window will open with the pimp page being loaded (proxied URL)</li>
+          </ul>
+          <p>At that point you have already everything setup to start pimping. You can start playing around with project files (see <span class="highlight">"Pimp source files"</span> folder path in the dashboard).</p>
+      </md-card-content>
+    </md-card>
+    <md-card>
+      <md-card-title>Configuration editing</md-card-title>   
+      <md-card-content>
+          <p>Now you are ready to provide your own custom configuration.</p>
+          <h3>target editing</h3>
+          <p>First thing to do is to point to the website you want to work on.</p>
+          <ol>
+            <li>Go to the <a class="link-style" routerLink="/configuration" title="go to the configuration page | general tab">configuration page | general tab</a></li>
+            <li>Change <span class="highlight">"URL to proxy"</span> input field with a valid URL</li>
+            <li>click the <span class="highlight">apply button</span> <button md-mini-fab><md-icon>exit_to_app</md-icon></button> to update the engine target (will restart the engine).</li>
+          </ol>
+          <h3>rule editing</h3>
+          <p>A pimp rule is the basic instruction unit that will support the pimping of the page. To summarize this will describe actions to perform and where.<br> A rule is composed of an URL pattern and a list of javascript instructions to perform.<br> More information on this in the following <span class="highlight">help sections.</span></p>
+          <ol>
+            <li>Go to the <a class="link-style" [routerLink]="['/configuration', { selectedTabIndex:'1' }]" title="go to the configuration page | pimp rules tab">configuration page | pimp rules tab</a></li>
+            <li>Choose an existing rule to edit or create one with the <button md-raised-button color="accent">ADD RULE</button> button</li>
+            <li>modify the <span class="highlight">rule pattern</span> input field to describe which pages of the target website will be impacted by the rule.<br>Here are a few patterns examples (<a class="link-style" href="https://github.com/bjoerge/route-pattern" target="_blank" title="go to route pattern readme on github">see pattern syntax documentation</a>): 
+              <ul>
+                <li><span class="highlight">"*"</span> will match all pages</li>
+                <li><span class="highlight">"*/specific-page.html"</span> will match only URLs endings</li>
+                <li><span class="highlight">"*/news*"</span> will match all URLs containing the "news" path</li>
+              </ul>
+            </li>
+            <li>update the <span class="highlight">modification script</span> textarea with the modifications you want to apply to the page.
+              <h5>Staple instruction #1 - adding the main stylesheet to the page</h5>
+              <code>$('head').append('&lt;link rel="stylesheet" type="text/css" href="/css/main.min.css"&gt;');</code>
+              <h5>Staple instruction #2 - adding the main JS to the page</h5>
+              <code>$('body').append('&lt;script type="text/javascript" src="/js/main.min.js"&gt;&lt;/script&gt;');</code>
+              <h5>Here are common gotchas and pitfalls</h5>
+              <ul>
+                <li>the modification script is written in <b>javascript/node</b></li>
+                <li>the modification script is executed in the engine middleware therefore <b>it leaves no traces in the browser</b>.</li>
+                <li>you <b>can't use ES6's' multi-line strings</b> in your instructions</li>
+                <li>A light version of jQuery is accessible through the <span class="highlight">$</span> object (<a class="link-style" href="https://github.com/cheeriojs/cheerio#selectors" target="_blank" title="go to cheerio readme on github">see available methods there</a>).</li>
+                <li>For more information on this part, see the related help sections</li>
+              </ul>
+            </li>
+          </ol>
+      </md-card-content>
+    </md-card>
+    <md-card>
+      <md-card-title>Start pimping</md-card-title>   
+      <md-card-content>
+          <p>Now that you have customized your <span class="highlight">PIMP configuration</span> you should have:</p>
+          <ul>
+            <li>engine is started (green state indicator)</li>
+            <li>got a browser tab displaying the proxied website you are targeting</li>
+            <li>some <span class="highlight">PIMP rules</span> are defined and applied accordingly to the pages you display</li>
+          </ul>
+          <p>At that point you have already everything setup to start pimping the page in the browser.</p>
+          <p>Click on the <span class="highlight">"Pimp source files" dashboard button</span>, you'll have the project folder path in your clipboard. Paste that path in your explorer address bar to open it at that location.<br> Now you have access to HTML, JS, CSS files to start working. Open them in your editor of choice and start editing.</p>
+      </md-card-content>
+    </md-card>
   </md-tab>
   <md-tab>
     <template md-tab-label>advanced tips</template>
-    <template md-tab-content>
-      <md-card>
-        <md-card-title>Configuration tips</md-card-title>   
-        <md-card-content>
-            <p>Vestibulum vitae erat tortor. Maecenas vehicula mauris sed lectus sagittis dapibus. Morbi vehicula aliquam rhoncus. Nam dictum, quam et congue condimentum, augue leo porta ipsum, et vestibulum ex libero non nunc. Vestibulum fringilla leo eu sem tempor viverra. Sed vitae diam sit amet sem volutpat dictum. Duis venenatis leo sollicitudin, dignissim dui quis, sollicitudin orci. Phasellus mattis augue suscipit accumsan suscipit. Mauris pellentesque elit non imperdiet ornare. Curabitur ut nisl diam. Cras consequat tristique nisl, quis iaculis leo. Nunc finibus erat ac neque pulvinar, non consequat nulla mollis. Proin ut viverra erat, nec vehicula libero. Suspendisse imperdiet, leo eu faucibus interdum, massa tortor tincidunt dolor, aliquam condimentum magna diam sit amet ligula. Nullam quis magna pretium, tempor massa eu, sollicitudin odio. Donec porttitor dapibus arcu, nec dapibus quam tempus ut.</p>
-            <p>Nulla commodo blandit blandit. Fusce convallis faucibus ipsum sed porta. Nullam in magna ullamcorper tortor elementum pharetra. Quisque accumsan nisl non condimentum dictum. Aenean ligula ipsum, gravida a malesuada ut, vehicula et ligula. Cras quis vehicula dui. Etiam eu elit ac massa dictum facilisis at in arcu. Nulla ultrices, lacus eget molestie dapibus, risus ante ornare neque, finibus bibendum tortor justo et turpis. Praesent ut nisi quis purus ultricies egestas.</p>
-            <p>Vivamus ut nulla vitae magna congue tristique. Sed sit amet dapibus tortor. Donec vitae tortor ut diam sodales suscipit. Aliquam quis purus risus. Curabitur ultricies vehicula est sit amet feugiat. Ut placerat fermentum tellus nec tincidunt. Integer semper risus eget congue tincidunt. Donec mauris diam, condimentum at orci convallis, ullamcorper condimentum lacus. Phasellus vehicula sem vel ex hendrerit dictum. In vel tellus et dolor ultricies accumsan a eget massa. Nam sodales mi enim, non fermentum ex pellentesque id.</p>
-        </md-card-content>
-      </md-card>
-      <md-card>
-        <md-card-title>middleware url matching patterns</md-card-title>   
-        <md-card-content>
-            <p>Vestibulum vitae erat tortor. Maecenas vehicula mauris sed lectus sagittis dapibus. Morbi vehicula aliquam rhoncus. Nam dictum, quam et congue condimentum, augue leo porta ipsum, et vestibulum ex libero non nunc. Vestibulum fringilla leo eu sem tempor viverra. Sed vitae diam sit amet sem volutpat dictum. Duis venenatis leo sollicitudin, dignissim dui quis, sollicitudin orci. Phasellus mattis augue suscipit accumsan suscipit. Mauris pellentesque elit non imperdiet ornare. Curabitur ut nisl diam. Cras consequat tristique nisl, quis iaculis leo. Nunc finibus erat ac neque pulvinar, non consequat nulla mollis. Proin ut viverra erat, nec vehicula libero. Suspendisse imperdiet, leo eu faucibus interdum, massa tortor tincidunt dolor, aliquam condimentum magna diam sit amet ligula. Nullam quis magna pretium, tempor massa eu, sollicitudin odio. Donec porttitor dapibus arcu, nec dapibus quam tempus ut.</p>
-            <p>Nulla commodo blandit blandit. Fusce convallis faucibus ipsum sed porta. Nullam in magna ullamcorper tortor elementum pharetra. Quisque accumsan nisl non condimentum dictum. Aenean ligula ipsum, gravida a malesuada ut, vehicula et ligula. Cras quis vehicula dui. Etiam eu elit ac massa dictum facilisis at in arcu. Nulla ultrices, lacus eget molestie dapibus, risus ante ornare neque, finibus bibendum tortor justo et turpis. Praesent ut nisi quis purus ultricies egestas.</p>
-            <p>Vivamus ut nulla vitae magna congue tristique. Sed sit amet dapibus tortor. Donec vitae tortor ut diam sodales suscipit. Aliquam quis purus risus. Curabitur ultricies vehicula est sit amet feugiat. Ut placerat fermentum tellus nec tincidunt. Integer semper risus eget congue tincidunt. Donec mauris diam, condimentum at orci convallis, ullamcorper condimentum lacus. Phasellus vehicula sem vel ex hendrerit dictum. In vel tellus et dolor ultricies accumsan a eget massa. Nam sodales mi enim, non fermentum ex pellentesque id.</p>
-        </md-card-content>
-      </md-card>
-      <md-card>
-        <md-card-title>middleware light jquery methods</md-card-title>   
-        <md-card-content>
-            <p>Vestibulum vitae erat tortor. Maecenas vehicula mauris sed lectus sagittis dapibus. Morbi vehicula aliquam rhoncus. Nam dictum, quam et congue condimentum, augue leo porta ipsum, et vestibulum ex libero non nunc. Vestibulum fringilla leo eu sem tempor viverra. Sed vitae diam sit amet sem volutpat dictum. Duis venenatis leo sollicitudin, dignissim dui quis, sollicitudin orci. Phasellus mattis augue suscipit accumsan suscipit. Mauris pellentesque elit non imperdiet ornare. Curabitur ut nisl diam. Cras consequat tristique nisl, quis iaculis leo. Nunc finibus erat ac neque pulvinar, non consequat nulla mollis. Proin ut viverra erat, nec vehicula libero. Suspendisse imperdiet, leo eu faucibus interdum, massa tortor tincidunt dolor, aliquam condimentum magna diam sit amet ligula. Nullam quis magna pretium, tempor massa eu, sollicitudin odio. Donec porttitor dapibus arcu, nec dapibus quam tempus ut.</p>
-            <p>Nulla commodo blandit blandit. Fusce convallis faucibus ipsum sed porta. Nullam in magna ullamcorper tortor elementum pharetra. Quisque accumsan nisl non condimentum dictum. Aenean ligula ipsum, gravida a malesuada ut, vehicula et ligula. Cras quis vehicula dui. Etiam eu elit ac massa dictum facilisis at in arcu. Nulla ultrices, lacus eget molestie dapibus, risus ante ornare neque, finibus bibendum tortor justo et turpis. Praesent ut nisi quis purus ultricies egestas.</p>
-            <p>Vivamus ut nulla vitae magna congue tristique. Sed sit amet dapibus tortor. Donec vitae tortor ut diam sodales suscipit. Aliquam quis purus risus. Curabitur ultricies vehicula est sit amet feugiat. Ut placerat fermentum tellus nec tincidunt. Integer semper risus eget congue tincidunt. Donec mauris diam, condimentum at orci convallis, ullamcorper condimentum lacus. Phasellus vehicula sem vel ex hendrerit dictum. In vel tellus et dolor ultricies accumsan a eget massa. Nam sodales mi enim, non fermentum ex pellentesque id.</p>
-        </md-card-content>
-      </md-card>
-      <md-card>
-        <md-card-title>html helpers</md-card-title>   
-        <md-card-content>
-            <p>Vestibulum vitae erat tortor. Maecenas vehicula mauris sed lectus sagittis dapibus. Morbi vehicula aliquam rhoncus. Nam dictum, quam et congue condimentum, augue leo porta ipsum, et vestibulum ex libero non nunc. Vestibulum fringilla leo eu sem tempor viverra. Sed vitae diam sit amet sem volutpat dictum. Duis venenatis leo sollicitudin, dignissim dui quis, sollicitudin orci. Phasellus mattis augue suscipit accumsan suscipit. Mauris pellentesque elit non imperdiet ornare. Curabitur ut nisl diam. Cras consequat tristique nisl, quis iaculis leo. Nunc finibus erat ac neque pulvinar, non consequat nulla mollis. Proin ut viverra erat, nec vehicula libero. Suspendisse imperdiet, leo eu faucibus interdum, massa tortor tincidunt dolor, aliquam condimentum magna diam sit amet ligula. Nullam quis magna pretium, tempor massa eu, sollicitudin odio. Donec porttitor dapibus arcu, nec dapibus quam tempus ut.</p>
-            <p>Nulla commodo blandit blandit. Fusce convallis faucibus ipsum sed porta. Nullam in magna ullamcorper tortor elementum pharetra. Quisque accumsan nisl non condimentum dictum. Aenean ligula ipsum, gravida a malesuada ut, vehicula et ligula. Cras quis vehicula dui. Etiam eu elit ac massa dictum facilisis at in arcu. Nulla ultrices, lacus eget molestie dapibus, risus ante ornare neque, finibus bibendum tortor justo et turpis. Praesent ut nisi quis purus ultricies egestas.</p>
-            <p>Vivamus ut nulla vitae magna congue tristique. Sed sit amet dapibus tortor. Donec vitae tortor ut diam sodales suscipit. Aliquam quis purus risus. Curabitur ultricies vehicula est sit amet feugiat. Ut placerat fermentum tellus nec tincidunt. Integer semper risus eget congue tincidunt. Donec mauris diam, condimentum at orci convallis, ullamcorper condimentum lacus. Phasellus vehicula sem vel ex hendrerit dictum. In vel tellus et dolor ultricies accumsan a eget massa. Nam sodales mi enim, non fermentum ex pellentesque id.</p>
-        </md-card-content>
-      </md-card>
-      <md-card>
-        <md-card-title>js helpers</md-card-title>   
-        <md-card-content>
-            <p>Vestibulum vitae erat tortor. Maecenas vehicula mauris sed lectus sagittis dapibus. Morbi vehicula aliquam rhoncus. Nam dictum, quam et congue condimentum, augue leo porta ipsum, et vestibulum ex libero non nunc. Vestibulum fringilla leo eu sem tempor viverra. Sed vitae diam sit amet sem volutpat dictum. Duis venenatis leo sollicitudin, dignissim dui quis, sollicitudin orci. Phasellus mattis augue suscipit accumsan suscipit. Mauris pellentesque elit non imperdiet ornare. Curabitur ut nisl diam. Cras consequat tristique nisl, quis iaculis leo. Nunc finibus erat ac neque pulvinar, non consequat nulla mollis. Proin ut viverra erat, nec vehicula libero. Suspendisse imperdiet, leo eu faucibus interdum, massa tortor tincidunt dolor, aliquam condimentum magna diam sit amet ligula. Nullam quis magna pretium, tempor massa eu, sollicitudin odio. Donec porttitor dapibus arcu, nec dapibus quam tempus ut.</p>
-            <p>Nulla commodo blandit blandit. Fusce convallis faucibus ipsum sed porta. Nullam in magna ullamcorper tortor elementum pharetra. Quisque accumsan nisl non condimentum dictum. Aenean ligula ipsum, gravida a malesuada ut, vehicula et ligula. Cras quis vehicula dui. Etiam eu elit ac massa dictum facilisis at in arcu. Nulla ultrices, lacus eget molestie dapibus, risus ante ornare neque, finibus bibendum tortor justo et turpis. Praesent ut nisi quis purus ultricies egestas.</p>
-            <p>Vivamus ut nulla vitae magna congue tristique. Sed sit amet dapibus tortor. Donec vitae tortor ut diam sodales suscipit. Aliquam quis purus risus. Curabitur ultricies vehicula est sit amet feugiat. Ut placerat fermentum tellus nec tincidunt. Integer semper risus eget congue tincidunt. Donec mauris diam, condimentum at orci convallis, ullamcorper condimentum lacus. Phasellus vehicula sem vel ex hendrerit dictum. In vel tellus et dolor ultricies accumsan a eget massa. Nam sodales mi enim, non fermentum ex pellentesque id.</p>
-        </md-card-content>
-      </md-card>
-    </template>
+    <md-card>
+      <md-card-title>Configuration tips</md-card-title>   
+      <md-card-content>
+          <p>Vestibulum vitae erat tortor. Maecenas vehicula mauris sed lectus sagittis dapibus. Morbi vehicula aliquam rhoncus. Nam dictum, quam et congue condimentum, augue leo porta ipsum, et vestibulum ex libero non nunc. Vestibulum fringilla leo eu sem tempor viverra. Sed vitae diam sit amet sem volutpat dictum. Duis venenatis leo sollicitudin, dignissim dui quis, sollicitudin orci. Phasellus mattis augue suscipit accumsan suscipit. Mauris pellentesque elit non imperdiet ornare. Curabitur ut nisl diam. Cras consequat tristique nisl, quis iaculis leo. Nunc finibus erat ac neque pulvinar, non consequat nulla mollis. Proin ut viverra erat, nec vehicula libero. Suspendisse imperdiet, leo eu faucibus interdum, massa tortor tincidunt dolor, aliquam condimentum magna diam sit amet ligula. Nullam quis magna pretium, tempor massa eu, sollicitudin odio. Donec porttitor dapibus arcu, nec dapibus quam tempus ut.</p>
+          <p>Nulla commodo blandit blandit. Fusce convallis faucibus ipsum sed porta. Nullam in magna ullamcorper tortor elementum pharetra. Quisque accumsan nisl non condimentum dictum. Aenean ligula ipsum, gravida a malesuada ut, vehicula et ligula. Cras quis vehicula dui. Etiam eu elit ac massa dictum facilisis at in arcu. Nulla ultrices, lacus eget molestie dapibus, risus ante ornare neque, finibus bibendum tortor justo et turpis. Praesent ut nisi quis purus ultricies egestas.</p>
+          <p>Vivamus ut nulla vitae magna congue tristique. Sed sit amet dapibus tortor. Donec vitae tortor ut diam sodales suscipit. Aliquam quis purus risus. Curabitur ultricies vehicula est sit amet feugiat. Ut placerat fermentum tellus nec tincidunt. Integer semper risus eget congue tincidunt. Donec mauris diam, condimentum at orci convallis, ullamcorper condimentum lacus. Phasellus vehicula sem vel ex hendrerit dictum. In vel tellus et dolor ultricies accumsan a eget massa. Nam sodales mi enim, non fermentum ex pellentesque id.</p>
+      </md-card-content>
+    </md-card>
+    <md-card>
+      <md-card-title>middleware url matching patterns</md-card-title>   
+      <md-card-content>
+          <p>Vestibulum vitae erat tortor. Maecenas vehicula mauris sed lectus sagittis dapibus. Morbi vehicula aliquam rhoncus. Nam dictum, quam et congue condimentum, augue leo porta ipsum, et vestibulum ex libero non nunc. Vestibulum fringilla leo eu sem tempor viverra. Sed vitae diam sit amet sem volutpat dictum. Duis venenatis leo sollicitudin, dignissim dui quis, sollicitudin orci. Phasellus mattis augue suscipit accumsan suscipit. Mauris pellentesque elit non imperdiet ornare. Curabitur ut nisl diam. Cras consequat tristique nisl, quis iaculis leo. Nunc finibus erat ac neque pulvinar, non consequat nulla mollis. Proin ut viverra erat, nec vehicula libero. Suspendisse imperdiet, leo eu faucibus interdum, massa tortor tincidunt dolor, aliquam condimentum magna diam sit amet ligula. Nullam quis magna pretium, tempor massa eu, sollicitudin odio. Donec porttitor dapibus arcu, nec dapibus quam tempus ut.</p>
+          <p>Nulla commodo blandit blandit. Fusce convallis faucibus ipsum sed porta. Nullam in magna ullamcorper tortor elementum pharetra. Quisque accumsan nisl non condimentum dictum. Aenean ligula ipsum, gravida a malesuada ut, vehicula et ligula. Cras quis vehicula dui. Etiam eu elit ac massa dictum facilisis at in arcu. Nulla ultrices, lacus eget molestie dapibus, risus ante ornare neque, finibus bibendum tortor justo et turpis. Praesent ut nisi quis purus ultricies egestas.</p>
+          <p>Vivamus ut nulla vitae magna congue tristique. Sed sit amet dapibus tortor. Donec vitae tortor ut diam sodales suscipit. Aliquam quis purus risus. Curabitur ultricies vehicula est sit amet feugiat. Ut placerat fermentum tellus nec tincidunt. Integer semper risus eget congue tincidunt. Donec mauris diam, condimentum at orci convallis, ullamcorper condimentum lacus. Phasellus vehicula sem vel ex hendrerit dictum. In vel tellus et dolor ultricies accumsan a eget massa. Nam sodales mi enim, non fermentum ex pellentesque id.</p>
+      </md-card-content>
+    </md-card>
+    <md-card>
+      <md-card-title>middleware light jquery methods</md-card-title>   
+      <md-card-content>
+          <p>Vestibulum vitae erat tortor. Maecenas vehicula mauris sed lectus sagittis dapibus. Morbi vehicula aliquam rhoncus. Nam dictum, quam et congue condimentum, augue leo porta ipsum, et vestibulum ex libero non nunc. Vestibulum fringilla leo eu sem tempor viverra. Sed vitae diam sit amet sem volutpat dictum. Duis venenatis leo sollicitudin, dignissim dui quis, sollicitudin orci. Phasellus mattis augue suscipit accumsan suscipit. Mauris pellentesque elit non imperdiet ornare. Curabitur ut nisl diam. Cras consequat tristique nisl, quis iaculis leo. Nunc finibus erat ac neque pulvinar, non consequat nulla mollis. Proin ut viverra erat, nec vehicula libero. Suspendisse imperdiet, leo eu faucibus interdum, massa tortor tincidunt dolor, aliquam condimentum magna diam sit amet ligula. Nullam quis magna pretium, tempor massa eu, sollicitudin odio. Donec porttitor dapibus arcu, nec dapibus quam tempus ut.</p>
+          <p>Nulla commodo blandit blandit. Fusce convallis faucibus ipsum sed porta. Nullam in magna ullamcorper tortor elementum pharetra. Quisque accumsan nisl non condimentum dictum. Aenean ligula ipsum, gravida a malesuada ut, vehicula et ligula. Cras quis vehicula dui. Etiam eu elit ac massa dictum facilisis at in arcu. Nulla ultrices, lacus eget molestie dapibus, risus ante ornare neque, finibus bibendum tortor justo et turpis. Praesent ut nisi quis purus ultricies egestas.</p>
+          <p>Vivamus ut nulla vitae magna congue tristique. Sed sit amet dapibus tortor. Donec vitae tortor ut diam sodales suscipit. Aliquam quis purus risus. Curabitur ultricies vehicula est sit amet feugiat. Ut placerat fermentum tellus nec tincidunt. Integer semper risus eget congue tincidunt. Donec mauris diam, condimentum at orci convallis, ullamcorper condimentum lacus. Phasellus vehicula sem vel ex hendrerit dictum. In vel tellus et dolor ultricies accumsan a eget massa. Nam sodales mi enim, non fermentum ex pellentesque id.</p>
+      </md-card-content>
+    </md-card>
+    <md-card>
+      <md-card-title>html helpers</md-card-title>   
+      <md-card-content>
+          <p>Vestibulum vitae erat tortor. Maecenas vehicula mauris sed lectus sagittis dapibus. Morbi vehicula aliquam rhoncus. Nam dictum, quam et congue condimentum, augue leo porta ipsum, et vestibulum ex libero non nunc. Vestibulum fringilla leo eu sem tempor viverra. Sed vitae diam sit amet sem volutpat dictum. Duis venenatis leo sollicitudin, dignissim dui quis, sollicitudin orci. Phasellus mattis augue suscipit accumsan suscipit. Mauris pellentesque elit non imperdiet ornare. Curabitur ut nisl diam. Cras consequat tristique nisl, quis iaculis leo. Nunc finibus erat ac neque pulvinar, non consequat nulla mollis. Proin ut viverra erat, nec vehicula libero. Suspendisse imperdiet, leo eu faucibus interdum, massa tortor tincidunt dolor, aliquam condimentum magna diam sit amet ligula. Nullam quis magna pretium, tempor massa eu, sollicitudin odio. Donec porttitor dapibus arcu, nec dapibus quam tempus ut.</p>
+          <p>Nulla commodo blandit blandit. Fusce convallis faucibus ipsum sed porta. Nullam in magna ullamcorper tortor elementum pharetra. Quisque accumsan nisl non condimentum dictum. Aenean ligula ipsum, gravida a malesuada ut, vehicula et ligula. Cras quis vehicula dui. Etiam eu elit ac massa dictum facilisis at in arcu. Nulla ultrices, lacus eget molestie dapibus, risus ante ornare neque, finibus bibendum tortor justo et turpis. Praesent ut nisi quis purus ultricies egestas.</p>
+          <p>Vivamus ut nulla vitae magna congue tristique. Sed sit amet dapibus tortor. Donec vitae tortor ut diam sodales suscipit. Aliquam quis purus risus. Curabitur ultricies vehicula est sit amet feugiat. Ut placerat fermentum tellus nec tincidunt. Integer semper risus eget congue tincidunt. Donec mauris diam, condimentum at orci convallis, ullamcorper condimentum lacus. Phasellus vehicula sem vel ex hendrerit dictum. In vel tellus et dolor ultricies accumsan a eget massa. Nam sodales mi enim, non fermentum ex pellentesque id.</p>
+      </md-card-content>
+    </md-card>
+    <md-card>
+      <md-card-title>js helpers</md-card-title>   
+      <md-card-content>
+          <p>Vestibulum vitae erat tortor. Maecenas vehicula mauris sed lectus sagittis dapibus. Morbi vehicula aliquam rhoncus. Nam dictum, quam et congue condimentum, augue leo porta ipsum, et vestibulum ex libero non nunc. Vestibulum fringilla leo eu sem tempor viverra. Sed vitae diam sit amet sem volutpat dictum. Duis venenatis leo sollicitudin, dignissim dui quis, sollicitudin orci. Phasellus mattis augue suscipit accumsan suscipit. Mauris pellentesque elit non imperdiet ornare. Curabitur ut nisl diam. Cras consequat tristique nisl, quis iaculis leo. Nunc finibus erat ac neque pulvinar, non consequat nulla mollis. Proin ut viverra erat, nec vehicula libero. Suspendisse imperdiet, leo eu faucibus interdum, massa tortor tincidunt dolor, aliquam condimentum magna diam sit amet ligula. Nullam quis magna pretium, tempor massa eu, sollicitudin odio. Donec porttitor dapibus arcu, nec dapibus quam tempus ut.</p>
+          <p>Nulla commodo blandit blandit. Fusce convallis faucibus ipsum sed porta. Nullam in magna ullamcorper tortor elementum pharetra. Quisque accumsan nisl non condimentum dictum. Aenean ligula ipsum, gravida a malesuada ut, vehicula et ligula. Cras quis vehicula dui. Etiam eu elit ac massa dictum facilisis at in arcu. Nulla ultrices, lacus eget molestie dapibus, risus ante ornare neque, finibus bibendum tortor justo et turpis. Praesent ut nisi quis purus ultricies egestas.</p>
+          <p>Vivamus ut nulla vitae magna congue tristique. Sed sit amet dapibus tortor. Donec vitae tortor ut diam sodales suscipit. Aliquam quis purus risus. Curabitur ultricies vehicula est sit amet feugiat. Ut placerat fermentum tellus nec tincidunt. Integer semper risus eget congue tincidunt. Donec mauris diam, condimentum at orci convallis, ullamcorper condimentum lacus. Phasellus vehicula sem vel ex hendrerit dictum. In vel tellus et dolor ultricies accumsan a eget massa. Nam sodales mi enim, non fermentum ex pellentesque id.</p>
+      </md-card-content>
+    </md-card>
   </md-tab>
 </md-tab-group>
 

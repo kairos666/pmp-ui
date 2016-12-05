@@ -2,34 +2,28 @@
     <md-tab-group [selectedIndex]="selectedTab" class="secondary-navigation">
       <md-tab>
         <template md-tab-label>general</template>
-        <template md-tab-content>
-          <app-pimp-form-general 
-            [pimpConfigInit]="configModel.fullConfigStream"
-            [pimpConfigChanges]="configModel.distinctConfigStream" 
-            (updatePimpConfig)="onUpdateConfig($event)"
-          ></app-pimp-form-general>
-        </template>
+        <app-pimp-form-general 
+          [pimpConfigInit]="configModel.fullConfigStream"
+          [pimpConfigChanges]="configModel.distinctConfigStream" 
+          (updatePimpConfig)="onUpdateConfig($event)"
+        ></app-pimp-form-general>
       </md-tab>
       <md-tab>
         <template md-tab-label>pimp rules</template>
-        <template md-tab-content>
-          <app-pimp-form-rules
-            [pimpConfigInit]="configModel.fullConfigStream"
-            [pimpConfigChanges]="configModel.distinctConfigStream" 
-            (updatePimpConfig)="onUpdateConfig($event)"
-          ></app-pimp-form-rules>
-        </template>
+        <app-pimp-form-rules
+          [pimpConfigInit]="configModel.fullConfigStream"
+          [pimpConfigChanges]="configModel.distinctConfigStream" 
+          (updatePimpConfig)="onUpdateConfig($event)"
+        ></app-pimp-form-rules>
       </md-tab>
       <md-tab>
         <template md-tab-label>pimp plugins</template>
-        <template md-tab-content>
-          <app-pimp-form-plugins
-            [pimpConfigInit]="configModel.fullConfigStream"
-            [pimpConfigChanges]="configModel.distinctConfigStream" 
-            [availablePluginsPromise]="configModel.availablePluginsPromise"
-            (updatePimpConfig)="onUpdateConfig($event)"
-          ></app-pimp-form-plugins>
-        </template>
+        <app-pimp-form-plugins
+          [pimpConfigInit]="configModel.fullConfigStream"
+          [pimpConfigChanges]="configModel.distinctConfigStream" 
+          [availablePluginsPromise]="configModel.availablePluginsPromise"
+          (updatePimpConfig)="onUpdateConfig($event)"
+        ></app-pimp-form-plugins>
       </md-tab>
     </md-tab-group>
     <menu class="button-holder">
