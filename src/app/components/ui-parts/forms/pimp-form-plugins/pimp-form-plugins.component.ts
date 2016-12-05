@@ -3,6 +3,8 @@ import { FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { PimpConfig, PmpPluginDescriptor } from '../../../../schema/config';
 import { PluginFormData } from '../../../../schema/pimp-form-plugin-data';
+import { MdDialog, MdDialogRef } from '@angular/material';
+import { PluginReadmeComponent } from '../../dialogs/plugin-readme/plugin-readme.component';
 
 @Component({
   selector: 'app-pimp-form-plugins',
@@ -18,8 +20,9 @@ export class PimpFormPluginsComponent implements OnInit, OnDestroy {
   private pimpPluginsForm:FormGroup;
   private killSubs = new Subject();
   private isLoadingAvailablePlugins = true;
+  private dialogRef: MdDialogRef<PluginReadmeComponent>;
 
-  constructor(private formBuilder:FormBuilder) { }
+  constructor(private formBuilder:FormBuilder, private dialog:MdDialog) { }
 
   ngOnInit() {
     // create initial form model
@@ -131,6 +134,11 @@ export class PimpFormPluginsComponent implements OnInit, OnDestroy {
     });
 
     return result;
+  }
+
+  private openDialog(pluginName):void {
+    console.log(pluginName)
+    this.dialogRef = this.dialog.open(PluginReadmeComponent);
   }
 
   ngOnDestroy() {
