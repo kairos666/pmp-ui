@@ -28,24 +28,24 @@
     </md-tab-group>
     <menu class="button-holder">
         <button md-mini-fab title="restore/sync with applied pimp configuration" 
-          [attr.disabled]="isRestoreFromEngineAllowed ? null : ''" 
+          [disabled]="!isRestoreFromEngineAllowed" 
           (click)="onRestoreFromEngineClick()"
         >
             <md-icon>history</md-icon>
         </button>
         <button md-mini-fab title="restore previously saved pimp configuration" 
-          [attr.disabled]="isRestoreAllowed ? null : ''" 
+          [disabled]="!isRestoreAllowed" 
           (click)="onRestoreClick()"
         >
             <md-icon>settings_backup_restore</md-icon>
         </button>
         <button md-mini-fab title="save current pimp configuration" 
-          [attr.disabled]="isSaveAllowed ? null : ''" 
+          [disabled]="!isSaveAllowed" 
           (click)="onSaveClick()"
         >
             <md-icon>save</md-icon>
         </button>
-        <button md-fab title="apply configuration" [attr.disabled]="isApplyAllowed ? null : ''" (click)="onApplyClick()">
+        <button md-fab title="apply configuration" [disabled]="!isApplyAllowed" (click)="onApplyClick()">
             <md-icon>exit_to_app</md-icon>
         </button>
     </menu>

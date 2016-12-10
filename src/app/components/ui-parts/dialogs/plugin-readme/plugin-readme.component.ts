@@ -5,7 +5,7 @@ import { ConfigModelService } from '../../../../model/config-model.service';
 @Component({
   selector: 'app-plugin-readme',
   template: `
-    <div class="markdown-conatiner" [innerHTML]="readmeContent|MarkdownToHtml"></div>
+    <div class="markdown-container" [innerHTML]="readmeContent|MarkdownToHtml"></div>
   `,
   styleUrls: ['./plugin-readme.component.scss']
 })
