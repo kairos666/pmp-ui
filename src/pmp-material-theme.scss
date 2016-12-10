@@ -96,5 +96,16 @@ app-config-preview-tile {
 }
 .item-list > li { padding:8px 0; }
 
+// DIALOG BOX
+md-dialog-container.md-dialog-container { max-height:calc(100vh - 132px); max-width:calc(100vw - 132px); border:16px solid $dialog-bg; overflow-y:auto; 
+    h1 { color:$palette-accent; }
+    h2 { color:lighten( $palette-accent, 10% ); }
+    h3 { color:lighten( $palette-accent, 20% ); }
+}
+app-plugin-readme { display:block; }
+
+// MARKDONW-CONTAINER
+.markdown-container { font-size:.8em; color:$base-text-color; }
+
 // SMALL STUFF
 .highlight { color:$palette-accent; }
