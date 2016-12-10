@@ -6,8 +6,7 @@ import { ConfigModelService } from '../../../../model/config-model.service';
   selector: 'app-plugin-readme',
   template: `
     <div class="markdown-container" [innerHTML]="readmeContent|MarkdownToHtml"></div>
-  `,
-  styleUrls: ['./plugin-readme.component.scss']
+  `
 })
 export class PluginReadmeComponent implements OnInit {
   public pluginName:string;
