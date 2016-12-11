@@ -33,6 +33,7 @@ import { PluginReadmeComponent } from './components/ui-parts/dialogs/plugin-read
 
 /* PIPES */
 import { MarkdownToHtmlPipe } from 'markdown-to-html-pipe';
+import { SidenavRuleHelperComponent } from './components/ui-parts/sidenav-rule-helper/sidenav-rule-helper.component';
 
 let routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -62,7 +63,8 @@ let routes = [
     ConfigPreviewTileComponent,
     PimpFormPluginsComponent,
     PluginReadmeComponent,
-    MarkdownToHtmlPipe
+    MarkdownToHtmlPipe,
+    SidenavRuleHelperComponent
   ],
   entryComponents: [
     PluginReadmeComponent

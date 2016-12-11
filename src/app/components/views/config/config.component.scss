@@ -14,3 +14,9 @@
         right:auto; left:50%; margin-left:404px;
     } 
 }
+
+// CONFIG SECTION LAYOUT
+md-sidenav-layout { background-color:transparent;
+   /deep/ .md-sidenav-backdrop { display:none; }
+   md-sidenav { max-width:250px; height:100%; overflow:hidden; background-color:darken($dark-bg, 10%); }
+}

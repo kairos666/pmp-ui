@@ -10,11 +10,16 @@
       </md-tab>
       <md-tab>
         <template md-tab-label>pimp rules</template>
-        <app-pimp-form-rules
-          [pimpConfigInit]="configModel.fullConfigStream"
-          [pimpConfigChanges]="configModel.distinctConfigStream" 
-          (updatePimpConfig)="onUpdateConfig($event)"
-        ></app-pimp-form-rules>
+        <md-sidenav-layout>
+          <md-sidenav #helperSidebar class="helper-sidebar" align="end" mode="side" opened="true">
+            <app-sidenav-rule-helper></app-sidenav-rule-helper>
+          </md-sidenav>
+          <app-pimp-form-rules
+            [pimpConfigInit]="configModel.fullConfigStream"
+            [pimpConfigChanges]="configModel.distinctConfigStream" 
+            (updatePimpConfig)="onUpdateConfig($event)"
+          ></app-pimp-form-rules>
+        </md-sidenav-layout>
       </md-tab>
       <md-tab>
         <template md-tab-label>pimp plugins</template>
