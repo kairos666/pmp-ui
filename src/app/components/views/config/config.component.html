@@ -12,7 +12,9 @@
         <template md-tab-label>pimp rules</template>
         <md-sidenav-layout>
           <md-sidenav #helperSidebar class="helper-sidebar" align="end" mode="side" opened="true">
-            <app-sidenav-rule-helper></app-sidenav-rule-helper>
+            <app-sidenav-rule-helper
+              [availablePluginsPromise]="configModel.availablePluginsPromise"
+            ></app-sidenav-rule-helper>
           </md-sidenav>
           <app-pimp-form-rules
             [pimpConfigInit]="configModel.fullConfigStream"

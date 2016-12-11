@@ -140,4 +140,6 @@ export interface PmpPluginDescriptor {
   packageName:string;
   packageDescription:string;
   packageReadme:string;
+  packageJsHelpers:string[];
+  packageHtmlHelpers:string[];
 }
