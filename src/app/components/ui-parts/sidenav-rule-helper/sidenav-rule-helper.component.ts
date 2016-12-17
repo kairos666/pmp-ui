@@ -1,5 +1,6 @@
 import { Component, Input, OnInit} from '@angular/core';
 import { PmpPluginDescriptor } from '../../../schema/config';
+import { copyToClipboard } from '../../../utils/utils-functions';
 
 @Component({
   selector: 'app-sidenav-rule-helper',
@@ -46,6 +47,10 @@ export class SidenavRuleHelperComponent implements OnInit {
         });
       });
     });
+  }
+
+  private onClipboardCopy(evt) {
+    copyToClipboard(evt);
   }
 }
 

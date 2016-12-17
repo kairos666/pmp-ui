@@ -1,31 +1,11 @@
-<h4>Plugin A</h4>
-<ul class="helper-list">
-  <li>
-    <button title="copy to clipboard">
-      helper 1
-    </button>
-  </li>
-  <li>
-    <button title="copy to clipboard">
-      helper 2
-    </button>
-  </li>
-  <li>
-    <button title="copy to clipboard">
-      helper 3
-    </button>
-  </li>
-</ul>
-<h4>Plugin B</h4>
-<ul class="helper-list">
-  <li>
-    <button title="copy to clipboard">
-      helper 1
-    </button>
-  </li>
-  <li>
-    <button title="copy to clipboard">
-      helper 2
-    </button>
-  </li>
-</ul>
+<template ngFor let-jsHelper [ngForOf]="jsHelpers">
+  <h4>{{jsHelper.name}}</h4>
+  <ul class="helper-list">
+    <li *ngFor="let helper of jsHelper.helpers;">
+      <button (click)="onClipboardCopy($event)" title="copy {{helper.fullFunc}} to clipboard">
+        <span>{{helper.shortFunc}}</span>
+        <p class="copy-me">{{helper.fullFunc}}</p>
+      </button>
+    </li>
+  </ul>
+</template>
