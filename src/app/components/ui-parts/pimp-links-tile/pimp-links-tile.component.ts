@@ -2,6 +2,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router }   from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
+import { copyToClipboard } from '../../../utils/utils-functions';
 
 @Component({
   selector: 'app-pimp-links-tile',
@@ -53,27 +54,7 @@ export class PimpLinksTileComponent implements OnInit, OnDestroy {
   }
 
   private onClipboardCopy(evt) {
-    let successCopyingToClipboard;
-    try {
-      // create selection range
-      let rangeObj = document.createRange();
-      rangeObj.selectNodeContents(evt.currentTarget.querySelector('.copy-me'));
-
-      // copy to clipboard
-      let selection = window.getSelection();
-      selection.removeAllRanges();
-      selection.addRange(rangeObj);
-      successCopyingToClipboard = document.execCommand('copy');
-
-      // remove selection
-      selection.removeAllRanges();
-      selection.empty();
-
-    } catch (err) {
-      console.log('unable to copy to clipboard', err);
-      successCopyingToClipboard = false;
-    }
-    console.log(successCopyingToClipboard);
+    copyToClipboard(evt);
   }
 
   ngOnInit() {
