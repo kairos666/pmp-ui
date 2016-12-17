@@ -12,7 +12,7 @@ export class ConfigModelService {
   private currentConfig: BehaviorSubject<PimpConfig> = new BehaviorSubject(undefined);
   private currentEngineConfig: BehaviorSubject<PimpConfig> = new BehaviorSubject(undefined);
   private currentAllowedConfigActions: BehaviorSubject<ConfigActions> = new BehaviorSubject(new ConfigActions(false, false, false, false));
-  private currentAllowedPlugins:Promise<PmpPluginDescriptor[]>;
+  private currentAvailablePlugins:BehaviorSubject<PmpPluginDescriptor[] | string> = new BehaviorSubject('not yet received');
   private notifierStream: Subject<any> = new Subject();
 
   constructor(private configStorage: ConfigStorageService, private pmpEngineConnector: PmpEngineConnectorService) {
@@ -27,6 +27,9 @@ export class ConfigModelService {
 
     // handle notificationsStream
     this.notificationsSetting();
+
+    // handle available plugins stream
+    this.availablePluginsHandler();
     
     // handle init (connection state, engine state, config)
     this.handleConfigSub();
@@ -38,9 +41,6 @@ export class ConfigModelService {
   }
 
   private initHandler (): void {
-    // setup available plugins Promise
-    this.currentAllowedPlugins = this.pmpEngineConnector.pmpEngineAvailablePluginsStream.first().toPromise();
-
     // act only when connection is established and engineStatus known (not pending)
     let initsubscription = this.pmpEngineSmartState
       .first(smartState => { return (smartState.socketConnection && smartState.engineStatus !== 'pending'); })
@@ -56,9 +56,6 @@ export class ConfigModelService {
             this.isInitiated = true;
           break;
         }
-
-        // trigger available plugins commands
-        this.pmpEngineConnector.getPmpEngineAvailablePlugins();
 
         // unsubscribe init behavior
         initsubscription.unsubscribe();
@@ -194,10 +191,26 @@ export class ConfigModelService {
     });
   }
 
+  private availablePluginsHandler():void {
+    // setup receiving of available plugins
+    this.pmpEngineConnector.pmpEngineAvailablePluginsStream.subscribe(availablePlugins => {
+      this.currentAvailablePlugins.next(availablePlugins);
+    });
+
+    // setup call for available plugins
+    this.pmpEngineConnector.isPmpEngineConnected.subscribe(connectionState => {
+      this.pmpEngineConnector.getPmpEngineAvailablePlugins();
+    });
+  }
+
   /* AVAILABLE PLUGINS GETTER */
-  public get availablePluginsPromise():Promise<PmpPluginDescriptor[]> {
-    return this.currentAllowedPlugins;
+  public get availablePlugins():PmpPluginDescriptor[] | string {
+    return this.currentAvailablePlugins.value;
   };
+
+  public get availablePlugins$():Observable<PmpPluginDescriptor[]> {
+    return <Observable<PmpPluginDescriptor[]>>this.currentAvailablePlugins.asObservable().filter(data => (data instanceof Array));
+  }
 
   /* CONFIG GETTERS */
   public get config ():any {

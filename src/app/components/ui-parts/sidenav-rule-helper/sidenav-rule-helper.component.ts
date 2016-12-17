@@ -1,6 +1,7 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit, OnDestroy} from '@angular/core';
 import { PmpPluginDescriptor } from '../../../schema/config';
 import { copyToClipboard } from '../../../utils/utils-functions';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-sidenav-rule-helper',
@@ -8,14 +9,16 @@ import { copyToClipboard } from '../../../utils/utils-functions';
   styleUrls: ['./sidenav-rule-helper.component.scss']
 })
 export class SidenavRuleHelperComponent implements OnInit {
-  @Input() availablePluginsPromise:Promise<PmpPluginDescriptor[]>;
+  @Input() availablePluginsStream:Observable<PmpPluginDescriptor[]>;
   private jsHelpers = [];
+  private subs:Subscription;
 
   constructor() { }
 
   ngOnInit() {
     // process helpers
-    this.availablePluginsPromise.then(availablePlugins => {
+    this.subs = this.availablePluginsStream.subscribe(availablePlugins => {
+      this.jsHelpers = [];
       availablePlugins.forEach(pluginDesc => {
         // build function descriptors
         let jsHelperDescs:jsHelperdescriptor[] = [];
@@ -47,6 +50,10 @@ export class SidenavRuleHelperComponent implements OnInit {
         });
       });
     });
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
   }
 
   private onClipboardCopy(evt) {

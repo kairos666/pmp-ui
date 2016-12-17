@@ -13,7 +13,7 @@
         <md-sidenav-layout>
           <md-sidenav #helperSidebar class="helper-sidebar" align="end" mode="side" opened="true">
             <app-sidenav-rule-helper
-              [availablePluginsPromise]="configModel.availablePluginsPromise"
+              [availablePluginsStream]="configModel.availablePlugins$"
             ></app-sidenav-rule-helper>
           </md-sidenav>
           <app-pimp-form-rules
@@ -28,7 +28,7 @@
         <app-pimp-form-plugins
           [pimpConfigInit]="configModel.fullConfigStream"
           [pimpConfigChanges]="configModel.distinctConfigStream" 
-          [availablePluginsPromise]="configModel.availablePluginsPromise"
+          [availablePluginsStream]="configModel.availablePlugins$"
           (updatePimpConfig)="onUpdateConfig($event)"
         ></app-pimp-form-plugins>
       </md-tab>

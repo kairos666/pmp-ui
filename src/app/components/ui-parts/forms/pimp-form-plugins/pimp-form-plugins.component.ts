@@ -14,7 +14,7 @@ import { PluginReadmeComponent } from '../../dialogs/plugin-readme/plugin-readme
 export class PimpFormPluginsComponent implements OnInit, OnDestroy {
   @Input() pimpConfigInit:Observable<PimpConfig>; // always send current config (no distinct)
   @Input() pimpConfigChanges:Observable<PimpConfig>; // only works when config change
-  @Input() availablePluginsPromise:Promise<PmpPluginDescriptor[]>;
+  @Input() availablePluginsStream:Observable<PmpPluginDescriptor[]>;
   @Output() updatePimpConfig = new EventEmitter();
   private metaFormData:PluginFormData[];
   private pimpPluginsForm:FormGroup;
@@ -72,7 +72,7 @@ export class PimpFormPluginsComponent implements OnInit, OnDestroy {
   private updateFormValues(plugins:string[]):void {
     const pluginsArray = <FormArray>this.pimpPluginsForm.controls['plugins'];
 
-    this.availablePluginsPromise.then(availablePlugins => {
+    this.availablePluginsStream.first().subscribe(availablePlugins => {
       // remove loader
       this.isLoadingAvailablePlugins = false;
 
