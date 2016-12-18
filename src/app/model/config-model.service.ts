@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PimpConfig, ConfigActions, Notif } from '../schema/config';
+import { PimpConfig, ConfigActions, Notif, PmpPluginDescriptor } from '../schema/config';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { ConfigStorageService } from '../services/config-storage.service';
 import { PmpEngineConnectorService } from '../services/pmp-engine-connector.service';
@@ -12,7 +12,7 @@ export class ConfigModelService {
   private currentConfig: BehaviorSubject<PimpConfig> = new BehaviorSubject(undefined);
   private currentEngineConfig: BehaviorSubject<PimpConfig> = new BehaviorSubject(undefined);
   private currentAllowedConfigActions: BehaviorSubject<ConfigActions> = new BehaviorSubject(new ConfigActions(false, false, false, false));
-  private currentAllowedPlugins:Promise<string[]>;
+  private currentAvailablePlugins:BehaviorSubject<PmpPluginDescriptor[] | string> = new BehaviorSubject('not yet received');
   private notifierStream: Subject<any> = new Subject();
 
   constructor(private configStorage: ConfigStorageService, private pmpEngineConnector: PmpEngineConnectorService) {
@@ -27,6 +27,9 @@ export class ConfigModelService {
 
     // handle notificationsStream
     this.notificationsSetting();
+
+    // handle available plugins stream
+    this.availablePluginsHandler();
     
     // handle init (connection state, engine state, config)
     this.handleConfigSub();
@@ -38,9 +41,6 @@ export class ConfigModelService {
   }
 
   private initHandler (): void {
-    // setup available plugins Promise
-    this.currentAllowedPlugins = this.pmpEngineConnector.pmpEngineAvailablePluginsStream.first().toPromise();
-
     // act only when connection is established and engineStatus known (not pending)
     let initsubscription = this.pmpEngineSmartState
       .first(smartState => { return (smartState.socketConnection && smartState.engineStatus !== 'pending'); })
@@ -56,9 +56,6 @@ export class ConfigModelService {
             this.isInitiated = true;
           break;
         }
-
-        // trigger available plugins commands
-        this.pmpEngineConnector.getPmpEngineAvailablePlugins();
 
         // unsubscribe init behavior
         initsubscription.unsubscribe();
@@ -146,7 +143,7 @@ export class ConfigModelService {
   private handleConfigSub():void {
     // only used for init (work once at most and only when not initiated)
     this.pmpEngineConnector.pmpEngineDataConfigStream.subscribe(config => {
-        let pimpconfig = new PimpConfig(config.name, config.bsOptions.proxy.target, !config.bsOptions.proxy.cookies.stripeDomain, config.bsOptions.port, config.pimpCmds, config.plugins, config.id);
+        let pimpconfig = new PimpConfig(config.name, config.bsOptions.proxy.target, !config.bsOptions.proxy.cookies.stripeDomain, config.bsOptions.port, config.bsOptions.cors, config.pimpCmds, config.plugins, config.id);
         if (!this.isInitiated) {
           this.currentConfig.next(pimpconfig);
           this.currentEngineConfig.next(pimpconfig);
@@ -194,10 +191,26 @@ export class ConfigModelService {
     });
   }
 
+  private availablePluginsHandler():void {
+    // setup receiving of available plugins
+    this.pmpEngineConnector.pmpEngineAvailablePluginsStream.subscribe(availablePlugins => {
+      this.currentAvailablePlugins.next(availablePlugins);
+    });
+
+    // setup call for available plugins
+    this.pmpEngineConnector.isPmpEngineConnected.subscribe(connectionState => {
+      this.pmpEngineConnector.getPmpEngineAvailablePlugins();
+    });
+  }
+
   /* AVAILABLE PLUGINS GETTER */
-  public get availablePluginsPromise():Promise<string[]> {
-    return this.currentAllowedPlugins;
+  public get availablePlugins():PmpPluginDescriptor[] | string {
+    return this.currentAvailablePlugins.value;
   };
+
+  public get availablePlugins$():Observable<PmpPluginDescriptor[]> {
+    return <Observable<PmpPluginDescriptor[]>>this.currentAvailablePlugins.asObservable().filter(data => (data instanceof Array));
+  }
 
   /* CONFIG GETTERS */
   public get config ():any {

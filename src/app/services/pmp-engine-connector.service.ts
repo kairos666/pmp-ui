@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { PimpConfig } from '../schema/config';
+import { PimpConfig, PmpPluginDescriptor } from '../schema/config';
 import { SocketConnectorService } from './socket-connector.service';
 
 interface PmpSocketOutputEvt {
@@ -117,7 +117,7 @@ export class PmpEngineConnectorService {
     return this.engineLinksStream.asObservable().distinctUntilChanged((a, b) => (JSON.stringify(a) === JSON.stringify(b)));
   }
 
-  public get pmpEngineAvailablePluginsStream (): Observable<string[]> {
+  public get pmpEngineAvailablePluginsStream (): Observable<PmpPluginDescriptor[]> {
     return this.socketConnector.socketOutputStream
       .filter(data => { return (data.subType === pmpEngineSocketEvts.outputsSubTypes.availablePlugins); })
       .map(data => data.payload);

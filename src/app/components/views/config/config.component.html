@@ -2,56 +2,60 @@
     <md-tab-group [selectedIndex]="selectedTab" class="secondary-navigation">
       <md-tab>
         <template md-tab-label>general</template>
-        <template md-tab-content>
-          <app-pimp-form-general 
-            [pimpConfigInit]="configModel.fullConfigStream"
-            [pimpConfigChanges]="configModel.distinctConfigStream" 
-            (updatePimpConfig)="onUpdateConfig($event)"
-          ></app-pimp-form-general>
-        </template>
+        <app-pimp-form-general 
+          [pimpConfigInit]="configModel.fullConfigStream"
+          [pimpConfigChanges]="configModel.distinctConfigStream" 
+          (updatePimpConfig)="onUpdateConfig($event)"
+        ></app-pimp-form-general>
       </md-tab>
       <md-tab>
         <template md-tab-label>pimp rules</template>
-        <template md-tab-content>
+        <md-sidenav-layout>
+          <md-sidenav #helperSidebar class="helper-sidebar" align="end" mode="side">
+            <app-sidenav-rule-helper
+              [availablePluginsStream]="configModel.availablePlugins$"
+            ></app-sidenav-rule-helper>
+          </md-sidenav>
+          <button class="sidenav-toggler" (click)="helperSidebar.toggle()" title="open js helpers cheatsheet">
+            <md-icon>help_outline</md-icon>
+          </button>
           <app-pimp-form-rules
             [pimpConfigInit]="configModel.fullConfigStream"
             [pimpConfigChanges]="configModel.distinctConfigStream" 
             (updatePimpConfig)="onUpdateConfig($event)"
           ></app-pimp-form-rules>
-        </template>
+        </md-sidenav-layout>
       </md-tab>
       <md-tab>
         <template md-tab-label>pimp plugins</template>
-        <template md-tab-content>
-          <app-pimp-form-plugins
-            [pimpConfigInit]="configModel.fullConfigStream"
-            [pimpConfigChanges]="configModel.distinctConfigStream" 
-            [availablePluginsPromise]="configModel.availablePluginsPromise"
-            (updatePimpConfig)="onUpdateConfig($event)"
-          ></app-pimp-form-plugins>
-        </template>
+        <app-pimp-form-plugins
+          [pimpConfigInit]="configModel.fullConfigStream"
+          [pimpConfigChanges]="configModel.distinctConfigStream" 
+          [availablePluginsStream]="configModel.availablePlugins$"
+          (updatePimpConfig)="onUpdateConfig($event)"
+        ></app-pimp-form-plugins>
       </md-tab>
     </md-tab-group>
     <menu class="button-holder">
         <button md-mini-fab title="restore/sync with applied pimp configuration" 
-          [attr.disabled]="isRestoreFromEngineAllowed ? null : ''" 
+          [disabled]="!isRestoreFromEngineAllowed" 
           (click)="onRestoreFromEngineClick()"
         >
             <md-icon>history</md-icon>
         </button>
         <button md-mini-fab title="restore previously saved pimp configuration" 
-          [attr.disabled]="isRestoreAllowed ? null : ''" 
+          [disabled]="!isRestoreAllowed" 
           (click)="onRestoreClick()"
         >
             <md-icon>settings_backup_restore</md-icon>
         </button>
         <button md-mini-fab title="save current pimp configuration" 
-          [attr.disabled]="isSaveAllowed ? null : ''" 
+          [disabled]="!isSaveAllowed" 
           (click)="onSaveClick()"
         >
             <md-icon>save</md-icon>
         </button>
-        <button md-fab title="apply configuration" [attr.disabled]="isApplyAllowed ? null : ''" (click)="onApplyClick()">
+        <button md-fab title="apply configuration" [disabled]="!isApplyAllowed" (click)="onApplyClick()">
             <md-icon>exit_to_app</md-icon>
         </button>
     </menu>

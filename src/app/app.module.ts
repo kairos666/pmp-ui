@@ -29,6 +29,11 @@ import { EngineIndicatorTileComponent } from './components/ui-parts/engine-indic
 import { PimpLinksTileComponent } from './components/ui-parts/pimp-links-tile/pimp-links-tile.component';
 import { ConfigPreviewTileComponent } from './components/ui-parts/config-preview-tile/config-preview-tile.component';
 import { PimpFormPluginsComponent } from './components/ui-parts/forms/pimp-form-plugins/pimp-form-plugins.component';
+import { PluginReadmeComponent } from './components/ui-parts/dialogs/plugin-readme/plugin-readme.component';
+
+/* PIPES */
+import { MarkdownToHtmlPipe } from 'markdown-to-html-pipe';
+import { SidenavRuleHelperComponent } from './components/ui-parts/sidenav-rule-helper/sidenav-rule-helper.component';
 
 let routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -56,7 +61,13 @@ let routes = [
     EngineIndicatorTileComponent,
     PimpLinksTileComponent,
     ConfigPreviewTileComponent,
-    PimpFormPluginsComponent
+    PimpFormPluginsComponent,
+    PluginReadmeComponent,
+    MarkdownToHtmlPipe,
+    SidenavRuleHelperComponent
+  ],
+  entryComponents: [
+    PluginReadmeComponent
   ],
   imports: [
     BrowserModule,

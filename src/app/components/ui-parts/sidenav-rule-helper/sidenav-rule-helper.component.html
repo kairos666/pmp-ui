@@ -1,0 +1,15 @@
+<figure *ngIf="isLoadingAvailablePlugins">
+  <md-progress-circle mode="indeterminate" color="accent"></md-progress-circle>
+  <figcaption>fetching helpers</figcaption>
+</figure>
+<template ngFor let-jsHelper [ngForOf]="jsHelpers">
+  <h4>{{jsHelper.name}}</h4>
+  <ul class="helper-list">
+    <li *ngFor="let helper of jsHelper.helpers;">
+      <button (click)="onClipboardCopy($event)" title="copy {{helper.fullFunc}} to clipboard">
+        <span>{{helper.shortFunc}}</span>
+        <p class="copy-me">{{helper.fullFunc}}</p>
+      </button>
+    </li>
+  </ul>
+</template>

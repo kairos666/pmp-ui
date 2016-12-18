@@ -64,7 +64,7 @@ describe('Service: ConfigModel OUTPUTS', () => {
   });
 
   it('should provide a PimpConfig from engine shortly after CONFIG-COMMAND is triggered', done => { 
-    let testConfig = new PimpConfig('mock', 'mock.com', false, 2666, new PimpRule('mock pattern', ['mock modifs']));
+    let testConfig = new PimpConfig('mock', 'mock.com', false, 2666, true, new PimpRule('mock pattern', ['mock modifs']));
     let baselineConfig = defaultConfigGenerator();
     let storage: ConfigStorageService = TestBed.get(ConfigStorageService);
     let connector: PmpEngineConnectorService = TestBed.get(PmpEngineConnectorService);
@@ -99,7 +99,7 @@ describe('Service: ConfigModel OUTPUTS', () => {
 
   it('all actions are disallowed at start', done => {
     let expectedArray = [
-      new ConfigActions(false, false, false)
+      new ConfigActions(false, false, false, false)
     ];
     let cursor = 0;
     let service: ConfigModelService = TestBed.get(ConfigModelService);
@@ -112,8 +112,8 @@ describe('Service: ConfigModel OUTPUTS', () => {
   }, 6000);
   it('all actions are disallowed at start, then allow start (engine stopped)', done => {
     let expectedArray = [
-      new ConfigActions(false, false, false),
-      new ConfigActions(true, false, false)
+      new ConfigActions(false, false, false, false),
+      new ConfigActions(true, false, false, false)
     ];
     let cursor = 0;
     let service: ConfigModelService = TestBed.get(ConfigModelService);
@@ -127,10 +127,10 @@ describe('Service: ConfigModel OUTPUTS', () => {
 
   it('all actions are disallowed at start, then allow start (engine stopped), then nothing (pending), then stop, restart (engine started)', done => {
     let expectedArray = [
-      new ConfigActions(false, false, false),
-      new ConfigActions(true, false, false),
-      new ConfigActions(false, false, false),
-      new ConfigActions(false, true, false)
+      new ConfigActions(false, false, false, false),
+      new ConfigActions(true, false, false, false),
+      new ConfigActions(false, false, false, false),
+      new ConfigActions(false, true, false, false)
     ];
     let cursor = 0;
     let storage: ConfigStorageService = TestBed.get(ConfigStorageService);
@@ -152,7 +152,7 @@ describe('Service: ConfigModel OUTPUTS', () => {
   }, 6000);
 
   it('updating config results in allowing save/restore from localStorage', done => {
-    let testConfig = new PimpConfig('mock', 'mock.com', false, 2666, new PimpRule('mock pattern', ['mock modifs']));
+    let testConfig = new PimpConfig('mock', 'mock.com', false, 2666, true, new PimpRule('mock pattern', ['mock modifs']));
     let service: ConfigModelService = TestBed.get(ConfigModelService);
     
     // setup (start engine with default config)
@@ -181,7 +181,7 @@ describe('Service: ConfigModel OUTPUTS', () => {
 
   it('updating config and save to localStorage', done => {
     // setup test
-    let testConfig = new PimpConfig('mock', 'mock.com', false, 2666, new PimpRule('mock pattern', ['mock modifs']));
+    let testConfig = new PimpConfig('mock', 'mock.com', false, 2666, true, new PimpRule('mock pattern', ['mock modifs']));
     let service: ConfigModelService = TestBed.get(ConfigModelService);
     
     setTimeout(() => { 
@@ -214,7 +214,7 @@ describe('Service: ConfigModel OUTPUTS', () => {
   });
   it('updating config and restore from localStorage', done => {
     // setup test
-    let testConfig = new PimpConfig('mock', 'mock.com', false, 2666, new PimpRule('mock pattern', ['mock modifs']));
+    let testConfig = new PimpConfig('mock', 'mock.com', false, 2666, true, new PimpRule('mock pattern', ['mock modifs']));
     let service: ConfigModelService = TestBed.get(ConfigModelService);
 
     setTimeout(() => { 
