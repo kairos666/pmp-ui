@@ -16,7 +16,7 @@
 }
 
 // CONFIG SECTION LAYOUT
-md-sidenav-layout { background-color:transparent;
+md-sidenav-layout { background-color:transparent; min-height:$content-max-height;
    /deep/ .md-sidenav-backdrop { display:none; }
    md-sidenav { max-width:250px; height:100%; overflow:hidden; background-color:darken($dark-bg, 10%); }
 }
