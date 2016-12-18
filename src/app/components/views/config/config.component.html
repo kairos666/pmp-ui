@@ -11,11 +11,14 @@
       <md-tab>
         <template md-tab-label>pimp rules</template>
         <md-sidenav-layout>
-          <md-sidenav #helperSidebar class="helper-sidebar" align="end" mode="side" opened="true">
+          <md-sidenav #helperSidebar class="helper-sidebar" align="end" mode="side">
             <app-sidenav-rule-helper
               [availablePluginsStream]="configModel.availablePlugins$"
             ></app-sidenav-rule-helper>
           </md-sidenav>
+          <button class="sidenav-toggler" (click)="helperSidebar.toggle()" title="open js helpers cheatsheet">
+            <md-icon>help_outline</md-icon>
+          </button>
           <app-pimp-form-rules
             [pimpConfigInit]="configModel.fullConfigStream"
             [pimpConfigChanges]="configModel.distinctConfigStream" 

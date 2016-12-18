@@ -11,6 +11,7 @@ import { Observable, Subscription } from 'rxjs';
 export class SidenavRuleHelperComponent implements OnInit {
   @Input() availablePluginsStream:Observable<PmpPluginDescriptor[]>;
   private jsHelpers = [];
+  private isLoadingAvailablePlugins = true;
   private subs:Subscription;
 
   constructor() { }
@@ -18,6 +19,9 @@ export class SidenavRuleHelperComponent implements OnInit {
   ngOnInit() {
     // process helpers
     this.subs = this.availablePluginsStream.subscribe(availablePlugins => {
+      // remove loader when received data (once)
+      if(this.isLoadingAvailablePlugins) this.isLoadingAvailablePlugins = false;
+
       this.jsHelpers = [];
       availablePlugins.forEach(pluginDesc => {
         // build function descriptors

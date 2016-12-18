@@ -1,3 +1,7 @@
+<figure *ngIf="isLoadingAvailablePlugins">
+  <md-progress-circle mode="indeterminate" color="accent"></md-progress-circle>
+  <figcaption>fetching helpers</figcaption>
+</figure>
 <template ngFor let-jsHelper [ngForOf]="jsHelpers">
   <h4>{{jsHelper.name}}</h4>
   <ul class="helper-list">
