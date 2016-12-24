@@ -3,7 +3,7 @@
 
 /* navigation links */
 md-nav-list { padding-top:0; }
-a[md-list-item] { display:block;
+a[md-list-item] { display:block; outline:none;
     &.active { background-color:$palette-accent; pointer-events:none; cursor:default; }
     &:hover:not(.active), &:focus:not(.active), &:active:not(.active) { color:$palette-accent; }
     md-icon { font-size:40px; }
