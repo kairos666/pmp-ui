@@ -1,6 +1,7 @@
 /* tslint:disable:no-unused-variable */
 import { Component, ViewChild } from '@angular/core';
-import { MdSidenav } from '@angular/material';
+import { MdSidenav, MdSnackBar } from '@angular/material';
+import { notifTranslator } from './utils/utils-functions';
 
 /* GLOBAL SERVICES */
 import { PmpEngineConnectorService } from './services/pmp-engine-connector.service';
@@ -18,9 +19,17 @@ export class AppComponent {
   constructor (
     private configModel:ConfigModelService, 
     private pmpEngine:PmpEngineConnectorService,
-    private logService:LogsService
+    private logService:LogsService,
+    private snackBar: MdSnackBar
   ) {
     // instanciate app-wide dependencies to make sure they start at the very beginning
+
+    // bind notification stream to snackbar UI
+    this.configModel.notificationsStream.subscribe(notif => {
+      this.snackBar.open(notifTranslator(notif), null, {
+        duration: 2000,
+      });
+    });
   }
 
   private mainNavSelection():void { this.sidenav.close(); }

@@ -1,3 +1,5 @@
+import { Notif } from '../schema/config';
+
 export function copyToClipboard(evt) {
     let successCopyingToClipboard;
     try {
@@ -19,4 +21,33 @@ export function copyToClipboard(evt) {
         console.log('unable to copy to clipboard', err);
         successCopyingToClipboard = false;
     }
+}
+
+export function notifTranslator(notif:Notif):string {
+    let msg:string;
+
+    switch(notif.type) {
+        case 'engine':
+            switch(notif.subType) {
+                case 'connection':
+                    msg = 'PMP engine ';
+                    msg = (notif.payload) ? msg + 'ESTABLISHED CONNECTION' : msg + 'LOST CONNECTION';
+                break;
+
+                case 'status':
+                    msg = 'PMP engine is ' + notif.payload.toString().toUpperCase();
+                break;
+            }
+        break;
+
+        case 'config':
+            switch(notif.subType) {
+                case 'action':
+                    msg = 'Pimp Config has been ' + notif.payload.toString().toUpperCase();
+                break;
+            }
+        break;
+    }
+
+    return msg;
 }

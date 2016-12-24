@@ -32,7 +32,7 @@ p a, .link-style { color:$palette-accent; text-decoration:none;
 // PAGE CONTAINER
 .page-container { position:relative; height:$content-max-height-no-secondary-nav; overflow:hidden;
     &.has-secondary-nav { height:$content-max-height; }
-    .button-holder { position:absolute; right:0; bottom:0; }
+    .button-holder { position:absolute; right:0; bottom:0; z-index:1; }
     p { margin-bottom:0; }
     p + p { margin-top:4px; }
 }
