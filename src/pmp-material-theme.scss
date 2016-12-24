@@ -114,5 +114,10 @@ app-plugin-readme { display:block; }
 // MARKDONW-CONTAINER
 .markdown-container { font-size:.8em; color:$base-text-color; }
 
+// SNACKBAR
+snack-bar-container { text-align:center;
+    /deep/ .md-simple-snackbar-message { color:$palette-accent !important; }
+}
+
 // SMALL STUFF
 .highlight { color:$palette-accent; }
