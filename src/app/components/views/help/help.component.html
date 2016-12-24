@@ -56,18 +56,22 @@
       </md-card-content>
     </md-card>
     <md-card>
-      <md-card-title>Configuration editing</md-card-title>   
+      <md-card-title>Edit targeted website or page</md-card-title>   
       <md-card-content>
-          <p>Now you are ready to provide your own custom configuration.</p>
-          <h3>target editing</h3>
-          <p>First thing to do is to point to the website you want to work on.</p>
+          <p>Of course you'll want to pimp a page you have chosen.<br>First thing to do is to point to the website you want to work on.</p>
           <ol>
             <li>Go to the <a class="link-style" routerLink="/configuration" title="go to the configuration page | general tab">configuration page | general tab</a></li>
             <li>Change <span class="highlight">"URL to proxy"</span> input field with a valid URL</li>
             <li>click the <span class="highlight">apply button</span> <button md-mini-fab><md-icon>exit_to_app</md-icon></button> to update the engine target (will restart the engine).</li>
           </ol>
+      </md-card-content>
+    </md-card>
+    <md-card>
+      <md-card-title>Configuration editing</md-card-title>   
+      <md-card-content>
+          <p>Now you are ready to provide your own custom configuration.</p>
           <h3>rule editing</h3>
-          <p>A pimp rule is the basic instruction unit that will support the pimping of the page. To summarize this will describe actions to perform and where.<br> A rule is composed of an URL pattern and a list of javascript instructions to perform.<br> More information on this in the following <span class="highlight">help sections.</span></p>
+          <p>A pimp rule is the basic instruction unit that will support the pimping of the page. To summarize, this will describe actions to perform and where on the page.<br> A rule is composed of an URL pattern and a list of javascript instructions to perform.<br> More information on this in the following <span class="highlight">help sections.</span></p>
           <ol>
             <li>Go to the <a class="link-style" [routerLink]="['/configuration', { selectedTabIndex:'1' }]" title="go to the configuration page | pimp rules tab">configuration page | pimp rules tab</a></li>
             <li>Choose an existing rule to edit or create one with the <button md-raised-button color="accent">ADD RULE</button> button</li>
@@ -79,20 +83,33 @@
               </ul>
             </li>
             <li>update the <span class="highlight">modification script</span> textarea with the modifications you want to apply to the page.
-              <h5>Staple instruction #1 - adding the main stylesheet to the page</h5>
-              <code>$('head').append('&lt;link rel="stylesheet" type="text/css" href="/css/main.min.css"&gt;');</code>
-              <h5>Staple instruction #2 - adding the main JS to the page</h5>
-              <code>$('body').append('&lt;script type="text/javascript" src="/js/main.min.js"&gt;&lt;/script&gt;');</code>
+              <h5>Staple instructions</h5>
+              <p>The bare minimum to apply your custome CSS/JS to the page. This function comes from the <a class="link-style" [routerLink]="['/configuration', { selectedTabIndex:'2' }]" title="go to plugin configuration">pmp-staples-plugin</a> (must be activate)</p>
+              <code>helpers.staple.baseInjects();</code>
+              <p>
+                <small>This code is equivalent to this one below</small><br>
+                <code>$('head').append('&lt;link rel="stylesheet" type="text/css" href="/css/main.min.css"&gt;');<br>$('body').append('&lt;script type="text/javascript" src="/js/main.min.js"&gt;&lt;/script&gt;');</code>
+              </p>
               <h5>Here are common gotchas and pitfalls</h5>
               <ul>
                 <li>the modification script is written in <b>javascript/node</b></li>
                 <li>the modification script is executed in the engine middleware therefore <b>it leaves no traces in the browser</b>.</li>
                 <li>you <b>can't use ES6's' multi-line strings</b> in your instructions</li>
                 <li>A light version of jQuery is accessible through the <span class="highlight">$</span> object (<a class="link-style" href="https://github.com/cheeriojs/cheerio#selectors" target="_blank" title="go to cheerio readme on github">see available methods there</a>).</li>
-                <li>For more information on this part, see the related help sections</li>
+                <li>For more information on rule editing, see the related help sections</li>
               </ul>
             </li>
+            <li>click the <span class="highlight">apply button</span> <button md-mini-fab><md-icon>exit_to_app</md-icon></button> to update the engine target (will restart the engine).</li>
           </ol>
+          <h3>Bare minimum VS advanced rules</h3>
+          <p>The base inject rule instruction above is all you need to modify CSS or JS live in the page you are targeting. So just proceed with the next section <span class="highlight">Start pimping</span></p>
+          <p>For more complex cases, you'll need to add more logic into the rule editing. If so read the <span class="highlight">advanced tips</span> section. Here below is a list of cases where baseInjects will not suffice:</p>
+          <ul>
+            <li>remove stylesheets from the page</li>
+            <li>remove scripts from the page</li>
+            <li>remove, edit existing HTML from the page</li>
+            <li>inject custom HTML to the page</li>
+          </ul>
       </md-card-content>
     </md-card>
     <md-card>
@@ -100,11 +117,12 @@
       <md-card-content>
           <p>Now that you have customized your <span class="highlight">PIMP configuration</span> you should have:</p>
           <ul>
-            <li>engine is started (green state indicator)</li>
+            <li>started engine (green state indicator)</li>
             <li>got a browser tab displaying the proxied website you are targeting</li>
-            <li>some <span class="highlight">PIMP rules</span> are defined and applied accordingly to the pages you display</li>
+            <li>some <span class="highlight">PIMP rules</span> defined and applied accordingly to the pages you display</li>
           </ul>
           <p>At that point you have already everything setup to start pimping the page in the browser.</p>
+          <h3>what now</h3>
           <p>Click on the <span class="highlight">"Pimp source files" dashboard button</span>, you'll have the project folder path in your clipboard. Paste that path in your explorer address bar to open it at that location.<br> Now you have access to HTML, JS, CSS files to start working. Open them in your editor of choice and start editing.</p>
       </md-card-content>
     </md-card>
@@ -112,43 +130,42 @@
   <md-tab>
     <template md-tab-label>advanced tips</template>
     <md-card>
-      <md-card-title>Configuration tips</md-card-title>   
+      <md-card-title>General configuration tips</md-card-title>   
       <md-card-content>
-          <p>Vestibulum vitae erat tortor. Maecenas vehicula mauris sed lectus sagittis dapibus. Morbi vehicula aliquam rhoncus. Nam dictum, quam et congue condimentum, augue leo porta ipsum, et vestibulum ex libero non nunc. Vestibulum fringilla leo eu sem tempor viverra. Sed vitae diam sit amet sem volutpat dictum. Duis venenatis leo sollicitudin, dignissim dui quis, sollicitudin orci. Phasellus mattis augue suscipit accumsan suscipit. Mauris pellentesque elit non imperdiet ornare. Curabitur ut nisl diam. Cras consequat tristique nisl, quis iaculis leo. Nunc finibus erat ac neque pulvinar, non consequat nulla mollis. Proin ut viverra erat, nec vehicula libero. Suspendisse imperdiet, leo eu faucibus interdum, massa tortor tincidunt dolor, aliquam condimentum magna diam sit amet ligula. Nullam quis magna pretium, tempor massa eu, sollicitudin odio. Donec porttitor dapibus arcu, nec dapibus quam tempus ut.</p>
-          <p>Nulla commodo blandit blandit. Fusce convallis faucibus ipsum sed porta. Nullam in magna ullamcorper tortor elementum pharetra. Quisque accumsan nisl non condimentum dictum. Aenean ligula ipsum, gravida a malesuada ut, vehicula et ligula. Cras quis vehicula dui. Etiam eu elit ac massa dictum facilisis at in arcu. Nulla ultrices, lacus eget molestie dapibus, risus ante ornare neque, finibus bibendum tortor justo et turpis. Praesent ut nisi quis purus ultricies egestas.</p>
-          <p>Vivamus ut nulla vitae magna congue tristique. Sed sit amet dapibus tortor. Donec vitae tortor ut diam sodales suscipit. Aliquam quis purus risus. Curabitur ultricies vehicula est sit amet feugiat. Ut placerat fermentum tellus nec tincidunt. Integer semper risus eget congue tincidunt. Donec mauris diam, condimentum at orci convallis, ullamcorper condimentum lacus. Phasellus vehicula sem vel ex hendrerit dictum. In vel tellus et dolor ultricies accumsan a eget massa. Nam sodales mi enim, non fermentum ex pellentesque id.</p>
+          <h3>Port</h3>
+          <p>Indicates which localhost port will be used to display the targeted website or web page. You can pick-up anything between 0 - 65535 but a few reserved values:</p>
+          <ul>
+            <li><strong>4200</strong> reserved for PMP web interface (this very UI)</li>
+            <li><strong>5000</strong> reserved for websocket communication between the PMP web interface and the PMP engine</li>
+            <li><strong>3001</strong> reserved for BrowserSync web interface (multi-browser controls, history, ...)</li>
+          </ul>
+          <h3>Cookies</h3>
+          <p>Some websites require authenticated access through session cookies. To enable pimping of those, just open a regular session (not via PMP) and then PMP will be able to take advantage of this current session using the aformentioned cookie.</p>
+          <h3>CORS</h3>
+          <p>Some websites enforces cross origin policies for accessing some assets or APIs. Enabling CORS requests can solve part of those issues if the given policy isn't too restrictive.</p>
       </md-card-content>
     </md-card>
     <md-card>
-      <md-card-title>middleware url matching patterns</md-card-title>   
+      <md-card-title>Pimp rules</md-card-title>   
       <md-card-content>
-          <p>Vestibulum vitae erat tortor. Maecenas vehicula mauris sed lectus sagittis dapibus. Morbi vehicula aliquam rhoncus. Nam dictum, quam et congue condimentum, augue leo porta ipsum, et vestibulum ex libero non nunc. Vestibulum fringilla leo eu sem tempor viverra. Sed vitae diam sit amet sem volutpat dictum. Duis venenatis leo sollicitudin, dignissim dui quis, sollicitudin orci. Phasellus mattis augue suscipit accumsan suscipit. Mauris pellentesque elit non imperdiet ornare. Curabitur ut nisl diam. Cras consequat tristique nisl, quis iaculis leo. Nunc finibus erat ac neque pulvinar, non consequat nulla mollis. Proin ut viverra erat, nec vehicula libero. Suspendisse imperdiet, leo eu faucibus interdum, massa tortor tincidunt dolor, aliquam condimentum magna diam sit amet ligula. Nullam quis magna pretium, tempor massa eu, sollicitudin odio. Donec porttitor dapibus arcu, nec dapibus quam tempus ut.</p>
-          <p>Nulla commodo blandit blandit. Fusce convallis faucibus ipsum sed porta. Nullam in magna ullamcorper tortor elementum pharetra. Quisque accumsan nisl non condimentum dictum. Aenean ligula ipsum, gravida a malesuada ut, vehicula et ligula. Cras quis vehicula dui. Etiam eu elit ac massa dictum facilisis at in arcu. Nulla ultrices, lacus eget molestie dapibus, risus ante ornare neque, finibus bibendum tortor justo et turpis. Praesent ut nisi quis purus ultricies egestas.</p>
-          <p>Vivamus ut nulla vitae magna congue tristique. Sed sit amet dapibus tortor. Donec vitae tortor ut diam sodales suscipit. Aliquam quis purus risus. Curabitur ultricies vehicula est sit amet feugiat. Ut placerat fermentum tellus nec tincidunt. Integer semper risus eget congue tincidunt. Donec mauris diam, condimentum at orci convallis, ullamcorper condimentum lacus. Phasellus vehicula sem vel ex hendrerit dictum. In vel tellus et dolor ultricies accumsan a eget massa. Nam sodales mi enim, non fermentum ex pellentesque id.</p>
-      </md-card-content>
-    </md-card>
-    <md-card>
-      <md-card-title>middleware light jquery methods</md-card-title>   
-      <md-card-content>
-          <p>Vestibulum vitae erat tortor. Maecenas vehicula mauris sed lectus sagittis dapibus. Morbi vehicula aliquam rhoncus. Nam dictum, quam et congue condimentum, augue leo porta ipsum, et vestibulum ex libero non nunc. Vestibulum fringilla leo eu sem tempor viverra. Sed vitae diam sit amet sem volutpat dictum. Duis venenatis leo sollicitudin, dignissim dui quis, sollicitudin orci. Phasellus mattis augue suscipit accumsan suscipit. Mauris pellentesque elit non imperdiet ornare. Curabitur ut nisl diam. Cras consequat tristique nisl, quis iaculis leo. Nunc finibus erat ac neque pulvinar, non consequat nulla mollis. Proin ut viverra erat, nec vehicula libero. Suspendisse imperdiet, leo eu faucibus interdum, massa tortor tincidunt dolor, aliquam condimentum magna diam sit amet ligula. Nullam quis magna pretium, tempor massa eu, sollicitudin odio. Donec porttitor dapibus arcu, nec dapibus quam tempus ut.</p>
-          <p>Nulla commodo blandit blandit. Fusce convallis faucibus ipsum sed porta. Nullam in magna ullamcorper tortor elementum pharetra. Quisque accumsan nisl non condimentum dictum. Aenean ligula ipsum, gravida a malesuada ut, vehicula et ligula. Cras quis vehicula dui. Etiam eu elit ac massa dictum facilisis at in arcu. Nulla ultrices, lacus eget molestie dapibus, risus ante ornare neque, finibus bibendum tortor justo et turpis. Praesent ut nisi quis purus ultricies egestas.</p>
-          <p>Vivamus ut nulla vitae magna congue tristique. Sed sit amet dapibus tortor. Donec vitae tortor ut diam sodales suscipit. Aliquam quis purus risus. Curabitur ultricies vehicula est sit amet feugiat. Ut placerat fermentum tellus nec tincidunt. Integer semper risus eget congue tincidunt. Donec mauris diam, condimentum at orci convallis, ullamcorper condimentum lacus. Phasellus vehicula sem vel ex hendrerit dictum. In vel tellus et dolor ultricies accumsan a eget massa. Nam sodales mi enim, non fermentum ex pellentesque id.</p>
-      </md-card-content>
-    </md-card>
-    <md-card>
-      <md-card-title>html helpers</md-card-title>   
-      <md-card-content>
-          <p>Vestibulum vitae erat tortor. Maecenas vehicula mauris sed lectus sagittis dapibus. Morbi vehicula aliquam rhoncus. Nam dictum, quam et congue condimentum, augue leo porta ipsum, et vestibulum ex libero non nunc. Vestibulum fringilla leo eu sem tempor viverra. Sed vitae diam sit amet sem volutpat dictum. Duis venenatis leo sollicitudin, dignissim dui quis, sollicitudin orci. Phasellus mattis augue suscipit accumsan suscipit. Mauris pellentesque elit non imperdiet ornare. Curabitur ut nisl diam. Cras consequat tristique nisl, quis iaculis leo. Nunc finibus erat ac neque pulvinar, non consequat nulla mollis. Proin ut viverra erat, nec vehicula libero. Suspendisse imperdiet, leo eu faucibus interdum, massa tortor tincidunt dolor, aliquam condimentum magna diam sit amet ligula. Nullam quis magna pretium, tempor massa eu, sollicitudin odio. Donec porttitor dapibus arcu, nec dapibus quam tempus ut.</p>
-          <p>Nulla commodo blandit blandit. Fusce convallis faucibus ipsum sed porta. Nullam in magna ullamcorper tortor elementum pharetra. Quisque accumsan nisl non condimentum dictum. Aenean ligula ipsum, gravida a malesuada ut, vehicula et ligula. Cras quis vehicula dui. Etiam eu elit ac massa dictum facilisis at in arcu. Nulla ultrices, lacus eget molestie dapibus, risus ante ornare neque, finibus bibendum tortor justo et turpis. Praesent ut nisi quis purus ultricies egestas.</p>
-          <p>Vivamus ut nulla vitae magna congue tristique. Sed sit amet dapibus tortor. Donec vitae tortor ut diam sodales suscipit. Aliquam quis purus risus. Curabitur ultricies vehicula est sit amet feugiat. Ut placerat fermentum tellus nec tincidunt. Integer semper risus eget congue tincidunt. Donec mauris diam, condimentum at orci convallis, ullamcorper condimentum lacus. Phasellus vehicula sem vel ex hendrerit dictum. In vel tellus et dolor ultricies accumsan a eget massa. Nam sodales mi enim, non fermentum ex pellentesque id.</p>
-      </md-card-content>
-    </md-card>
-    <md-card>
-      <md-card-title>js helpers</md-card-title>   
-      <md-card-content>
-          <p>Vestibulum vitae erat tortor. Maecenas vehicula mauris sed lectus sagittis dapibus. Morbi vehicula aliquam rhoncus. Nam dictum, quam et congue condimentum, augue leo porta ipsum, et vestibulum ex libero non nunc. Vestibulum fringilla leo eu sem tempor viverra. Sed vitae diam sit amet sem volutpat dictum. Duis venenatis leo sollicitudin, dignissim dui quis, sollicitudin orci. Phasellus mattis augue suscipit accumsan suscipit. Mauris pellentesque elit non imperdiet ornare. Curabitur ut nisl diam. Cras consequat tristique nisl, quis iaculis leo. Nunc finibus erat ac neque pulvinar, non consequat nulla mollis. Proin ut viverra erat, nec vehicula libero. Suspendisse imperdiet, leo eu faucibus interdum, massa tortor tincidunt dolor, aliquam condimentum magna diam sit amet ligula. Nullam quis magna pretium, tempor massa eu, sollicitudin odio. Donec porttitor dapibus arcu, nec dapibus quam tempus ut.</p>
-          <p>Nulla commodo blandit blandit. Fusce convallis faucibus ipsum sed porta. Nullam in magna ullamcorper tortor elementum pharetra. Quisque accumsan nisl non condimentum dictum. Aenean ligula ipsum, gravida a malesuada ut, vehicula et ligula. Cras quis vehicula dui. Etiam eu elit ac massa dictum facilisis at in arcu. Nulla ultrices, lacus eget molestie dapibus, risus ante ornare neque, finibus bibendum tortor justo et turpis. Praesent ut nisi quis purus ultricies egestas.</p>
-          <p>Vivamus ut nulla vitae magna congue tristique. Sed sit amet dapibus tortor. Donec vitae tortor ut diam sodales suscipit. Aliquam quis purus risus. Curabitur ultricies vehicula est sit amet feugiat. Ut placerat fermentum tellus nec tincidunt. Integer semper risus eget congue tincidunt. Donec mauris diam, condimentum at orci convallis, ullamcorper condimentum lacus. Phasellus vehicula sem vel ex hendrerit dictum. In vel tellus et dolor ultricies accumsan a eget massa. Nam sodales mi enim, non fermentum ex pellentesque id.</p>
+          <h3>Rules matching</h3>
+          <p>Special syntax is used to matches the page URL you are visualizing in the browser against the set of pimp rules you have declared (<a class="link-style" href="https://github.com/bjoerge/route-pattern" target="_blank" title="go to route pattern readme on github">see pattern syntax documentation</a>). Each rule matching is applied in the order it was defined in the configuration.</p>
+          <h3>modularize rules</h3>
+          <p>Instead of repeating yourself and providing huge rules for each pages, you can leverage the rule pattern behavior described above.</p>
+          <p>For example, it is generaly a good idea to apply the staple base injects on all pages. So instead of creating a rule for each page, you'll just create one rule that is applied on all pages. Then you can craft rules for individual pages or group of pages with an appropriate URL pattern.</p>
+          <ul>
+            <li><strong>pattern '*'</strong> base injects are applied on all pages</li>
+            <li><strong>pattern '*/articles/*'</strong> rules transform are applied only on articles category of the website (in addition to the above).</li>
+            <li><strong>full URL</strong> rule applied specifically to the page specified by this URL (in addition to the above).</li>
+          </ul>
+          <h3>Rules independent context</h3>
+          <p>Each rule has its own context. This means that an object defined in one rule isn't available in another one even if both are applied to the same page.</p>
+          <h3>Rules shared Objects and virtual DOM</h3>
+          <p>All rules can access the <span class="highlight">helper</span> shared object that holds plugins helpers. Same thing for the JQuery helper object <span class="highlight">$</span>. To share variables or functions across rules you can add properties to the <span class="highlight">$</span> (jQuery Object) or <span class="highlight">helper</span> object, please note that you might overwrite existing functions, and also rules order is still applied.</p>
+          <p>Rules are acting upon a virtual DOM that is common for each rules. So if some rule add a HTML component to this DOM, all subsequent rules can manipulate this HTML element.</p>
+          <h3>Rules JavaScript errors and console</h3>
+          <p>Rules are executed in a backend process, therefore their execution can't be monitored from the browser client.</p>
+          <p>If some syntaxic or run-time error happens in your rule you'll have to check the console provided in this PMP UI interface to see it. Same goes for any console log you want to output.</p>
       </md-card-content>
     </md-card>
   </md-tab>

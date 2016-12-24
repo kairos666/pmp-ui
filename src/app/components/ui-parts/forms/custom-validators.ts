@@ -6,8 +6,9 @@ function validatePortRange(c:FormControl) {
     /*
     * port can't be 5000 --> websocket communication port
     * port can't be 3001 --> BrowserSync UI port
+    * port can't be 4200 --> PMP UI port
     */
-    if (0 <= portNumber && portNumber <= 65535 && portNumber !== 5000 && portNumber !== 3001) { return null; }
+    if (0 <= portNumber && portNumber <= 65535 && portNumber !== 5000 && portNumber !== 3001 && portNumber !== 4200) { return null; }
 
     return {
         validatePortNumber: { valid:false }
