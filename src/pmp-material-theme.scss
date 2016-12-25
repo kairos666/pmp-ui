@@ -116,7 +116,7 @@ app-plugin-readme { display:block; }
 
 // SNACKBAR
 snack-bar-container { text-align:center;
-    /deep/ .md-simple-snackbar-message { color:$palette-accent !important; }
+    /deep/ .md-simple-snackbar-message { color:$palette-accent !important; font-weight:bold; }
 }
 
 // SMALL STUFF

@@ -27,7 +27,7 @@ export class AppComponent {
     // bind notification stream to snackbar UI
     this.configModel.notificationsStream.subscribe(notif => {
       this.snackBar.open(notifTranslator(notif), null, {
-        duration: 200000,
+        duration: 2000,
       });
     });
   }
