@@ -8,9 +8,6 @@ import { ConfigModelService } from '../../model/config-model.service';
 import { LogsService } from '../../model/logs-model.service';
 
 @NgModule({
-  imports: [],
-  declarations: [],
-  exports:      [],
   providers:    [ 
     LocalStorageService, 
     ConfigStorageService,
