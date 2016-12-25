@@ -2,15 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@angular/material';
-import { RouterModule }   from '@angular/router';
-
-/* GLOBAL SERVICES */
-import { LocalStorageService } from './services/local-storage.service';
-import { ConfigStorageService } from './services/config-storage.service';
-import { SocketConnectorService } from './services/socket-connector.service';
-import { PmpEngineConnectorService } from './services/pmp-engine-connector.service';
-import { ConfigModelService } from './model/config-model.service';
-import { LogsService } from './model/logs-model.service';
+import { RouterModule } from '@angular/router';
+import { PmpServicesModule } from './modules/pmp-services/pmp-services.module';
 
 /* COMPONENTS */
 import { AppComponent } from './app.component';
@@ -73,9 +66,10 @@ let routes = [
     BrowserModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
-    MaterialModule.forRoot()
+    MaterialModule.forRoot(),
+    PmpServicesModule.forRoot()
   ],
-  providers: [ConfigModelService, LocalStorageService, ConfigStorageService, SocketConnectorService, PmpEngineConnectorService, LogsService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
