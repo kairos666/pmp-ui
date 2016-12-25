@@ -12,6 +12,7 @@ $header-height: 64px;
 $secondary-nav-height: 49px;
 $content-max-height:calc(100vh - #{$header-height + $secondary-nav-height});
 $content-max-height-no-secondary-nav:calc(100vh - #{$header-height});
+$main-sidenav-width: 320px;
 
 /* transitions */
 $base-transition: '400ms cubic-bezier(0.25, 0.8, 0.25, 1)';

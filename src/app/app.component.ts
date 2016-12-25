@@ -10,8 +10,7 @@ import { LogsService } from './model/logs-model.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  templateUrl: './app.component.html'
 })
 export class AppComponent {
   @ViewChild('sidenav') sidenav: MdSidenav;
@@ -27,7 +26,7 @@ export class AppComponent {
     // bind notification stream to snackbar UI
     this.configModel.notificationsStream.subscribe(notif => {
       this.snackBar.open(notifTranslator(notif), null, {
-        duration: 200000,
+        duration: 2000,
       });
     });
   }

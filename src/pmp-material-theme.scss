@@ -29,9 +29,14 @@ p a, .link-style { color:$palette-accent; text-decoration:none;
     &:hover, &:focus, &:active { text-decoration:underline; }
 }
 
+// MAIN PAGR WRAPPER
+md-sidenav-layout.main-wrapper { height:100vh;
+    md-sidenav { width:$main-sidenav-width; }
+    > .md-sidenav-content { overflow:hidden; }
+}
+
 // PAGE CONTAINER
 .page-container { position:relative; height:$content-max-height-no-secondary-nav; overflow:hidden;
-    &.has-secondary-nav { height:$content-max-height; }
     .button-holder { position:absolute; right:0; bottom:0; z-index:1; }
     p { margin-bottom:0; }
     p + p { margin-top:4px; }
@@ -40,7 +45,7 @@ p a, .link-style { color:$palette-accent; text-decoration:none;
 // SECONDARY NAV OVERRIDE
 .secondary-navigation {
     /deep/ .md-tab-header { background-color:darken($palette-accent, 35%); }
-    /deep/ .md-tab-body { max-height:$content-max-height; }
+    /deep/ md-tab-body { max-height:$content-max-height; }
     /deep/ .md-tab-label[md-tab-label-wrapper] { color:$palette-accent; opacity:1; font-size:16px; font-weight:normal; text-shadow:0px 0px 8px #000;
         &:hover, &:focus { background:none; }
     }
@@ -116,7 +121,7 @@ app-plugin-readme { display:block; }
 
 // SNACKBAR
 snack-bar-container { text-align:center;
-    /deep/ .md-simple-snackbar-message { color:$palette-accent !important; }
+    /deep/ .md-simple-snackbar-message { color:$palette-accent !important; font-weight:bold; }
 }
 
 // SMALL STUFF

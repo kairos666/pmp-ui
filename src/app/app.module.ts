@@ -2,15 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@angular/material';
-import { RouterModule }   from '@angular/router';
-
-/* GLOBAL SERVICES */
-import { LocalStorageService } from './services/local-storage.service';
-import { ConfigStorageService } from './services/config-storage.service';
-import { SocketConnectorService } from './services/socket-connector.service';
-import { PmpEngineConnectorService } from './services/pmp-engine-connector.service';
-import { ConfigModelService } from './model/config-model.service';
-import { LogsService } from './model/logs-model.service';
+import { RouterModule } from '@angular/router';
+import { PmpServicesModule } from './modules/pmp-services/pmp-services.module';
+import { PipesModule } from './modules/pipes/pipes.module';
 
 /* COMPONENTS */
 import { AppComponent } from './app.component';
@@ -30,9 +24,6 @@ import { PimpLinksTileComponent } from './components/ui-parts/pimp-links-tile/pi
 import { ConfigPreviewTileComponent } from './components/ui-parts/config-preview-tile/config-preview-tile.component';
 import { PimpFormPluginsComponent } from './components/ui-parts/forms/pimp-form-plugins/pimp-form-plugins.component';
 import { PluginReadmeComponent } from './components/ui-parts/dialogs/plugin-readme/plugin-readme.component';
-
-/* PIPES */
-import { MarkdownToHtmlPipe } from 'markdown-to-html-pipe';
 import { SidenavRuleHelperComponent } from './components/ui-parts/sidenav-rule-helper/sidenav-rule-helper.component';
 
 let routes = [
@@ -63,7 +54,6 @@ let routes = [
     ConfigPreviewTileComponent,
     PimpFormPluginsComponent,
     PluginReadmeComponent,
-    MarkdownToHtmlPipe,
     SidenavRuleHelperComponent
   ],
   entryComponents: [
@@ -73,9 +63,11 @@ let routes = [
     BrowserModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
-    MaterialModule.forRoot()
+    MaterialModule.forRoot(),
+    PmpServicesModule.forRoot(),
+    PipesModule
   ],
-  providers: [ConfigModelService, LocalStorageService, ConfigStorageService, SocketConnectorService, PmpEngineConnectorService, LogsService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
